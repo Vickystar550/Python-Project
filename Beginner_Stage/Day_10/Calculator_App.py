@@ -27,7 +27,7 @@ def calculator():
      \___\__,_|_|\___|\__,_|_|\__,_|\__\___/|_|
      """
 
-    # Operator Functions
+    # Operator Functions 
     def add(n1, n2):
         """ Adds two numbers"""
         return n1 + n2
