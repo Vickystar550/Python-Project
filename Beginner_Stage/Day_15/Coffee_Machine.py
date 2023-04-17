@@ -136,9 +136,12 @@ def check_cappuccino():
 # START THE GAME
 game_on = True
 while game_on:
-    user_choice = input("\nWhat would you like (espresso/latte/cappuccino)?  ").lower()
+    user_choice = input("\nWhat would you like (espresso/latte/cappuccino)?"
+                        "___Enter 'report' to see the summary, or 'exit' to end the game\n").lower()
 
-    if user_choice == 'report':
+    if user_choice == 'exit':
+        game_on = False
+    elif user_choice == 'report':
         show_report()
     elif user_choice == 'latte':
         if check_latte() == 'good':
