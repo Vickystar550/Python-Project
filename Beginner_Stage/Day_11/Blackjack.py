@@ -1,25 +1,16 @@
 """" This is the Blackjack game, also known as 21 """
 import random
 
-# WELCOME MESSAGE
-print("\nWelcome to the BLACKJACK GAME, also called 21")
 
 # MODULE ONE:
+logo = """  _____   _              ___   _               _       _               _        ___                      
+ |_   _| | |_    ___    | _ ) | |  __ _   __  | |__   (_)  __ _   __  | |__    / __|  __ _   _ __    ___ 
+   | |   | ' \  / -_)   | _ \ | | / _` | / _| | / /   | | / _` | / _| | / /   | (_ | / _` | | '  \  / -_)
+   |_|   |_||_| \___|   |___/ |_| \__,_| \__| |_\_\  _/ | \__,_| \__| |_\_\    \___| \__,_| |_|_|_| \___|
+                                                    |__/                                                 """
+
+underscore = """_____________________________________________________________________________________________________"""
 CARDS = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'A', 'Q', 'K', 'J']
-
-dealer_cards = []
-player_cards = []
-
-# filling the dealer's and players card list with cards
-for i in range(2):
-    dealer_cards.append(random.choice(CARDS))
-    player_cards.append(random.choice(CARDS))
-
-# Print the player's cards:
-print(f"\nYou\'ve {player_cards[0]} and {player_cards[1]} in your card collection\n")
-
-# Print the dealer's first card but hide the other:
-print(f"\nThe dealer's first card is {dealer_cards[0]}, while the other is hidden!\n")
 
 
 # MODULE TWO:
@@ -98,22 +89,54 @@ def dealer_card_less_than_16(cards):
 
 
 # MODULE THREE:
-# Ask the player's for another dealing, and iterate through it based on their option.
-next_deal = input("Enter \'hit\' to get another card otherwise, you \'stand\' \n\n").lower()
+game_on = True
+while game_on:
+    # WELCOME MESSAGE
+    print(logo)
+    print("\n                             Welcome to the BLACKJACK GAME, also called 21")
+    print(underscore)
 
-if next_deal == 'hit':
-    # Deal out another card for the player
-    player_cards.append(random.choice(CARDS))
-    print(f"\nYou now have {player_cards[2]} added to you cards")
+    # just for fun. shuffle the CARDS element again.
+    random.shuffle(CARDS)
+    # create an empty list to hold dealer's and player's cards. It's created inside this while loop, so that it get
+    # during each iteration of the while loop
+    dealer_cards = []
+    player_cards = []
 
-# Reveal the dealer's face down card
-print(f"\nThe dealer's hidden card is {dealer_cards[1]}, "
-      f"His first and second cards are {dealer_cards[0]} and {dealer_cards[1]}\n")
+    # filling the dealer's and players hand with cards
+    for i in range(2):
+        dealer_cards.append(random.choice(CARDS))
+        player_cards.append(random.choice(CARDS))
 
-# Checks dealer's card, make it more than 16 if the total hand value is less:
-while dealer_card_less_than_16(dealer_cards) <= 16:
-    dealer_cards.append(random.choice(CARDS))
-    print(f"The dealer\'s card total isn\'t above 16, so {dealer_cards[-1]} has been added to dealer\'s cards\n")
+    # Print the player's cards:
+    print(f"\n\nYou\'ve {player_cards[0]} and {player_cards[1]} in your card collection")
 
-# MODULE FOUR:
-check_final_score()
+    # Print the dealer's first card but hide the other:
+    print(f"\nThe dealer's first card is {dealer_cards[0]}, while the other is hidden!\n")
+
+    # Ask the player's for another dealing, and iterate through it based on their option.
+    next_deal = input("Enter \'hit\' to get another card otherwise, you \'stand\' \n").lower()
+
+    if next_deal == 'hit':
+        # Deal out another card for the player
+        player_cards.append(random.choice(CARDS))
+        print(f"\nYou now have {player_cards[2]} added to you cards")
+
+    # Reveal the dealer's face down card
+    print(f"\nThe dealer's hidden card is {dealer_cards[1]}, "
+          f"His first and second cards are {dealer_cards[0]} and {dealer_cards[1]}\n")
+
+    # Checks dealer's card, make it more than 16 if the total hand value is less:
+    while dealer_card_less_than_16(dealer_cards) <= 16:
+        dealer_cards.append(random.choice(CARDS))
+        print(f"The dealer\'s card total isn\'t above 16, so {dealer_cards[-1]} has been added to dealer\'s cards\n")
+
+    # check final score:
+    check_final_score()
+
+    play_again = input("\nDo you want to play the Blackjack Game again? Enter 'y' or 'n'\n").lower()
+    if play_again == 'y':
+        game_on = True
+    else:
+        print("\nThank you for Playing.")
+        game_on = False
