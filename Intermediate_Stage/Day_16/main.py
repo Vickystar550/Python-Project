@@ -1,4 +1,4 @@
-from menu import Menu, MenuItem
+from menu import Menu
 from coffee_maker import CoffeeMaker
 from money_machine import MoneyMachine
 
@@ -29,4 +29,3 @@ while game_on:
         if my_coffee_maker.is_resource_sufficient(drink) and my_money_machine.make_payment(drink.cost):
             # when payment is successful, make the coffee
             my_coffee_maker.make_coffee(drink)
-
