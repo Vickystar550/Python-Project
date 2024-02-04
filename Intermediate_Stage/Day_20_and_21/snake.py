@@ -37,7 +37,9 @@ class Snake:
         self.snakes.append(new_segment)
 
     def move(self):
-        """ this method moves the snake head and other body part when called"""
+        """ This method add continuity to the snake.
+            It continues the snake movement in the opposite direction when the head crosses
+            the borderlines"""
         if (self.head.heading() == 90) and (self.head.ycor() >= 300):
             self.head.goto(self.head.xcor(), -300)
         elif (self.head.heading() == 270) and (self.head.ycor() <= -300):
@@ -76,6 +78,11 @@ class Snake:
         for _ in self.snakes[1:]:
             if self.head.distance(_) < 10:
                 return True
+
+    def reset(self):
+        """This method clears the screen and initialized the starting snake"""
+        self.snakes.clear()
+        self.create_snake()
 
 
 class BorderLine(Turtle):

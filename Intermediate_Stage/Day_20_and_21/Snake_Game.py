@@ -47,6 +47,8 @@ while game_on:
 
     # detect collision with tail or any body part. Here the snake is assumed to bite itself
     if snake.detect_collision():
+        snake.reset()
         game_on = False
-        scoreboard.game_over()
+        scoreboard.reset()
+
 screen.exitonclick()
