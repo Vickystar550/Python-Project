@@ -39,10 +39,7 @@ while counter > 0:
 
     # End game prematurely and get new states to learn. Educationally incentive:
     if usr_input == "Stop":
-        missing_state = []
-        for state in states_list:
-            if state not in correct_states:
-                missing_state.append(state)
+        missing_state = [state for state in states_list if state not in correct_states]
 
         missing_state_df = pandas.DataFrame(missing_state)
         print(missing_state_df)
