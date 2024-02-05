@@ -1,16 +1,24 @@
-# This is a sample Python script.
+import pandas
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+# List comprehension:
+# squaring numbers:
+numbers = [1, 18, 24, 3, 45, 68, 4, 5, 6, 78, 9878, 6464]
+print([n ** 2 for n in numbers])
 
+# filtering even numbers:
+print([n for n in numbers if n % 2 == 0])
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+student_list = {
+    "student": ["Angela", "James", "Lily"],
+    "score": [56, 76, 98]
+}
 
+# Dictionary Comprehension:
+new_dict = {key: value for (key, value) in student_list.items()}
+print(new_dict)
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+# Looping with pandas DataFrame:
+student_data_frame = pandas.DataFrame(student_list)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+for (index, row) in student_data_frame.iterrows():
+    print(row.score)
