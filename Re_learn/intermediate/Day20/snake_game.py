@@ -17,7 +17,7 @@ food_object = Food()
 scoreboard_object = Scoreboard()  # create a scoreboard
 
 
-# Get the screen to listen to key strokes:
+# Get the screen to listen to keystrokes:
 screen.listen()
 screen.onkey(fun=snake_object.left, key="Left")
 screen.onkey(fun=snake_object.right, key="Right")
@@ -40,7 +40,8 @@ while game_on:
         scoreboard_object.increase_score()
 
     # detect collision with wall
-    if snake_object.head.xcor() > 280 or snake_object.head.xcor() < -280 or snake_object.head.ycor() > 280 or snake_object.head.ycor() < -280:
+    if (snake_object.head.xcor() > 280 or snake_object.head.xcor() < -280
+            or snake_object.head.ycor() > 280 or snake_object.head.ycor() < -280):
         snake_object.reset()
         scoreboard_object.reset()
 
