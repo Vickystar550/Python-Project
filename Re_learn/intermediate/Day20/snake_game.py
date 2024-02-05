@@ -16,12 +16,15 @@ snake_object = Snake()
 food_object = Food()
 scoreboard_object = Scoreboard()  # create a scoreboard
 
+
 # Get the screen to listen to key strokes:
 screen.listen()
 screen.onkey(fun=snake_object.left, key="Left")
 screen.onkey(fun=snake_object.right, key="Right")
 screen.onkey(fun=snake_object.up, key="Up")
 screen.onkey(fun=snake_object.down, key="Down")
+screen.onkey(fun=scoreboard_object.end_game, key="e")   # This ends the game when e is press.
+
 
 # START the game:
 game_on = True
@@ -38,14 +41,18 @@ while game_on:
 
     # detect collision with wall
     if snake_object.head.xcor() > 280 or snake_object.head.xcor() < -280 or snake_object.head.ycor() > 280 or snake_object.head.ycor() < -280:
-        game_on = False
-        scoreboard_object.game_over()
+        snake_object.reset()
+        scoreboard_object.reset()
 
     # detect collision with tail
     for seg in snake_object.segment_list[1:]:
         if snake_object.head.distance(seg) < 10:
-            game_on = False
-            scoreboard_object.game_over()
+            snake_object.reset()
+            scoreboard_object.reset()
 
+    # end the game is key "e" is press
+    if scoreboard_object.end:
+        game_on = False
+        scoreboard_object.game_over()
 
 screen.exitonclick()
