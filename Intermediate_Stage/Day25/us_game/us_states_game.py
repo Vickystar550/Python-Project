@@ -17,6 +17,7 @@ turtle.shape("blank_states_img.gif")
 data = pandas.read_csv("50_states.csv")
 states_list = data.state.to_list()
 
+correct_states = []
 score = 0
 counter = 50
 while counter > 0:
@@ -26,6 +27,7 @@ while counter > 0:
 
     # check user input:
     if usr_input in states_list:
+        correct_states.append(usr_input)
         score += 1
         state_data = data[data.state == usr_input]
 
@@ -35,8 +37,16 @@ while counter > 0:
         writer.goto(float(state_data.x), float(state_data.y))
         writer.write(f"{usr_input}", align="center", font=("Courier", 10, "bold"))
 
-    # end game prematurely:
+    # End game prematurely and get new states to learn. Educationally incentive:
     if usr_input == "Stop":
-        counter = 0
+        missing_state = []
+        for state in states_list:
+            if state not in correct_states:
+                missing_state.append(state)
+
+        missing_state_df = pandas.DataFrame(missing_state)
+        print(missing_state_df)
+        missing_state_df.to_csv("state_to_learn.csv")
+        break
 
 screen.mainloop()
