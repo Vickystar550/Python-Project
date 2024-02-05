@@ -8,7 +8,8 @@ class ScoreBoard(Turtle):
     def __init__(self):
         super().__init__()
         self.count = 0
-        self.highest_count = 0
+        with open("data.txt") as file:
+            self.highest_count = int(file.read())
         self.color('green')
         self.penup()
         self.goto(0, 310)
@@ -33,7 +34,9 @@ class ScoreBoard(Turtle):
     def reset(self):
         if self.count > self.highest_count:
             self.highest_count = self.count
-            self.count = 0
+            with open("data.txt", mode="w") as f:
+                f.write(f"{self.count}")
+        self.count = 0
         self.clear()
         self.write(f"Score: {self.count}\tHighest Score: {self.highest_count}", align=ALIGNMENT, font=FONT)
 
