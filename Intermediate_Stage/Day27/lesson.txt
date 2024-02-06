@@ -1,0 +1,24 @@
+tkinter layout manager:
+
+1. the .pack() method:
+    it takes default side argument of "top"
+    others are: "left", "right", "bottom"
+
+2. the .place() method:
+    it takes the x and y coordinate of where to place the detail
+    places it at that specific location i.e x, y
+    x start from 0 to the maximum value of the tkinter.Tk screen width and vice-versa for y
+    it is worth knowing that x and y is measured from the top left corner of the screen.
+    i.e x if from top left corner towards to horizontal right
+    while, y is from the top left corner towards the vertical (downward)
+
+3. the .grid() method:
+    takes kwargs like column and row value
+    column specify the vertical position
+    row specify the horizontal position
+    both column & row are measured in the same way as x, y arguments in the .place() method
+    N/B:
+        this method is different from .place
+        it split the screen into rows and column layout. That is like a grid..
+
+N/B: you cannot use pack, place or grid in the same program. that is each program file uses the same layout manager
