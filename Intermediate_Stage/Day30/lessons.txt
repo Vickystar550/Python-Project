@@ -1,0 +1,24 @@
+Lessons on Managing Exceptions in Pyhton
+
+1. try:
+Something that might cause exceptions
+
+2. except:
+Do this if there was an exception
+
+3. else:
+do this if there were no exceptions
+
+4. finally:
+Do this no matter what happens
+
+
+# JSON files
+
+1. json.dump()
+used to write to a json file. the file mode must be set to "w"
+
+2. json.load()
+read from a json file, the file mode must be set to "r"
+
+3. json.update()
