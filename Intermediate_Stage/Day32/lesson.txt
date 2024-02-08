@@ -1,0 +1,6 @@
+Gmail: smtp.gmail.com
+
+Hotmail: smtp.live.com
+
+Yahoo Mail: smtp.mail.yahoo.com
+
