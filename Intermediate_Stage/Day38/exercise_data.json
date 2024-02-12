@@ -1,0 +1,20 @@
+{
+    "exercises": [
+        {
+            "tag_id": 1023,
+            "user_input": "programming",
+            "duration_min": 300,
+            "met": 1.5,
+            "nf_calories": 525,
+            "photo": {
+                "highres": "https://d2xdmhkmkbyw75.cloudfront.net/exercise/1023_highres.jpg",
+                "thumb": "https://d2xdmhkmkbyw75.cloudfront.net/exercise/1023_thumb.jpg",
+                "is_user_uploaded": false
+            },
+            "compendium_code": 11580,
+            "name": "computer programming",
+            "description": null,
+            "benefits": null
+        }
+    ]
+}
