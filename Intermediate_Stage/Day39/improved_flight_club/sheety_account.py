@@ -1,7 +1,6 @@
 import requests
-from pprint import pprint
 
-SHEETY_TOKEN = "Enter your api key here"
+SHEETY_TOKEN = "enter yours here"
 
 
 class SheetyFlightManger:
