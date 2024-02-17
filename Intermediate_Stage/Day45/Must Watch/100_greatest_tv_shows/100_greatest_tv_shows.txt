@@ -1,0 +1,100 @@
+1	Breaking Bad
+2	Game Of Thrones
+3	The Sopranos
+4	The Wire
+5	Friends
+6	The West Wing
+7	The OA
+8	Buffy The Vampire Slayer
+9	Lost
+10	Doctor Who
+11	The Simpsons
+12	Twin Peaks
+13	Mad Men
+14	Battlestar Galactica
+15	Deadwood
+16	The Leftovers
+17	Star Trek: The Next Generation
+18	Band Of Brothers
+19	Peaky Blinders
+20	The X-Files
+21	Seinfeld
+22	24
+23	Parks And Recreation
+24	Chernobyl
+25	Sherlock
+26	30 Rock
+27	Better Call Saul
+28	The Walking Dead
+29	The Shield
+30	Blackadder
+31	ER
+32	M*A*S*H
+33	Six Feet Under
+34	Frasier
+35	Sons Of Anarchy
+36	Star Trek
+37	It's Always Sunny In Philadelphia
+38	Firefly
+39	Killing Eve
+40	Hannibal
+41	The Office (US)
+42	Stranger Things
+43	Fawlty Towers
+44	Fleabag
+45	The Americans
+46	Star Trek: Deep Space Nine
+47	Friday Night Lights
+48	Arrested Development
+49	Spaced
+50	Only Fools And Horses
+51	Fargo
+52	Oz
+53	Prime Suspect
+54	Westworld
+55	Line Of Duty
+56	House
+57	The Office (UK)
+58	The Twilight Zone
+59	Hill Street Blues
+60	True Detective
+61	Black Mirror
+62	The Handmaid's Tale
+63	Mindhunter
+64	Father Ted
+65	Rick And Morty
+66	Curb Your Enthusiasm
+67	Boardwalk Empire
+68	Northern Exposure
+69	Scrubs
+70	South Park
+71	Fringe
+72	Angel
+73	Cheers
+74	The Expanse
+75	BoJack Horseman
+76	Dexter
+77	Cracker
+78	Peep Show
+79	Sex And The City
+80	Red Dwarf
+81	The Thick Of It
+82	The Good Place
+83	Justified
+84	Brooklyn Nine-Nine
+85	How I Met Your Mother
+86	NYPD Blue
+87	Narcos
+88	Homicide: Life On The Street
+89	Gilmore Girls
+90	The Good Wife
+91	Monty Python's Flying Circus
+92	Community
+93	The Bridge
+94	Quantum Leap
+95	I'm Alan Partridge
+96	Life On Mars
+97	Broadchurch
+98	Big Little Lies
+99	Farscape
+100	Rome
