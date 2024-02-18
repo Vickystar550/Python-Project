@@ -1,0 +1,400 @@
+SONG:	Lovin On Me
+ARTIST(s):	Jack Harlow
+RANK:	1
+
+SONG:	Lose Control
+ARTIST(s):	Teddy Swims
+RANK:	2
+
+SONG:	Beautiful Things
+ARTIST(s):	Benson Boone
+RANK:	3
+
+SONG:	Cruel Summer
+ARTIST(s):	Taylor Swift
+RANK:	4
+
+SONG:	Snooze
+ARTIST(s):	SZA
+RANK:	5
+
+SONG:	I Remember Everything
+ARTIST(s):	Zach Bryan Featuring Kacey Musgraves
+RANK:	6
+
+SONG:	Greedy
+ARTIST(s):	Tate McRae
+RANK:	7
+
+SONG:	Fast Car
+ARTIST(s):	Luke Combs
+RANK:	8
+
+SONG:	Agora Hills
+ARTIST(s):	Doja Cat
+RANK:	9
+
+SONG:	Flowers
+ARTIST(s):	Miley Cyrus
+RANK:	10
+
+SONG:	Stick Season
+ARTIST(s):	Noah Kahan
+RANK:	11
+
+SONG:	Water
+ARTIST(s):	Tyla
+RANK:	12
+
+SONG:	Hiss
+ARTIST(s):	Megan Thee Stallion
+RANK:	13
+
+SONG:	Redrum
+ARTIST(s):	21 Savage
+RANK:	14
+
+SONG:	Last Night
+ARTIST(s):	Morgan Wallen
+RANK:	15
+
+SONG:	Thinkin' Bout Me
+ARTIST(s):	Morgan Wallen
+RANK:	16
+
+SONG:	Paint The Town Red
+ARTIST(s):	Doja Cat
+RANK:	17
+
+SONG:	Is It Over Now? (Taylor's Version) [From The Vault]
+ARTIST(s):	Taylor Swift
+RANK:	18
+
+SONG:	Never Lose Me
+ARTIST(s):	Flo Milli
+RANK:	19
+
+SONG:	What Was I Made For?
+ARTIST(s):	Billie Eilish
+RANK:	20
+
+SONG:	Yes, And?
+ARTIST(s):	Ariana Grande
+RANK:	21
+
+SONG:	Houdini
+ARTIST(s):	Dua Lipa
+RANK:	22
+
+SONG:	Selfish
+ARTIST(s):	Justin Timberlake
+RANK:	23
+
+SONG:	Pretty Little Poison
+ARTIST(s):	Warren Zeiders
+RANK:	24
+
+SONG:	La Diabla
+ARTIST(s):	Xavi
+RANK:	25
+
+SONG:	Where The Wild Things Are
+ARTIST(s):	Luke Combs
+RANK:	26
+
+SONG:	Everybody
+ARTIST(s):	Nicki Minaj Featuring Lil Uzi Vert
+RANK:	27
+
+SONG:	Made For Me
+ARTIST(s):	Muni Long
+RANK:	28
+
+SONG:	Vampire
+ARTIST(s):	Olivia Rodrigo
+RANK:	29
+
+SONG:	The Painter
+ARTIST(s):	Cody Johnson
+RANK:	30
+
+SONG:	White Horse
+ARTIST(s):	Chris Stapleton
+RANK:	31
+
+SONG:	Rich Baby Daddy
+ARTIST(s):	Drake Featuring Sexyy Red & SZA
+RANK:	32
+
+SONG:	On My Mama
+ARTIST(s):	Victoria Monet
+RANK:	33
+
+SONG:	Exes
+ARTIST(s):	Tate McRae
+RANK:	34
+
+SONG:	Wild Ones
+ARTIST(s):	Jessie Murph & Jelly Roll
+RANK:	35
+
+SONG:	Feather
+ARTIST(s):	Sabrina Carpenter
+RANK:	36
+
+SONG:	Dance The Night
+ARTIST(s):	Dua Lipa
+RANK:	37
+
+SONG:	Bandit
+ARTIST(s):	Don Toliver
+RANK:	38
+
+SONG:	Need A Favor
+ARTIST(s):	Jelly Roll
+RANK:	39
+
+SONG:	Save Me
+ARTIST(s):	Jelly Roll With Lainey Wilson
+RANK:	40
+
+SONG:	Fukumean
+ARTIST(s):	Gunna
+RANK:	41
+
+SONG:	Fast Car
+ARTIST(s):	Tracy Chapman
+RANK:	42
+
+SONG:	Lil Boo Thang
+ARTIST(s):	Paul Russell
+RANK:	43
+
+SONG:	World On Fire
+ARTIST(s):	Nate Smith
+RANK:	44
+
+SONG:	Good Good
+ARTIST(s):	Usher, Summer Walker & 21 Savage
+RANK:	45
+
+SONG:	Truck Bed
+ARTIST(s):	HARDY
+RANK:	46
+
+SONG:	First Person Shooter
+ARTIST(s):	Drake Featuring J. Cole
+RANK:	47
+
+SONG:	Surround Sound
+ARTIST(s):	JID Featuring 21 Savage & Baby Tate
+RANK:	48
+
+SONG:	Strangers
+ARTIST(s):	Kenya Grace
+RANK:	49
+
+SONG:	My Love Mine All Mine
+ARTIST(s):	Mitski
+RANK:	50
+
+SONG:	Spin You Around (1/24)
+ARTIST(s):	Morgan Wallen
+RANK:	51
+
+SONG:	Think U The Shit (Fart)
+ARTIST(s):	Ice Spice
+RANK:	52
+
+SONG:	Igual Que Un Angel
+ARTIST(s):	Kali Uchis & Peso Pluma
+RANK:	53
+
+SONG:	FTCU
+ARTIST(s):	Nicki Minaj
+RANK:	54
+
+SONG:	Burn It Down
+ARTIST(s):	Parker McCollum
+RANK:	55
+
+SONG:	La Victima
+ARTIST(s):	Xavi
+RANK:	56
+
+SONG:	One Of The Girls
+ARTIST(s):	The Weeknd, Jennie & Lily Rose Depp
+RANK:	57
+
+SONG:	Nee-nah
+ARTIST(s):	21 Savage, Travis Scott & Metro Boomin
+RANK:	58
+
+SONG:	Murder On The Dancefloor
+ARTIST(s):	Sophie Ellis-Bextor
+RANK:	59
+
+SONG:	Praise Jah In The Moonlight
+ARTIST(s):	YG Marley
+RANK:	60
+
+SONG:	Act II: Date @ 8
+ARTIST(s):	4Batz
+RANK:	61
+
+SONG:	Turn The Lights Back On
+ARTIST(s):	Billy Joel
+RANK:	62
+
+SONG:	Man Made A Bar
+ARTIST(s):	Morgan Wallen Featuring Eric Church
+RANK:	63
+
+SONG:	One Call
+ARTIST(s):	Rich Amiri
+RANK:	64
+
+SONG:	You Broke My Heart
+ARTIST(s):	Drake
+RANK:	65
+
+SONG:	Different 'Round Here
+ARTIST(s):	Riley Green Featuring Luke Combs
+RANK:	66
+
+SONG:	Harley Quinn
+ARTIST(s):	Fuerza Regida & Marshmello
+RANK:	67
+
+SONG:	Get In With Me
+ARTIST(s):	BossMan Dlow
+RANK:	68
+
+SONG:	FE!N
+ARTIST(s):	Travis Scott Featuring Playboi Carti
+RANK:	69
+
+SONG:	Bellakeo
+ARTIST(s):	Peso Pluma & Anitta
+RANK:	70
+
+SONG:	500lbs
+ARTIST(s):	Lil Tecca
+RANK:	71
+
+SONG:	IDGAF
+ARTIST(s):	Drake Featuring Yeat
+RANK:	72
+
+SONG:	I Can Feel It
+ARTIST(s):	Kane Brown
+RANK:	73
+
+SONG:	23
+ARTIST(s):	Chayce Beckham
+RANK:	74
+
+SONG:	Prove It
+ARTIST(s):	21 Savage & Summer Walker
+RANK:	75
+
+SONG:	Soak City
+ARTIST(s):	310babii
+RANK:	76
+
+SONG:	Monaco
+ARTIST(s):	Bad Bunny
+RANK:	77
+
+SONG:	Mamaw's House
+ARTIST(s):	Thomas Rhett Featuring Morgan Wallen
+RANK:	78
+
+SONG:	We Don't Fight Anymore
+ARTIST(s):	Carly Pearce Featuring Chris Stapleton
+RANK:	79
+
+SONG:	Home
+ARTIST(s):	Good Neighbours
+RANK:	80
+
+SONG:	Standing Next To You
+ARTIST(s):	Jung Kook
+RANK:	81
+
+SONG:	Perro Negro
+ARTIST(s):	Bad Bunny & Feid
+RANK:	82
+
+SONG:	Mmhmm
+ARTIST(s):	BigXthaPlug
+RANK:	83
+
+SONG:	Oklahoma Smokeshow
+ARTIST(s):	Zach Bryan
+RANK:	84
+
+SONG:	My Eyes
+ARTIST(s):	Travis Scott
+RANK:	85
+
+SONG:	Coal
+ARTIST(s):	Dylan Gossett
+RANK:	86
+
+SONG:	A Cold Sunday
+ARTIST(s):	Lil Yachty
+RANK:	87
+
+SONG:	All Of Me
+ARTIST(s):	21 Savage
+RANK:	88
+
+SONG:	N.H.I.E.
+ARTIST(s):	21 Savage & Doja Cat
+RANK:	89
+
+SONG:	Should've Wore A Bonnet
+ARTIST(s):	21 Savage & Brent Faiyaz
+RANK:	90
+
+SONG:	Que Onda
+ARTIST(s):	Calle 24 x Chino Pacas x Fuerza Regida
+RANK:	91
+
+SONG:	Wondering Why
+ARTIST(s):	The Red Clay Strays
+RANK:	92
+
+SONG:	Y Lloro
+ARTIST(s):	Junior H
+RANK:	93
+
+SONG:	Sensational
+ARTIST(s):	Chris Brown Featuring Davido & Lojay
+RANK:	94
+
+SONG:	Wildflowers And Wild Horses
+ARTIST(s):	Lainey Wilson
+RANK:	95
+
+SONG:	Worth It
+ARTIST(s):	Offset & Don Toliver
+RANK:	96
+
+SONG:	Northern Attitude
+ARTIST(s):	Noah Kahan With Hozier
+RANK:	97
+
+SONG:	Scared To Start
+ARTIST(s):	Michael Marcagi
+RANK:	98
+
+SONG:	First Love
+ARTIST(s):	Oscar Ortiz X Edgardo Nunez
+RANK:	99
+
+SONG:	Where It Ends
+ARTIST(s):	Bailey Zimmerman
+RANK:	100
+
