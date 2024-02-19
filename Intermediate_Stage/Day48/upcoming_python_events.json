@@ -1,0 +1,152 @@
+{
+    "1": {
+        "name": "NZPUG-Auckland: The Python Community in 2024",
+        "time": "2024-02-21",
+        "location": "Online"
+    },
+    "2": {
+        "name": "Prague Python Pizza 2024",
+        "time": "2024-02-24",
+        "location": "Prague, Czech Republic"
+    },
+    "3": {
+        "name": "Django Girls Ho",
+        "time": "2024-02-24",
+        "location": "Ho, Volta Region, Ghana"
+    },
+    "4": {
+        "name": "PyCon PH 2024",
+        "time": "2024-02-25",
+        "location": "Makati City, Philippines"
+    },
+    "5": {
+        "name": "PyLadies Amsterdam: Fine-tuning text-to-image diffusion models for personalization and subject-driven generation",
+        "time": "2024-02-29",
+        "location": "Amsterdam, The Netherlands and Online"
+    },
+    "6": {
+        "name": "PyCon Namibia 2024",
+        "time": "2024-03-04",
+        "location": "Windhoek, Namibia"
+    },
+    "7": {
+        "name": "PyCon Pakistan 2024",
+        "time": "2024-03-09",
+        "location": "Lahore, Pakistan"
+    },
+    "8": {
+        "name": "Django Girls CDO Workshop 2024",
+        "time": "2024-03-09",
+        "location": "Cagayan de Oro City, Philippines"
+    },
+    "9": {
+        "name": "Django Girls Eket Workshop",
+        "time": "2024-03-15",
+        "location": "Eket, Akwa Ibom State, Nigeria"
+    },
+    "10": {
+        "name": "PyCon SK 2024",
+        "time": "2024-03-15",
+        "location": "Bratislava, Slovakia"
+    },
+    "11": {
+        "name": "Python Barcamp Karlsruhe",
+        "time": "2024-03-23",
+        "location": "Karlsruhe, Germany"
+    },
+    "12": {
+        "name": "PyLadies Amsterdam: Python Open Source Sprints",
+        "time": "2024-03-23",
+        "location": "Amsterdam, The Netherlands"
+    },
+    "13": {
+        "name": "PyLadies Amsterdam: Global AI Bootcamp",
+        "time": "2024-03-27",
+        "location": "Online"
+    },
+    "14": {
+        "name": "PyLadies Amsterdam: Fine-tuning text-to-image diffusion models for personalization and subject-driven generation",
+        "time": "2024-03-29",
+        "location": "Raamstraat 7, 1016 XL Amsterdam, Netherlands"
+    },
+    "15": {
+        "name": "PyCon Lithuania 2024",
+        "time": "2024-04-02",
+        "location": "Vilnius, Lithuania"
+    },
+    "16": {
+        "name": "Python Meeting D\u00fcsseldorf",
+        "time": "2024-04-17",
+        "location": "D\u00fcsseldorf, Germany"
+    },
+    "17": {
+        "name": "Django Girls Ekpoma Workshop",
+        "time": "2024-04-19",
+        "location": "Ambrose Alli University, Ekpoma, Edo state, Nigeria"
+    },
+    "18": {
+        "name": "PyTexas 2024",
+        "time": "2024-04-19",
+        "location": "Austin, Texas, USA"
+    },
+    "19": {
+        "name": "PyCon DE & PyData Berlin 2024",
+        "time": "2024-04-22",
+        "location": "Berlin, Germany"
+    },
+    "20": {
+        "name": "PyCon US 2024",
+        "time": "2024-05-15",
+        "location": "Pittsburgh, Pennsylvania, USA"
+    },
+    "21": {
+        "name": "PyCon Italia 2024",
+        "time": "2024-05-22",
+        "location": "Metropolitan City of Florence, Italy"
+    },
+    "22": {
+        "name": "DjangoCon Europe 2024",
+        "time": "2024-06-05",
+        "location": "Vigo, Spain"
+    },
+    "23": {
+        "name": "PyCon Colombia 2024",
+        "time": "2024-06-07",
+        "location": "Medell\u00edn, Colombia"
+    },
+    "24": {
+        "name": "PyData London 2024",
+        "time": "2024-06-14",
+        "location": "London, United Kingdom"
+    },
+    "25": {
+        "name": "World Conference on Data Science & Statistics",
+        "time": "2024-06-17",
+        "location": "Amsterdam, Netherlands"
+    },
+    "26": {
+        "name": "PyCamp Leipzig 2024",
+        "time": "2024-06-22",
+        "location": "Leipzig, Germany"
+    },
+    "27": {
+        "name": "EuroPython 2024",
+        "time": "2024-07-08",
+        "location": "Prague, Czech Republic, and Online"
+    },
+    "28": {
+        "name": "EARL 2024",
+        "time": "2024-09-04",
+        "location": "The Grand Brighton, 97-99 Kings Rd, Brighton and Hove, Brighton BN1 2FW, UK"
+    },
+    "29": {
+        "name": "PyCon Estonia 2024",
+        "time": "2024-09-05",
+        "location": "Tallinn, Estonia"
+    },
+    "30": {
+        "name": "PyCon US 2025",
+        "time": "2025-05-14",
+        "location": "Pittsburgh, Pennsylvania, USA"
+    }
+}
