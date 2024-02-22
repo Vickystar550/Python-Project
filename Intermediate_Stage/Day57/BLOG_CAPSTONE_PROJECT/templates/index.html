@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+<body>
+<div class="wrapper">
+    <div class="top">
+        <div class="title"><h1>My Blog</h1></div>
+    </div>
+    <div class="content">
+        <div class="card">
+            <h2>{{ blog_posts[0]['title'] }}</h2>
+            <p class="text">{{ blog_posts[0]['subtitle'] }}</p>
+            <a href="{{url_for('get_blog', blog_id=1)}}">Read</a>
+        </div>
+    </div>
+    <div class="content">
+        <div class="card">
+            <h2>{{ blog_posts[1]['title'] }}</h2>
+            <p class="text">{{ blog_posts[1]['subtitle'] }}</p>
+            <a href="{{url_for('get_blog', blog_id=2)}}">Read</a>
+        </div>
+    </div>
+    <div class="content">
+        <div class="card">
+            <h2>{{ blog_posts[2]['title'] }}</h2>
+            <p class="text">{{ blog_posts[2]['subtitle'] }}</p>
+            <a href="{{url_for('get_blog', blog_id=3)}}">Read</a>
+        </div>
+    </div>
+</div>
+</body>
+<footer>
+    <p>Made with ♥️ in London.</p>
+</footer>
+</html>
