@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Restaurants{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+
+      <h1>All Cafes</h1>
+
+	  <table class="table table-dark table-striped table-hover">
+          <!-- This is where you will write the code to render a Bootstrap 
+          Table that contains all the information from the 
+          cafe-data.csv file. -->
+           <thead>
+                <tr>
+                  <th scope="col">{{ header[0] }}</th>
+                  <th scope="col">{{ header[1] }}</th>
+                  <th scope="col">{{ header[2] }}</th>
+                  <th scope="col">{{ header[3] }}</th>
+                    <th scope="col">{{ header[4] }}</th>
+                    <th scope="col">{{ header[5] }}</th>
+                    <th scope="col">{{ header[6] }}</th>
+                </tr>
+          </thead>
+           <tbody>
+                {% for row_content in rows: %}
+                    <tr>
+                      <th scope="row">{{row_content[0]}}</th>
+                      <td><a href="{{row_content[1]}}">Maps Link</a> </td>
+                      <td>{{row_content[2]}}</td>
+                        <td>{{row_content[3]}}</td>
+                        <td>{{row_content[4]}}</td>
+                        <td>{{row_content[5]}}</td>
+                        <td>{{row_content[6]}}</td>
+                    </tr>
+                {% endfor %}
+           </tbody>
+  	  </table>
+
+      <br><p><a href="{{url_for('home')}}">Return to index page</a></p>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
