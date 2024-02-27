@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Library Item</title>
+</head>
+<body>
+    <h1>Book Name:  {{ item.get('title') }}</h1>
+    <h2>Current Rating: {{ item.get('rating') }}</h2>
+    <form action="{{ url_for('edit_rating') }}" method="post">
+        <input hidden="hidden" value="{{item['id']}}" name="id">
+        <label for="rating">Change Rating</label>
+        <input type="text" id="rating" name="rating" placeholder="New Rating">
+        <input type="submit" id="submit">
+    </form>
+</body>
+</html>
