@@ -10,8 +10,7 @@ import requests
 import random
 
 
-TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlMDhlMzA2MGQ3ZWY4ZWFkOGZjM2ViNGRjZWRlMjk4ZiIsInN1YiI6IjY1ZGU2NzcyM2ZmMmRmMDE4NzBiZDVhNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Z5pjHhtbitAfjv5vKlge-OGgxJtj6gzktnB3WPp-W8Y'
-
+TOKEN = 'add your api token here'
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
