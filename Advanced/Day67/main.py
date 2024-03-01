@@ -102,7 +102,7 @@ def edit_post(post_id):
         subtitle=post.subtitle,
         img_url=post.img_url,
         author=post.author,
-        body_content=post.body
+        blog_content=post.body
     )
 
     # if request method is POST and edit_form's validation on submission is successful
