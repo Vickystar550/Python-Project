@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Float
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, HiddenField
+from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 import requests
 import random
@@ -96,7 +96,6 @@ def home():
 class EditMovieForm(FlaskForm):
     """create a flask_wtf form to edit movie details"""
     new_rating = StringField('Your Rating Out of 10 e.g 7.5', validators=[DataRequired()])
-    new_ranking = StringField("Your Ranking", validators=[DataRequired()])
     new_review = StringField("Your Review", validators=[DataRequired()])
     submit = SubmitField(label="Done")
 
@@ -112,8 +111,9 @@ def add():
     """adds a new movie"""
     # create a movie flask_wtf form object
     movie_form = AddMovieForm()
+    # if the request method to this route is POST,
     if request.method == 'POST':
-        if movie_form.validate_on_submit():     # if form is validated and submitted:
+        if movie_form.validate_on_submit():     # and the form is validated and submitted:
             title = movie_form.data.get('movie_title')
             tmdb_movies = search_movies(query=title)
             # print(tmdb_movies)
@@ -137,6 +137,7 @@ def edit():
                 movie_to_update.rating = float(request.form.get('new_rating'))
                 movie_to_update.review = request.form.get('new_review')
                 db.session.commit()
+        # redirect to the home page
         return redirect(url_for('home'), code=302)
 
     # if request method is GET, get the request args for id
@@ -149,11 +150,13 @@ def edit():
 
 @app.route('/delete')
 def delete():
+    """delete a movie from the database"""
     movie_id = int(request.args.get('id'))
     with app.app_context():
         movie_to_delete = db.get_or_404(Movie, movie_id)
         db.session.delete(movie_to_delete)
         db.session.commit()
+    # redirecting to the home page
     return redirect(url_for('home'), code=302)
 
 
@@ -202,9 +205,9 @@ def get_movie_details():
                 review='to be added',
                 img_url=f"https://image.tmdb.org/t/p/w500{data.get('poster_path')}"
             )
-
             db.session.add(new_movie)
             db.session.commit()
+        # redirecting to the home page
         return redirect(url_for('edit'), code=302)
 
 
