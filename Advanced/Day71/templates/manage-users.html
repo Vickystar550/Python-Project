@@ -1,0 +1,53 @@
+{% include "header.html" %}
+
+<!-- Page Header-->
+<header
+  class="masthead"
+  style="background-image: url('../static/assets/img/home-bg.jpg')"
+>
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="site-heading">
+          <h1>Manage Users</h1>
+          <span class="subheading">Perform Admin Privileges.</span><br>
+
+          {% if current_user.is_authenticated: %}
+            <h2 style="color: blue;">{{ current_user.name }}, you are the admin!</h2>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      <!-- add a flash message here for deleting users -->
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages%}
+      <p class="flash"><strong><em>{{message}}</em></strong></p>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <!-- Shows users for deleting -->
+      {% for user in users: %}
+        {% if user.id != 1 %}
+          <ul>
+            <div>
+              <li>
+                  <p>{{ user.name }} - {{ user.email }} <a href="{{ url_for('delete_user', user_id=user.id) }}"> Delete</a></p>
+              </li>
+            </div>
+          </ul>
+        {% endif %}
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+
+{% include "footer.html" %}
