@@ -5,10 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5b2694ab-615a-4c25-a72c-6019329f4ff7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../.idea/Advanced.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sample.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Day62/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Day62/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Day63/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Day63/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Day68/instance/users.db" beforeDir="false" afterPath="$PROJECT_DIR$/../Day68/instance/users.db" afterDir="false" />
@@ -17,8 +13,9 @@
       <change beforePath="$PROJECT_DIR$/../Day68/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Day68/templates/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Day68/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Day68/templates/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Day68/templates/secrets.html" beforeDir="false" afterPath="$PROJECT_DIR$/../Day68/templates/secrets.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Day72/.idea/Day72.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../Day72/.idea/Day72.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Day72/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Day72/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Day73.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Day73.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../Intermediate_Stage/Day25/.idea/csv-editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Intermediate_Stage/Day25/.idea/csv-editor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../Intermediate_Stage/Day25/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../Intermediate_Stage/Day25/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../Intermediate_Stage/Day28/POMODORO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../Intermediate_Stage/Day28/POMODORO.py" afterDir="false" />
@@ -40,21 +37,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 4
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="2dMkooaIPoWQlIoIn4mjqXDeZHN" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -63,4 +60,14 @@
     </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5b2694ab-615a-4c25-a72c-6019329f4ff7" name="Changes" comment="" />
+      <created>1709827252256</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1709827252256</updated>
+    </task>
+    <servers />
+  </component>
 </project>
