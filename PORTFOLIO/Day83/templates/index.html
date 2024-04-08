@@ -1,0 +1,141 @@
+{% extends "header.html" %}
+
+{% block title %}My Portfolio Website{% endblock %}
+
+{% block header_name %}Home Page{% endblock %}
+
+{% block header_items %}
+{% if page_name == 'homepage' %}
+    <ul class="nav nav-pills">
+      <li class="nav-item"><a href="{{ url_for('home') }}" class="nav-link" aria-current="page">Home</a></li>
+      <li class="nav-item"><a href="{{ url_for('about') }}" class="nav-link" aria-current="page">About Me</a></li>
+      <li class="nav-item"><a href="{{ url_for('contact') }}" class="nav-link">Contact</a></li>
+      <li class="nav-item"><a href="{{ url_for('my_skills') }}" class="nav-link">Skills</a></li>
+      <li class="nav-item"><a href="{{ url_for('experience') }}" class="nav-link">Experience</a></li>
+      <li class="nav-item"><a href="{{ url_for('education') }}" class="nav-link">Education</a></li>
+      <li class="nav-item"><a href="{{ url_for('interest') }}" class="nav-link">Interest and Hobbies</a></li>
+    </ul>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+    <!-- About Me-->
+    <div class="px-4 pt-1 my-5 text-center border-bottom">
+        <h1 class="display-4 fw-bold text-body-emphasis">About Me</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">
+                Motivated and detail-oriented individual with a keen interest in Data Science
+                and Machine Learning. Practice 100 days of code in Python and built projects
+                on many libraries, flask framework and also in Data Science.
+            </p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+                <a href="{{ url_for('about') }}"><button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Read More</button></a>
+            </div>
+        </div>
+        <div class="overflow-hidden" style="max-height: 30vh;">
+          <div class="container px-5">
+            <img src="bootstrap-docs.png" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
+          </div>
+        </div>
+      </div>
+    
+      <!--Contact-->
+      <div class="px-4 pt-1 my-5 text-center border-bottom">
+        <h1 class="display-4 fw-bold text-body-emphasis">Contact</h1>
+        <div class="col-lg-6 mx-auto">
+          <p class="lead mb-4">
+            You can mail me at: <strong style="font-weight: bold;">victornice550@gmail.com</strong><br>
+            Also available on X(formally Twitter), Instagram, Facebook, LinkedIn, Github, Upwork,
+          </p>
+          <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+            <a href="{{ url_for('contact') }}"><button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">See Contact Details</button></a>
+          </div>
+        </div>
+        <div class="overflow-hidden" style="max-height: 30vh;">
+          <div class="container px-5">
+            <img src="bootstrap-docs.png" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
+          </div>
+        </div>
+      </div>
+
+      <!--Skills-->
+      <div class="px-4 pt-1 my-5 text-center border-bottom">
+        <h1 class="display-4 fw-bold text-body-emphasis">Skills</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">Skilled in Python, SQL, Microsoft Excel, Data Science Libraries.<br>
+                Build and design website using HTML, CSS, Bootstrap and Flask framework <br>
+                Trained and Analysed Machining Learning Models for House Price Prediction
+            </p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+                <a href="{{ url_for('my_skills') }}"><button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Detailed Breakdrown</button></a>
+            </div>
+        </div>
+        <div class="overflow-hidden" style="max-height: 30vh;">
+            <div class="container px-5">
+                <img src="bootstrap-docs.png" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
+            </div>
+        </div>
+      </div>
+
+      <!--Experience-->
+      <div class="px-4 pt-1 my-5 text-center border-bottom">
+        <h1 class="display-4 fw-bold text-body-emphasis">Work and Experience</h1>
+        <div class="col-lg-6 mx-auto">
+          <p class="lead mb-4">
+            Experienced with Argon, Electric Arc Welding during an internship training at Trelling Fabrication Limited.<br>
+            Worked in a team as the Lead on a project to Design, Simulate and Optimize the Efficiency of an Helicopter Propeller.<br>
+          </p>
+          <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+            <a href="{{ url_for('experience') }}"><button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Read More</button></a>
+          </div>
+        </div>
+        <div class="overflow-hidden" style="max-height: 30vh;">
+          <div class="container px-5">
+            <img src="bootstrap-docs.png" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
+          </div>
+        </div>
+      </div>
+
+      <!--Education-->
+      <div class="px-4 pt-1 my-5 text-center border-bottom">
+        <h1 class="display-4 fw-bold text-body-emphasis">Education</h1>
+        <div class="col-lg-6 mx-auto">
+          <p class="lead mb-4">
+            Finished with a First Class Degree in Mechanical Engineering, University of Uyo.<br>
+            Attended Government Secondary School, Afaha Eket, Eket LGA in Akwa Ibom State, Nigeria.<br>
+            Finished the course "Data Science with Python" on DataCamp
+          </p>
+          <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+            <a href="{{ url_for('education') }}"><button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Read More</button></a>
+          </div>
+        </div>
+        <div class="overflow-hidden" style="max-height: 30vh;">
+          <div class="container px-5">
+            <img src="bootstrap-docs.png" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
+          </div>
+        </div>
+      </div>
+
+      <!--Interest and Hobbies-->
+      <div class="px-4 pt-1 my-5 text-center">
+        <h1 class="display-4 fw-bold text-body-emphasis">Interest and Hobbies</h1>
+        <div class="col-lg-6 mx-auto">
+          <p class="lead mb-4">
+            Highly Interested in Data Science and Artificial Integellience<br>
+            Keen on knowing how to build and design an amazing website<br>
+            Passive on Sport but a strong fan of music
+          </p>
+          <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+            <a href="{{ url_for('interest') }}"><button type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Read More</button></a>
+          </div>
+        </div>
+        <div class="overflow-hidden" style="max-height: 30vh;">
+          <div class="container px-5">
+            <img src="bootstrap-docs.png" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="700" height="500" loading="lazy">
+          </div>
+        </div>
+      </div>
+{% endblock %}
+
+{% block copyright %}{{ copyright_year }}{% endblock %}
+

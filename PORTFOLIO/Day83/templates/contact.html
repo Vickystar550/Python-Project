@@ -1,0 +1,175 @@
+{% extends "header.html" %}
+
+{% block title %}Contact{% endblock %}
+
+{% block header_name %}My Contacts{% endblock %}
+
+{% block header_items %}
+{% if page_name == 'contactpage' %}
+    <ul class="nav nav-pills">
+      <li class="nav-item"><a href="{{ url_for('home') }}" class="nav-link" aria-current="page">Home</a></li>
+      <li class="nav-item"><a href="{{ url_for('about') }}" class="nav-link" aria-current="page">About Me</a></li>
+      <li class="nav-item"><a href="{{ url_for('my_skills') }}" class="nav-link">Skills</a></li>
+      <li class="nav-item"><a href="{{ url_for('experience') }}" class="nav-link">Experience</a></li>
+      <li class="nav-item"><a href="{{ url_for('education') }}" class="nav-link">Education</a></li>
+      <li class="nav-item"><a href="{{ url_for('interest') }}" class="nav-link">Interest and Hobbies</a></li>
+    </ul>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<!-- Row 1 Contact Details -->
+<div class="container px-4 py-1" id="featured-3">
+    <!-- <h2 class="pb-2">Contact me via</h2> -->
+
+    <div class="row g-4 py-3 row-cols-1 row-cols-lg-3">
+        <!--Gmail-->
+        <div class="feature col">
+            <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
+                <a href="https://mail.google.com/mail/u/0/#inbox">
+                    <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 48 48" width="48px" height="48px"><path fill="#4caf50" d="M45,16.2l-5,2.75l-5,4.75L35,40h7c1.657,0,3-1.343,3-3V16.2z"/><path fill="#1e88e5" d="M3,16.2l3.614,1.71L13,23.7V40H6c-1.657,0-3-1.343-3-3V16.2z"/><polygon fill="#e53935" points="35,11.2 24,19.45 13,11.2 12,17 13,23.7 24,31.95 35,23.7 36,17"/><path fill="#c62828" d="M3,12.298V16.2l10,7.5V11.2L9.876,8.859C9.132,8.301,8.228,8,7.298,8h0C4.924,8,3,9.924,3,12.298z"/><path fill="#fbc02d" d="M45,12.298V16.2l-10,7.5V11.2l3.124-2.341C38.868,8.301,39.772,8,40.702,8h0 C43.076,8,45,9.924,45,12.298z"/></svg>
+                </a>
+            </div>
+            <h3 class="fs-2 text-body-emphasis">Gmail</h3>
+            <p><strong>victornice550@gmail.com</strong></p>
+            <a href="https://mail.google.com/mail/u/0/#inbox" class="btn btn-light btn-sm px-4 me-sm-3">
+                Send Email
+            </a>
+        </div>
+
+        <!-- LinkedIn -->
+        <div class="feature col">
+            <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
+                <a href="https://www.linkedin.com/in/victor-nice-5853192a6/">
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="48" height="48" viewBox="0 0 48 48">
+                        <path fill="#0078d4" d="M42,37c0,2.762-2.238,5-5,5H11c-2.761,0-5-2.238-5-5V11c0-2.762,2.239-5,5-5h26c2.762,0,5,2.238,5,5	V37z"></path><path d="M30,37V26.901c0-1.689-0.819-2.698-2.192-2.698c-0.815,0-1.414,0.459-1.779,1.364	c-0.017,0.064-0.041,0.325-0.031,1.114L26,37h-7V18h7v1.061C27.022,18.356,28.275,18,29.738,18c4.547,0,7.261,3.093,7.261,8.274	L37,37H30z M11,37V18h3.457C12.454,18,11,16.528,11,14.499C11,12.472,12.478,11,14.514,11c2.012,0,3.445,1.431,3.486,3.479	C18,16.523,16.521,18,14.485,18H18v19H11z" opacity=".05"></path><path d="M30.5,36.5v-9.599c0-1.973-1.031-3.198-2.692-3.198c-1.295,0-1.935,0.912-2.243,1.677	c-0.082,0.199-0.071,0.989-0.067,1.326L25.5,36.5h-6v-18h6v1.638c0.795-0.823,2.075-1.638,4.238-1.638	c4.233,0,6.761,2.906,6.761,7.774L36.5,36.5H30.5z M11.5,36.5v-18h6v18H11.5z M14.457,17.5c-1.713,0-2.957-1.262-2.957-3.001	c0-1.738,1.268-2.999,3.014-2.999c1.724,0,2.951,1.229,2.986,2.989c0,1.749-1.268,3.011-3.015,3.011H14.457z" opacity=".07"></path><path fill="#fff" d="M12,19h5v17h-5V19z M14.485,17h-0.028C12.965,17,12,15.888,12,14.499C12,13.08,12.995,12,14.514,12	c1.521,0,2.458,1.08,2.486,2.499C17,15.887,16.035,17,14.485,17z M36,36h-5v-9.099c0-2.198-1.225-3.698-3.192-3.698	c-1.501,0-2.313,1.012-2.707,1.99C24.957,25.543,25,26.511,25,27v9h-5V19h5v2.616C25.721,20.5,26.85,19,29.738,19	c3.578,0,6.261,2.25,6.261,7.274L36,36L36,36z"></path>
+                    </svg>
+                </a>
+            </div>
+            <h3 class="fs-2 text-body-emphasis">LinkedIn</h3>
+            <a href="https://www.linkedin.com/in/victor-nice-5853192a6/" class="btn btn-light btn-sm px-4 me-sm-3">
+                Connect on LinkedIn
+            </a>
+        </div>
+
+        <!-- Github -->
+        <div class="feature col">
+            <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
+                <a href="https://github.com/Vickystar550">
+                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="48" height="48" viewBox="0 0 48 48">
+                        <path fill="#2100c4" d="M24,4C12.954,4,4,12.954,4,24c0,8.887,5.801,16.411,13.82,19.016h12.36 C38.199,40.411,44,32.887,44,24C44,12.954,35.046,4,24,4z"></path><path fill="#ddbaff" d="M37,23.5c0-2.897-0.875-4.966-2.355-6.424C35.591,15.394,34.339,12,34.339,12 c-2.5,0.5-4.367,1.5-5.609,2.376C27.262,14.115,25.671,14,24,14c-1.71,0-3.339,0.118-4.834,0.393 c-1.242-0.879-3.115-1.889-5.632-2.393c0,0-1.284,3.492-0.255,5.146C11.843,18.6,11,20.651,11,23.5 c0,6.122,3.879,8.578,9.209,9.274C19.466,33.647,19,34.764,19,36l0,0.305c-0.163,0.045-0.332,0.084-0.514,0.108 c-1.107,0.143-2.271,0-2.833-0.333c-0.562-0.333-1.229-1.083-1.729-1.813c-0.422-0.616-1.263-2.032-3.416-1.979 c-0.376-0.01-0.548,0.343-0.5,0.563c0.043,0.194,0.213,0.5,0.896,0.75c0.685,0.251,1.063,0.854,1.438,1.458 c0.418,0.674,0.417,2.468,2.562,3.416c1.53,0.677,2.988,0.594,4.097,0.327l0.001,3.199c0,0.639-0.585,1.125-1.191,1.013 C19.755,43.668,21.833,44,24,44c2.166,0,4.243-0.332,6.19-0.984C29.584,43.127,29,42.641,29,42.002L29,36 c0-1.236-0.466-2.353-1.209-3.226C33.121,32.078,37,29.622,37,23.5z"></path><path fill="#ddbaff" d="M15,18l3.838-1.279c1.01-0.337,1.231-1.684,0.365-2.302l-0.037-0.026 c-2.399,0.44-4.445,1.291-5.888,2.753C13.596,17.658,14.129,18,15,18z"></path><path fill="#ddbaff" d="M28.693,14.402c-0.878,0.623-0.655,1.987,0.366,2.327L32.872,18c0.913,0,1.461-0.37,1.773-0.924 c-1.46-1.438-3.513-2.274-5.915-2.701C28.717,14.384,28.705,14.393,28.693,14.402z"></path><path fill="#ddbaff" d="M24,31c-1.525,0-2.874,0.697-3.791,1.774C21.409,32.931,22.681,33,24,33s2.591-0.069,3.791-0.226 C26.874,31.697,25.525,31,24,31z"></path>
+                    </svg>
+                </a>
+            </div>
+            <h3 class="fs-2 text-body-emphasis">Github</h3>
+            <a href="https://github.com/Vickystar550" class="btn btn-light btn-sm px-4 me-sm-3">
+                Build and Connect on Github
+            </a>
+        </div>
+        </div>
+    </div>
+
+    <!-- Row 2 Contact Details -->
+    <div class="container px-4 py-1" id="featured-3">
+        
+        <div class="row g-4 py-3 row-cols-1 row-cols-lg-3">
+            <!--X (formerly Twitter)-->
+            <div class="feature col">
+                <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
+                    <a href="https://twitter.com/NAkanimoh">
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
+                            <path d="M 11 4 C 7.134 4 4 7.134 4 11 L 4 39 C 4 42.866 7.134 46 11 46 L 39 46 C 42.866 46 46 42.866 46 39 L 46 11 C 46 7.134 42.866 4 39 4 L 11 4 z M 13.085938 13 L 21.023438 13 L 26.660156 21.009766 L 33.5 13 L 36 13 L 27.789062 22.613281 L 37.914062 37 L 29.978516 37 L 23.4375 27.707031 L 15.5 37 L 13 37 L 22.308594 26.103516 L 13.085938 13 z M 16.914062 15 L 31.021484 35 L 34.085938 35 L 19.978516 15 L 16.914062 15 z"></path>
+                        </svg>
+                    </a>
+                </div>
+                <h3 class="fs-2 text-body-emphasis">X (Formerlly Twitter)</h3>
+                <a href="https://twitter.com/NAkanimoh" class="btn btn-light btn-sm px-4 me-sm-3">
+                    Follow
+                </a>
+            </div>
+    
+            <!-- Instagram -->
+            <div class="feature col">
+                <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
+                   <a href="https://www.instagram.com/victornice550/">
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="48" height="48" viewBox="0 0 48 48">
+                            <radialGradient id="yOrnnhliCrdS2gy~4tD8ma_Xy10Jcu1L2Su_gr1" cx="19.38" cy="42.035" r="44.899" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fd5"></stop><stop offset=".328" stop-color="#ff543f"></stop><stop offset=".348" stop-color="#fc5245"></stop><stop offset=".504" stop-color="#e64771"></stop><stop offset=".643" stop-color="#d53e91"></stop><stop offset=".761" stop-color="#cc39a4"></stop><stop offset=".841" stop-color="#c837ab"></stop></radialGradient><path fill="url(#yOrnnhliCrdS2gy~4tD8ma_Xy10Jcu1L2Su_gr1)" d="M34.017,41.99l-20,0.019c-4.4,0.004-8.003-3.592-8.008-7.992l-0.019-20	c-0.004-4.4,3.592-8.003,7.992-8.008l20-0.019c4.4-0.004,8.003,3.592,8.008,7.992l0.019,20	C42.014,38.383,38.417,41.986,34.017,41.99z"></path><radialGradient id="yOrnnhliCrdS2gy~4tD8mb_Xy10Jcu1L2Su_gr2" cx="11.786" cy="5.54" r="29.813" gradientTransform="matrix(1 0 0 .6663 0 1.849)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4168c9"></stop><stop offset=".999" stop-color="#4168c9" stop-opacity="0"></stop></radialGradient><path fill="url(#yOrnnhliCrdS2gy~4tD8mb_Xy10Jcu1L2Su_gr2)" d="M34.017,41.99l-20,0.019c-4.4,0.004-8.003-3.592-8.008-7.992l-0.019-20	c-0.004-4.4,3.592-8.003,7.992-8.008l20-0.019c4.4-0.004,8.003,3.592,8.008,7.992l0.019,20	C42.014,38.383,38.417,41.986,34.017,41.99z"></path><path fill="#fff" d="M24,31c-3.859,0-7-3.14-7-7s3.141-7,7-7s7,3.14,7,7S27.859,31,24,31z M24,19c-2.757,0-5,2.243-5,5	s2.243,5,5,5s5-2.243,5-5S26.757,19,24,19z"></path><circle cx="31.5" cy="16.5" r="1.5" fill="#fff"></circle><path fill="#fff" d="M30,37H18c-3.859,0-7-3.14-7-7V18c0-3.86,3.141-7,7-7h12c3.859,0,7,3.14,7,7v12	C37,33.86,33.859,37,30,37z M18,13c-2.757,0-5,2.243-5,5v12c0,2.757,2.243,5,5,5h12c2.757,0,5-2.243,5-5V18c0-2.757-2.243-5-5-5H18z"></path>
+                        </svg>
+                   </a>
+                </div>
+                <h3 class="fs-2 text-body-emphasis">Instagram</h3>
+                <a href="https://www.instagram.com/victornice550/" class="btn btn-light btn-sm px-4 me-sm-3">
+                    Follow
+                </a>
+            </div>
+    
+            <!-- Facebook -->
+            <div class="feature col">
+                <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
+                    <a href="https://web.facebook.com/profile.php?id=100086479772886">
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="48" height="48" viewBox="0 0 48 48">
+                            <path fill="#3F51B5" d="M42,37c0,2.762-2.238,5-5,5H11c-2.761,0-5-2.238-5-5V11c0-2.762,2.239-5,5-5h26c2.762,0,5,2.238,5,5V37z"></path><path fill="#FFF" d="M34.368,25H31v13h-5V25h-3v-4h3v-2.41c0.002-3.508,1.459-5.59,5.592-5.59H35v4h-2.287C31.104,17,31,17.6,31,18.723V21h4L34.368,25z"></path>
+                        </svg>
+                    </a>
+                </div>
+                <h3 class="fs-2 text-body-emphasis">Facebook</h3>
+                <a href="https://web.facebook.com/profile.php?id=100086479772886" class="btn btn-light btn-sm px-4 me-sm-3">
+                    Let's be Friends
+                </a>
+            </div>
+            </div>
+        </div>
+
+        <!-- Row 3 Contact Details -->
+    <div class="container px-4 py-1" id="featured-3">
+        
+        <div class="row g-4 py-3 row-cols-1 row-cols-lg-3">
+            <!--Slack-->
+            <div class="feature col">
+                <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
+                    <a href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="48" height="48" viewBox="0 0 48 48">
+                            <path fill="#f5bc00" d="M25,29L25,29c0,2.2,1.8,4,4,4h10c2.2,0,4-1.8,4-4l0,0c0-2.2-1.8-4-4-4H29C26.8,25,25,26.8,25,29z"></path><path fill="#f5bc00" d="M25,35v4c0,2.2,1.8,4,4,4l0,0c2.2,0,4-1.8,4-4l0,0c0-2.2-1.8-4-4-4H25z"></path><path fill="#f55376" d="M19,25L19,25c-2.2,0-4,1.8-4,4v10c0,2.2,1.8,4,4,4l0,0c2.2,0,4-1.8,4-4V29C23,26.8,21.2,25,19,25z"></path><path fill="#f55376" d="M13,25H9c-2.2,0-4,1.8-4,4l0,0c0,2.2,1.8,4,4,4l0,0c2.2,0,4-1.8,4-4V25z"></path><path fill="#00b3d7" d="M23,19L23,19c0-2.2-1.8-4-4-4H9c-2.2,0-4,1.8-4,4l0,0c0,2.2,1.8,4,4,4h10C21.2,23,23,21.2,23,19z"></path><path fill="#00b3d7" d="M23,13V9c0-2.2-1.8-4-4-4l0,0c-2.2,0-4,1.8-4,4l0,0c0,2.2,1.8,4,4,4H23z"></path><path fill="#00b569" d="M29,23L29,23c2.2,0,4-1.8,4-4V9c0-2.2-1.8-4-4-4l0,0c-2.2,0-4,1.8-4,4v10C25,21.2,26.8,23,29,23z"></path><path fill="#00b569" d="M35,23h4c2.2,0,4-1.8,4-4l0,0c0-2.2-1.8-4-4-4l0,0c-2.2,0-4,1.8-4,4V23z"></path>
+                        </svg>
+                    </a>
+                </div>
+                <h3 class="fs-2 text-body-emphasis">Slack</h3>
+                <a href="#" class="btn btn-light btn-sm px-4 me-sm-3">
+                    Let's Connect
+                </a>
+            </div>
+    
+            <!-- Telegram -->
+            <div class="feature col">
+                <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
+                    <a href="https://t.me/Vickystar550">
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="48" height="48" viewBox="0 0 48 48">
+                            <linearGradient id="BiF7D16UlC0RZ_VqXJHnXa_oWiuH0jFiU0R_gr1" x1="9.858" x2="38.142" y1="9.858" y2="38.142" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#33bef0"></stop><stop offset="1" stop-color="#0a85d9"></stop></linearGradient><path fill="url(#BiF7D16UlC0RZ_VqXJHnXa_oWiuH0jFiU0R_gr1)" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path d="M10.119,23.466c8.155-3.695,17.733-7.704,19.208-8.284c3.252-1.279,4.67,0.028,4.448,2.113	c-0.273,2.555-1.567,9.99-2.363,15.317c-0.466,3.117-2.154,4.072-4.059,2.863c-1.445-0.917-6.413-4.17-7.72-5.282	c-0.891-0.758-1.512-1.608-0.88-2.474c0.185-0.253,0.658-0.763,0.921-1.017c1.319-1.278,1.141-1.553-0.454-0.412	c-0.19,0.136-1.292,0.935-1.745,1.237c-1.11,0.74-2.131,0.78-3.862,0.192c-1.416-0.481-2.776-0.852-3.634-1.223	C8.794,25.983,8.34,24.272,10.119,23.466z" opacity=".05"></path><path d="M10.836,23.591c7.572-3.385,16.884-7.264,18.246-7.813c3.264-1.318,4.465-0.536,4.114,2.011	c-0.326,2.358-1.483,9.654-2.294,14.545c-0.478,2.879-1.874,3.513-3.692,2.337c-1.139-0.734-5.723-3.754-6.835-4.633	c-0.86-0.679-1.751-1.463-0.71-2.598c0.348-0.379,2.27-2.234,3.707-3.614c0.833-0.801,0.536-1.196-0.469-0.508	c-1.843,1.263-4.858,3.262-5.396,3.625c-1.025,0.69-1.988,0.856-3.664,0.329c-1.321-0.416-2.597-0.819-3.262-1.078	C9.095,25.618,9.075,24.378,10.836,23.591z" opacity=".07"></path><path fill="#fff" d="M11.553,23.717c6.99-3.075,16.035-6.824,17.284-7.343c3.275-1.358,4.28-1.098,3.779,1.91	c-0.36,2.162-1.398,9.319-2.226,13.774c-0.491,2.642-1.593,2.955-3.325,1.812c-0.833-0.55-5.038-3.331-5.951-3.984	c-0.833-0.595-1.982-1.311-0.541-2.721c0.513-0.502,3.874-3.712,6.493-6.21c0.343-0.328-0.088-0.867-0.484-0.604	c-3.53,2.341-8.424,5.59-9.047,6.013c-0.941,0.639-1.845,0.932-3.467,0.466c-1.226-0.352-2.423-0.772-2.889-0.932	C9.384,25.282,9.81,24.484,11.553,23.717z"></path>
+                        </svg>
+                    </a>
+                </div>
+                <h3 class="fs-2 text-body-emphasis">Telegram</h3>
+        
+                <a href="https://t.me/Vickystar550" class="btn btn-light btn-sm px-4 me-sm-3">
+                    Let's Connect
+                </a>
+            </div>
+    
+            <!-- Phone -->
+            <div class="feature col">
+                <div class="feature-icon d-inline-flex align-items-center justify-content-center fs-2 mb-3">
+                    <a href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="48" height="48" viewBox="0 0 48 48">
+                            <path fill="#fff" d="M4.868,43.303l2.694-9.835C5.9,30.59,5.026,27.324,5.027,23.979C5.032,13.514,13.548,5,24.014,5c5.079,0.002,9.845,1.979,13.43,5.566c3.584,3.588,5.558,8.356,5.556,13.428c-0.004,10.465-8.522,18.98-18.986,18.98c-0.001,0,0,0,0,0h-0.008c-3.177-0.001-6.3-0.798-9.073-2.311L4.868,43.303z"></path><path fill="#fff" d="M4.868,43.803c-0.132,0-0.26-0.052-0.355-0.148c-0.125-0.127-0.174-0.312-0.127-0.483l2.639-9.636c-1.636-2.906-2.499-6.206-2.497-9.556C4.532,13.238,13.273,4.5,24.014,4.5c5.21,0.002,10.105,2.031,13.784,5.713c3.679,3.683,5.704,8.577,5.702,13.781c-0.004,10.741-8.746,19.48-19.486,19.48c-3.189-0.001-6.344-0.788-9.144-2.277l-9.875,2.589C4.953,43.798,4.911,43.803,4.868,43.803z"></path><path fill="#cfd8dc" d="M24.014,5c5.079,0.002,9.845,1.979,13.43,5.566c3.584,3.588,5.558,8.356,5.556,13.428c-0.004,10.465-8.522,18.98-18.986,18.98h-0.008c-3.177-0.001-6.3-0.798-9.073-2.311L4.868,43.303l2.694-9.835C5.9,30.59,5.026,27.324,5.027,23.979C5.032,13.514,13.548,5,24.014,5 M24.014,42.974C24.014,42.974,24.014,42.974,24.014,42.974C24.014,42.974,24.014,42.974,24.014,42.974 M24.014,42.974C24.014,42.974,24.014,42.974,24.014,42.974C24.014,42.974,24.014,42.974,24.014,42.974 M24.014,4C24.014,4,24.014,4,24.014,4C12.998,4,4.032,12.962,4.027,23.979c-0.001,3.367,0.849,6.685,2.461,9.622l-2.585,9.439c-0.094,0.345,0.002,0.713,0.254,0.967c0.19,0.192,0.447,0.297,0.711,0.297c0.085,0,0.17-0.011,0.254-0.033l9.687-2.54c2.828,1.468,5.998,2.243,9.197,2.244c11.024,0,19.99-8.963,19.995-19.98c0.002-5.339-2.075-10.359-5.848-14.135C34.378,6.083,29.357,4.002,24.014,4L24.014,4z"></path><path fill="#40c351" d="M35.176,12.832c-2.98-2.982-6.941-4.625-11.157-4.626c-8.704,0-15.783,7.076-15.787,15.774c-0.001,2.981,0.833,5.883,2.413,8.396l0.376,0.597l-1.595,5.821l5.973-1.566l0.577,0.342c2.422,1.438,5.2,2.198,8.032,2.199h0.006c8.698,0,15.777-7.077,15.78-15.776C39.795,19.778,38.156,15.814,35.176,12.832z"></path><path fill="#fff" fill-rule="evenodd" d="M19.268,16.045c-0.355-0.79-0.729-0.806-1.068-0.82c-0.277-0.012-0.593-0.011-0.909-0.011c-0.316,0-0.83,0.119-1.265,0.594c-0.435,0.475-1.661,1.622-1.661,3.956c0,2.334,1.7,4.59,1.937,4.906c0.237,0.316,3.282,5.259,8.104,7.161c4.007,1.58,4.823,1.266,5.693,1.187c0.87-0.079,2.807-1.147,3.202-2.255c0.395-1.108,0.395-2.057,0.277-2.255c-0.119-0.198-0.435-0.316-0.909-0.554s-2.807-1.385-3.242-1.543c-0.435-0.158-0.751-0.237-1.068,0.238c-0.316,0.474-1.225,1.543-1.502,1.859c-0.277,0.317-0.554,0.357-1.028,0.119c-0.474-0.238-2.002-0.738-3.815-2.354c-1.41-1.257-2.362-2.81-2.639-3.285c-0.277-0.474-0.03-0.731,0.208-0.968c0.213-0.213,0.474-0.554,0.712-0.831c0.237-0.277,0.316-0.475,0.474-0.791c0.158-0.317,0.079-0.594-0.04-0.831C20.612,19.329,19.69,16.983,19.268,16.045z" clip-rule="evenodd"></path>
+                        </svg>
+                    </a>
+                </div>
+                <h3 class="fs-2 text-body-emphasis">Phone/Whatsapp</h3>
+                <p class="fs-5 fw-bold">+2348105662218<br>+2348121630240</p>
+
+            </div>
+            </div>
+        </div>
+{% endblock %}
+
+{% block copyright %}{{ copyright_year }}{% endblock %}

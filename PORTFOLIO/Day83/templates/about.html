@@ -1,0 +1,39 @@
+{% extends "header.html" %}
+
+{% block title %}About Me{% endblock %}
+
+{% block header_name %}About Me{% endblock %}
+
+{% block header_items %}
+{% if page_name == 'aboutpage' %}
+    <ul class="nav nav-pills">
+      <li class="nav-item"><a href="{{ url_for('home') }}" class="nav-link" aria-current="page">Home</a></li>
+      <li class="nav-item"><a href="{{ url_for('contact') }}" class="nav-link">Contact</a></li>
+      <li class="nav-item"><a href="{{ url_for('my_skills') }}" class="nav-link">Skills</a></li>
+      <li class="nav-item"><a href="{{ url_for('experience') }}" class="nav-link">Experience</a></li>
+      <li class="nav-item"><a href="{{ url_for('education') }}" class="nav-link">Education</a></li>
+      <li class="nav-item"><a href="{{ url_for('interest') }}" class="nav-link">Interest and Hobbies</a></li>
+    </ul>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="px-4 py-5 my-5 text-center">
+        <img class="d-block mx-auto mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+        <h1 class="display-5 fw-bold text-body-emphasis">About Me</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">
+                Motivated and detail-oriented individual with a keen interest in Data Science
+                and Machine Learning. Practice 100 days of code in Python and built projects
+                on many libraries, flask framework and also in Data Science.
+            </p>
+          <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a href="{{ url_for('home') }}">
+                <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Go Home</button>
+            </a>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+
+{% block copyright %}{{ copyright_year }}{% endblock %}

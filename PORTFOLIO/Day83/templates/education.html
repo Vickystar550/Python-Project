@@ -1,0 +1,62 @@
+{% extends "header.html" %}
+
+{% block title %}Education{% endblock %}
+
+{% block header_name %}Education{% endblock %}
+
+{% block header_items %}
+{% if page_name == 'education_page' %}
+    <ul class="nav nav-pills">
+      <li class="nav-item"><a href="{{ url_for('home') }}" class="nav-link" aria-current="page">Home</a></li>
+      <li class="nav-item"><a href="{{ url_for('about') }}" class="nav-link" aria-current="page">About Me</a></li>
+      <li class="nav-item"><a href="{{ url_for('contact') }}" class="nav-link">Contact</a></li>
+      <li class="nav-item"><a href="{{ url_for('my_skills') }}" class="nav-link">Skills</a></li>
+      <li class="nav-item"><a href="{{ url_for('experience') }}" class="nav-link">Experience</a></li>
+      <li class="nav-item"><a href="{{ url_for('interest') }}" class="nav-link">Interest and Hobbies</a></li>
+    </ul>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="px-4 pt-1 mt-5 text-center">
+  <h1 class="display-4 fw-bold text-body-emphasis">Education</h1>
+</div>
+
+<div class="px-5 h4 text-start fw-normal">
+  <div class="row g-4 py-5 row-cols-1 row-cols-lg-2">
+    <!--col 1-->
+    <div class="feature col text-left">
+      <ul class="text-left">
+        <li>
+          <p>
+            Completed <strong>100 days</strong> of Python Coding on Udemy, taught by Dr. Angela Yu
+          </p>
+        </li>
+        <li>
+          <p>
+            <strong>2017-2024:</strong> First Class Degree in Mechanical Engineering, University of Uyo
+          </p>
+        </li>
+      </ul>
+    </div>
+
+    <!--col 2-->
+    <div class="feature col">
+      <ul class="text-body">
+        <li>
+          <p>
+            <strong>2023:</strong> Data Science student at DataCamp
+          </p> 
+        </li>
+        <li>
+          <p>
+            <strong>2023:</strong> Data Science student at Udacity
+          </p>
+        </li>
+      </ul>
+    </div>
+  </div>  
+</div>
+{% endblock%}
+
+{% block copyright %}{{ copyright_year }}{% endblock %}

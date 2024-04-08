@@ -1,0 +1,39 @@
+{% extends "header.html" %}
+
+{% block title %}Interest and Hobbies{% endblock %}
+
+{% block header_name %}My Interest and Hobbies{% endblock %}
+
+{% block header_items %}
+{% if page_name == 'interest_page' %}
+    <ul class="nav nav-pills">
+        <li class="nav-item"><a href="{{ url_for('home') }}" class="nav-link" aria-current="page">Home</a></li>
+        <li class="nav-item"><a href="{{ url_for('about') }}" class="nav-link" aria-current="page">About Me</a></li>
+        <li class="nav-item"><a href="{{ url_for('contact') }}" class="nav-link">Contact</a></li>
+        <li class="nav-item"><a href="{{ url_for('my_skills') }}" class="nav-link">Skills</a></li>
+        <li class="nav-item"><a href="{{ url_for('experience') }}" class="nav-link">Experience</a></li>
+        <li class="nav-item"><a href="{{ url_for('education') }}" class="nav-link">Education</a></li>
+    </ul>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="px-4 py-1 my-5 text-center">
+        <img class="d-block mx-auto mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+        <h1 class="display-5 fw-bold text-body-emphasis">Interest and Hobbies</h1>
+        <div class="py-1 col-lg-6 mx-auto">
+            <p class="lead mb-4">
+                I am very enthusiastic about Tech, Machine Learning and Al, and how it can
+                be utilized in building models to solve problem in engineering and the
+                industrial sector of the economy.
+            </p>
+            <div class="d-grid pt-2 gap-2 d-sm-flex justify-content-sm-center">
+                <a href="{{ url_for('home') }}">
+                    <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Go Home</button>
+                </a>
+            </div>
+        </div>
+      </div>
+{% endblock %}
+
+{% block copyright %}{{ copyright_year }}{% endblock %}

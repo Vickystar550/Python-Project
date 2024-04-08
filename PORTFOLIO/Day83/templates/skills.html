@@ -1,0 +1,186 @@
+{% extends "header.html" %}
+
+{% block title %}Skills{% endblock %}
+
+{% block header_name %}Acquired Skills{% endblock %}
+
+{% block header_items %}
+{% if page_name == 'skills_page' %}
+    <ul class="nav nav-pills">
+      <li class="nav-item"><a href="{{ url_for('home') }}" class="nav-link" aria-current="page">Home</a></li>
+      <li class="nav-item"><a href="{{ url_for('about') }}" class="nav-link" aria-current="page">About Me</a></li>
+      <li class="nav-item"><a href="{{ url_for('contact') }}" class="nav-link">Contact</a></li>
+      <li class="nav-item"><a href="{{ url_for('experience') }}" class="nav-link">Experience</a></li>
+      <li class="nav-item"><a href="{{ url_for('education') }}" class="nav-link">Education</a></li>
+      <li class="nav-item"><a href="{{ url_for('interest') }}" class="nav-link">Interest and Hobbies</a></li>
+    </ul>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+    <!--PYTHON PROGRAMMING-->
+    <div class="px-4 pt-1 mt-5 text-center">
+      <h1 class="display-4 fw-bold text-body-emphasis">Python Programming</h1>
+    </div>
+
+    <div class="px-5 h4 text-start fw-normal border-bottom">
+      <div class="row g-4 py-5 row-cols-1 row-cols-lg-2">
+        <!--col 1-->
+        <div class="feature col text-left">
+          <ul class="text-left">
+            <li><p>Build website and Backend server with Flask.</p></li>
+            <li>
+              <p>
+                Build and host website fronted and backend using HTML, CSS, BOOTSTRAP,
+                and FLASK and Render.
+              </p>
+            </li>
+            <li>
+              <p>
+                Experienced with Selenium web driver. Built automations and bots with it.
+              </p> 
+            </li>
+            <li>
+              <p>
+                Deploy FLASK RESTful APIs
+                on Postman.<br>
+              </p> 
+            </li>
+          </ul>
+        </div>
+  
+        <!--col 2-->
+        <div class="feature col">
+          <ul class="text-body">
+            <li>
+              <p>
+                Data Manipulation and cleaning with Python.
+              </p> 
+            </li>
+            <li>
+              <p>
+                Analysing of dataset in Excel and with SQL.
+              </p> 
+            </li>
+            <li><p>Web scraping.</p></li>
+            <li><p>Experienced with Tkinter GUI. Built Telegram, Instagram bots
+              using Selenium.</p></li>
+          </ul>
+        </div>
+      </div>  
+    </div>
+
+    
+    <!--DATA SCIENCE-->
+    <div class="px-4 pt-1 mt-5 text-center">
+      <h1 class="display-4 fw-bold text-body-emphasis">Data Science</h1>
+    </div>
+
+    <div class="px-5 h4 text-start fw-normal border-bottom">
+      <div class="row g-4 py-5 row-cols-1 row-cols-lg-2">
+        <!--col 1-->
+        <div class="feature col text-left">
+          <ul class="text-left">
+            <li><p>Analysed the Nobel Prize Dataset for laureates</p></li>
+            <li><p>Analysed Netflix movies.</p></li>
+            <li><p>Scraped,clean and Analysed the Android Market on Google Play.</p></li>
+            <li><p>Completed the DataCamp Capstone project on Climate Change.</p></li>
+          </ul>
+        </div>
+  
+        <!--col 2-->
+        <div class="feature col">
+          <ul class="text-body">
+            <li><p>Predict credit cardapproval with Machine Learning libraries.</p></li>
+            <li>
+              <p>
+                Analysed and Predict the house price of a Rental Dataset based on the features
+                matrix and target variables.
+              </p>
+            </li>
+            <li>
+              <p>
+                Used maching learning libraries like Scikit-learn,
+                seaborn, pandas, numpy, matplotlib, plot and other visualisation packages.
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>  
+    </div>
+
+    <!--SQL-->
+    <div class="px-4 pt-1 mt-5 text-center">
+      <h1 class="display-4 fw-bold text-body-emphasis">SQL</h1>
+    </div>
+
+    <div class="px-5 h4 text-start fw-normal border-bottom">
+      <div class="row g-4 py-5 row-cols-1 row-cols-lg-2">
+        <!--col 1-->
+        <div class="feature col text-left">
+          <ul class="text-left">
+            <li><p>Proficiency in extracting details and Dataset with SQL</p></li>
+          </ul>
+        </div>
+  
+        <!--col 2-->
+        <div class="feature col">
+          <ul class="text-body">
+            <li><p>Data cleaning and Manipulation with SQL.</p>
+          </ul>
+        </div>
+      </div>  
+    </div>
+
+
+    <!--MICROSOFT EXCEL-->
+    <div class="px-4 pt-1 mt-5 text-center">
+      <h1 class="display-4 fw-bold text-body-emphasis">Microsoft Excel</h1>
+    </div>
+
+    <div class="px-5 h4 text-start fw-normal border-bottom">
+      <div class="row g-4 py-5 row-cols-1 row-cols-lg-2">
+        <!--col 1-->
+        <div class="feature col text-left">
+          <ul class="text-left">
+            <li><p>Experienced with Microsoft Excel VBA and Macros.</p></li>
+          </ul>
+        </div>
+  
+        <!--col 2-->
+        <div class="feature col">
+          <ul class="text-body">
+            <li><p>Preparing of Dashboard, charts, pivot tables etc.</p></li>
+          </ul>
+        </div>
+      </div>  
+    </div>
+
+
+    <!--ANSYS AND SOLIDWORKS-->
+    <div class="px-4 pt-1 mt-5 text-center">
+      <h1 class="display-4 fw-bold text-body-emphasis">Ansys and Solidworks</h1>
+    </div>
+
+    <div class="px-5 h4 text-start fw-normal">
+      <div class="row g-4 py-5 row-cols-1 row-cols-lg-2">
+        <!--col 1-->
+        <div class="feature col text-left">
+          <ul class="text-left">
+            <li><p>Simulate fluid flow over Helicopter Propeller using ANSYS FLUENT</p></li>
+          </ul>
+        </div>
+  
+        <!--col 2-->
+        <div class="feature col">
+          <ul class="text-body">
+            <li><p>Modelled and Design using AUTOCAD and SOLIDWORKS</p>
+          </ul>
+        </div>
+      </div>  
+    </div>
+    
+{% endblock %}
+
+
+{% block copyright %}{{ copyright_year }}{% endblock %}
