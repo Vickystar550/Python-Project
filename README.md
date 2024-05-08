@@ -17,6 +17,4 @@ The Folders and their description are:
 
 4. **PORTFOLIO:** Contains Day 82 to 100. These are **Capstone** projects.
 
-5. **Last_Phase_Projects:** Was meant to serve as the portfolio project folder initially.
-
-6. **Re-learn:** This is repractice of the 100 Days of Codes.
+5. **Re-learn:** This is repractice of the 100 Days of Codes.
