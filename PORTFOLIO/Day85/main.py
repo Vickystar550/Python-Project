@@ -208,6 +208,7 @@ picture_watermark_button.grid(row=1, column=1, columnspan=2)
 
 enter_water_mark_button = Button(text='enter', command=enter)
 enter_water_mark_button.config(font=('Courier', 20, 'normal'), fg='white')
+
 enter_water_mark_button.grid(row=3, column=2)
 
 add_water_mark_button = Button(text='Erase Watermark')

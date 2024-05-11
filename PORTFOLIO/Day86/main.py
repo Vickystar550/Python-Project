@@ -30,6 +30,8 @@ storylines = word_bank.get_dict_values(d=word_bank.encyclopedia_dict)
 current_story = storylines[current_storyline_index]
 
 current_passage = ''
+
+
 # ###################### FUNCTIONS #######################
 
 # ------------------- Text or Comprehensive Passage Functions --------------------
@@ -331,7 +333,6 @@ window.title(f'© {copyright_year} Victor Nice')
 window.minsize(width=1500, height=1000)
 window.config(pady=50, padx=50,)
 
-
 # ROW 0
 welcome_label = Label(text="Welcome to our Typing Speed Test App",
                       font=('Serif', 30, 'bold'))
@@ -365,7 +366,7 @@ display_text = display_canvas.create_text((665, 225),
                                           font=('Courier', 20, 'normal'),
                                           fill='white',
                                           justify='left',
-                                          width=1200,)
+                                          width=1200, )
 
 # ROW 3
 new_text_button = Button(text='New Text', highlightthickness=0, width=10,
@@ -413,9 +414,8 @@ canvas.config(bg='grey')
 timer_display = canvas.create_text((125, 30), text='00:00:00', font=('Ariel', 30, 'bold'))
 canvas.grid(row=5, column=1, padx=20, pady=20)
 
-
 stop_button = Button(text='Stop', highlightthickness=0, command=stop, width=5)
-stop_button.config(padx=20, pady=10, font=('San Serif', 20, 'normal'), state='disabled',)
+stop_button.config(padx=20, pady=10, font=('San Serif', 20, 'normal'), state='disabled', )
 stop_button.grid(row=5, column=2)
 
 # MAINTAIN LOOP

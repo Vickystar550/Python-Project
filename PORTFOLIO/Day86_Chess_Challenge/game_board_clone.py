@@ -449,11 +449,7 @@ class GameBoard(tk.Tk):
     def copy(self, row, col):
         self.move_from = row, col
 
-        # send the current piece back to game logic
-        self.game_logic.move_from = self.move_from
-        self.game_logic.moving_piece = self.clicked_piece
-
-        # -----------------------------------------------
+        # ###########################
         if self.clicked_piece is None:
             # you cannot copy a cell with no piece
             messagebox.showerror(title='Invalid Selection!',
@@ -461,13 +457,13 @@ class GameBoard(tk.Tk):
                                          f'Please click on a valid {self.current_player_color.title()} piece')
             self.clicked_time = 0
 
-        # -----------------------------------------------
+        # ###########################
         elif self.clicked_cell not in self.permissible_starting_cells.keys():
             messagebox.showwarning(title='Trespassing!',
                                    message='Ensured to move your own piece')
             self.clicked_time = 0
 
-        # ----------------------------------------------
+        # ###########################
         else:
             # set the clicked cell as a previous clicked cell to be used when pasting
             self.previous_piece = self.clicked_piece
@@ -498,23 +494,20 @@ class GameBoard(tk.Tk):
         self.move_to = row, col
         cell_name = self.name_cell(row=row, col=col)
 
-        self.game_logic.move_to = self.move_to
-        self.game_logic.validate_move()
-
-        # ----------------------------------------------
+        # ##############################
         if self.previous_piece is None:
             # self.previous_piece can only be None after pasting was successful
             # that is the player tries to double paste
             messagebox.showwarning(title='Empty Hand!', message='No piece to play')
             self.clicked_time = 0
 
-        # -----------------------------------------------
+        # ##############################
         elif self.clicked_cell in self.permissible_starting_cells.keys():
             # that is self-capture is not allowed
             messagebox.showwarning(title='Self Capture!', message="Self capture not permitted!"
                                                                   "\nMove to a cell not occupy by your piece")
 
-            # -------------------------------------------
+            # --------------------------------------
             # return pasting piece to it previous position
             returned_row, returned_column = self.move_from
 
@@ -537,14 +530,14 @@ class GameBoard(tk.Tk):
             # to penalize this action, toggle to the next player
             self.toggle(_when='penalize')
 
-        # ---------------------------------------------------
+        # ################################
         else:
             if self.clicked_piece is None:
                 paste_report = (f'{cell_name} now occupied by '
                                 f'{self.previous_piece.color.title()} {self.previous_piece.class_name}')
             else:
-                # -------------------- THAT IS CAPTURING -----------------------
-                # remove already an occupied piece from its permissible cells
+                # ---------------------------------------
+                # remove already occupied piece from its permissible cells
                 if self.clicked_piece.color == 'white':
                     self.occupied_white_pieces.pop(self.clicked_cell)
                     self.black_capture.append(self.clicked_cell.current_piece)  # Store capture by black
@@ -582,4 +575,3 @@ class GameBoard(tk.Tk):
 
             # toggle after pasting, but only after 3 seconds
             self.toggle_id = self.after(3000, self.toggle, 'pasting')
-

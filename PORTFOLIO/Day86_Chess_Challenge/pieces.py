@@ -17,6 +17,9 @@ class Pawn(Pieces):
         super().__init__(**kwargs)
         self.class_name = 'Pawn'
 
+        self.move_from: tuple = None
+        self.move_to: tuple = None
+
         self.black_promotion_cells = [(7, c) for c in range(8)]
         self.black_normal_cells = [(r, c) for c in range(8) for r in range(2, 7)]
 
@@ -37,10 +40,17 @@ class Pawn(Pieces):
     def get_prohibited_cells(self):
         """get the cell a pawn object is not permitted to move to while going forward
         that is backward cells"""
-        if self.color == 'white':
-            return [(r, c) for c in range(8) for r in range(self.row + 1, 8)]
+        if self.move_to is None:  # no initial move has been done
+            if self.color == 'white':
+                return [(r, c) for c in range(8) for r in range(self.row + 1, 8)]
+            else:
+                return [(r, col) for col in range(8) for r in range(self.row - 1, -1, -1)]
         else:
-            return [(r, col) for col in range(8) for r in range(self.row - 1, -1, -1)]
+            if self.color == 'white':
+                return [(r, c) for c in range(8) for r in range(self.move_to[0] + 1, 8)]
+            else:
+                print([(r, col) for col in range(8) for r in range(self.move_to[0] - 1, -1, -1)])
+                return [(r, col) for col in range(8) for r in range(self.move_to[0] - 1, -1, -1)]
 
     def initial_permissible_skip_cells(self):
         """define the initial cell a pawn can move to"""
@@ -49,6 +59,15 @@ class Pawn(Pieces):
                 return [(self.row - skip, self.col) for skip in range(1, 3)]
             else:
                 return [(self.row + skip, self.col) for skip in range(1, 3)]
+
+    def skipping(self):
+        if self.color == 'white' and self.move_to in [(self.row - 1, self.col), (self.row - 2, self.col)]:
+            # self.initial_skip = self.forward_moves()
+            return True
+        elif self.color == 'black' and self.move_to in [(self.row + 1, self.col), (self.row + 2, self.col)]:
+            return True
+        else:
+            return False
 
     def forward_moves(self):
         # create a list of possible cell while moving forward
@@ -59,7 +78,12 @@ class Pawn(Pieces):
 
     def can_move(self, row_to, col_to):
         """check if the given coordinate is right to move the piece to"""
-        if (row_to, col_to) in self.forward_moves() or (row_to, col_to) in self.get_capture_cell():
+        # if (row_to, col_to) in self.forward_moves() or (row_to, col_to) in self.get_capture_cell():
+        #     return True
+        # elif (row_to, col_to) in self.get_prohibited_cells():
+        #     return False
+
+        if (row_to, col_to) in self.forward_moves():
             return True
         elif (row_to, col_to) in self.get_prohibited_cells():
             return False
@@ -74,6 +98,3 @@ class Pawn(Pieces):
         if (row_to, col_to) in self.get_capture_cell():
             return True
 
-
-pawn = Pawn(row=6, col=5)
-pawn.can_move(row_to=5, col_to=5)
