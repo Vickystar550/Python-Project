@@ -24,11 +24,10 @@ class GameBoard(tk.Tk):
     def __init__(self, game_logic):
         super().__init__()
         self.title('Chess')
-        # self.geometry('1000x700')
         self.game_logic = game_logic
         self.config(pady=5, padx=50, bg='#2d2d2d')
         self.minsize(width=2000, height=500)
-        self._cells = {}  # holds each cell their various coordinates
+        self._cells = {}  # holds each cell and their various coordinates
         self._sub_menu = []  # holds each sub menu
         self.clicked_time = 0  # determine how much time to click before moving a piece from current place to required
         self.clicked_cell = None
@@ -80,6 +79,7 @@ class GameBoard(tk.Tk):
 
         self.message = messagebox.askquestion(title="Who's First?", message="Should the WHITE player begin?",
                                               icon='question')
+
         if self.message == 'no':
             self.game_logic.toggle_player()
             self.animated_display_label.config(text=f'{self.game_logic.current_player.color.title()} turns')
@@ -318,12 +318,6 @@ class GameBoard(tk.Tk):
 
         return named_dict.get((row, col))
 
-    def get_cell_property(self, row, col):
-        """get a button properties"""
-        for cell, coordinate in self._cells.items():
-            if (row, col) == coordinate:
-                pass
-
     def play(self, event):
         """Handle a player's move"""
 
@@ -364,6 +358,11 @@ class GameBoard(tk.Tk):
             self.timer()
             self.animated_display_label.config(text=f'{self.game_logic.current_player.color.title()} turns')
             self.clicked_time = 0
+
+        if self.game_logic.current_player.color == 'white':
+            self.game_logic.white_start = True
+        else:
+            self.game_logic.black_start = True
 
     def select_image(self, name):
         """return an image given the piece name"""
@@ -449,6 +448,9 @@ class GameBoard(tk.Tk):
     def copy(self, row, col):
         self.move_from = row, col
 
+        # ------------- change the current clicked piece location to this clicked location-------
+        self.clicked_piece.row, self.clicked_piece.col = row, col
+
         # send the current piece back to game logic
         self.game_logic.move_from = self.move_from
         self.game_logic.moving_piece = self.clicked_piece
@@ -499,87 +501,111 @@ class GameBoard(tk.Tk):
         cell_name = self.name_cell(row=row, col=col)
 
         self.game_logic.move_to = self.move_to
-        self.game_logic.validate_move()
+        self.game_logic.piece_to_be_remove = self.clicked_piece
 
-        # ----------------------------------------------
-        if self.previous_piece is None:
-            # self.previous_piece can only be None after pasting was successful
-            # that is the player tries to double paste
-            messagebox.showwarning(title='Empty Hand!', message='No piece to play')
-            self.clicked_time = 0
+        validating_string = self.game_logic.validate_move()
+        print('validating string is:', validating_string)
+        if validating_string in ['forward', 'capturing', 'blocked', 'promote', 'other pieces', 'capture and promote']:
 
-        # -----------------------------------------------
-        elif self.clicked_cell in self.permissible_starting_cells.keys():
-            # that is self-capture is not allowed
+            # ---------------------- double pasting ------------------------
+            if self.previous_piece is None:
+                # self.previous_piece can only be None after pasting was successful
+                # that is the player tries to double paste
+                messagebox.showwarning(title='Empty Hand!', message='No piece to play')
+                self.clicked_time = 0
+
+            # ------------------------ self capture -----------------------
+            elif self.clicked_cell in self.permissible_starting_cells.keys():
+                self.return_piece_back(reason='Self Capture')
+
+            # ----------------------- when the pawn encounters an obstacle upfront -----------
+            elif validating_string == 'blocked':
+                self.return_piece_back(reason='Blocked')
+                self.clicked_time = 0
+
+            # --------------------------- normal case ------------------------
+            else:
+                if self.clicked_piece is None:
+                    paste_report = (f'{cell_name} now occupied by '
+                                    f'{self.previous_piece.color.title()} {self.previous_piece.class_name}')
+                else:
+                    # -------------------- THAT IS CAPTURING -----------------------
+                    # remove an already occupied piece from its permissible cells
+                    if self.clicked_piece.color == 'white':
+                        self.occupied_white_pieces.pop(self.clicked_cell)
+                        self.black_capture.append(self.clicked_cell.current_piece)  # Store capture by black
+                    elif self.clicked_piece.color == 'black':
+                        self.occupied_black_pieces.pop(self.clicked_cell)
+                        self.white_capture.append(self.clicked_cell.current_piece)  # Store capture by white
+
+                    # print(f'This cell holds {clicked_piece.color} {clicked_piece.name} before capturing')
+
+                    paste_report = (f'{self.clicked_piece.color.title()} {self.clicked_piece.class_name} at '
+                                    f'{cell_name} is captured by {self.previous_piece.color.title()}'
+                                    f' {self.previous_piece.class_name}')
+
+                    # ------------------------------------------
+
+                self.animated_display_label.config(text=paste_report)
+
+                # change the current cell at this position to inherit from the previous clicked cell
+                new_cell = self.configure_cell(row=row, col=col, image=self.previous_piece_image,
+                                               piece=self.previous_piece)
+
+                # add new_cell to the permissible_cells
+                self.permissible_starting_cells[new_cell] = self.move_to
+
+                # update the Move object at this position
+                self.game_logic.update_moves(row=row, col=col, piece=self.previous_piece,
+                                             player=self.game_logic.current_player)
+
+                # to avoid double pasting, reset some inherited variables:
+                self.previous_piece_image = None
+                self.previous_piece = None
+
+                # cancel timer after pasting
+                self.after_cancel(self.timer_id)
+
+                # toggle after pasting, but only after 3 seconds
+                self.toggle_id = self.after(3000, self.toggle, 'pasting')
+
+        elif validating_string in ['prohibited', 'not capturing', 'unknown']:
+            messagebox.showwarning(title='Not allowed',
+                                   message=f'{self.previous_piece.color.title()} {self.previous_piece.class_name}'
+                                           f' not permitted to move here!\n'
+                                           f'Move forward or capture')
+
+    def return_piece_back(self, reason: str):
+
+        if reason == 'Self Capture':
             messagebox.showwarning(title='Self Capture!', message="Self capture not permitted!"
                                                                   "\nMove to a cell not occupy by your piece")
+        elif reason == 'Blocked':
+            messagebox.showerror(title='Cannot Move!',
+                                 message=f'This {self.previous_piece.color.title()} '
+                                         f'{self.previous_piece.class_name} Cannot continue forward again!')
 
-            # -------------------------------------------
-            # return pasting piece to it previous position
-            returned_row, returned_column = self.move_from
+        # -------------------------------------------
+        # return pasting piece to it previous position
+        returned_row, returned_column = self.move_from
 
-            returned_cell = self.configure_cell(row=returned_row, col=returned_column,
-                                                image=self.previous_piece_image, piece=self.previous_piece)
+        returned_cell = self.configure_cell(row=returned_row, col=returned_column,
+                                            image=self.previous_piece_image, piece=self.previous_piece)
 
-            # add returned cell back to the permissible_cells
-            self.permissible_starting_cells[returned_cell] = self.move_from
+        # add returned cell back to the permissible_cells
+        self.permissible_starting_cells[returned_cell] = self.move_from
 
-            # return the Move object at this position
-            self.game_logic.update_moves(row=returned_row, col=returned_column, piece=self.previous_piece,
-                                         player=self.game_logic.current_player)
+        # return the Move object at this position
+        self.game_logic.update_moves(row=returned_row, col=returned_column, piece=self.previous_piece,
+                                     player=self.game_logic.current_player)
 
-            # ----------------------------------------------
+        # ----------------------------------------------
 
-            # to avoid double pasting, reset some inherited variables:
-            self.previous_piece_image = None
-            self.previous_piece = None
+        # to avoid double pasting, reset some inherited variables:
+        self.previous_piece_image = None
+        self.previous_piece = None
 
-            # to penalize this action, toggle to the next player
+        # to penalize this action, toggle to the next player
+        if reason == 'Self Capture':
             self.toggle(_when='penalize')
-
-        # ---------------------------------------------------
-        else:
-            if self.clicked_piece is None:
-                paste_report = (f'{cell_name} now occupied by '
-                                f'{self.previous_piece.color.title()} {self.previous_piece.class_name}')
-            else:
-                # -------------------- THAT IS CAPTURING -----------------------
-                # remove already an occupied piece from its permissible cells
-                if self.clicked_piece.color == 'white':
-                    self.occupied_white_pieces.pop(self.clicked_cell)
-                    self.black_capture.append(self.clicked_cell.current_piece)  # Store capture by black
-                elif self.clicked_piece.color == 'black':
-                    self.occupied_black_pieces.pop(self.clicked_cell)
-                    self.white_capture.append(self.clicked_cell.current_piece)  # Store capture by white
-
-                # print(f'This cell holds {clicked_piece.color} {clicked_piece.name} before capturing')
-
-                paste_report = (f'{self.clicked_piece.color.title()} {self.clicked_piece.class_name} at '
-                                f'{cell_name} is captured by {self.previous_piece.color.title()}'
-                                f' {self.previous_piece.class_name}')
-
-                # ------------------------------------------
-
-            self.animated_display_label.config(text=paste_report)
-
-            # change the current cell at this position to inherit from the previous clicked cell
-            new_cell = self.configure_cell(row=row, col=col, image=self.previous_piece_image,
-                                           piece=self.previous_piece)
-
-            # add new_cell to the permissible_cells
-            self.permissible_starting_cells[new_cell] = self.move_to
-
-            # update the Move object at this position
-            self.game_logic.update_moves(row=row, col=col, piece=self.previous_piece,
-                                         player=self.game_logic.current_player)
-
-            # to avoid double pasting, reset some inherited variables:
-            self.previous_piece_image = None
-            self.previous_piece = None
-
-            # cancel timer after pasting
-            self.after_cancel(self.timer_id)
-
-            # toggle after pasting, but only after 3 seconds
-            self.toggle_id = self.after(3000, self.toggle, 'pasting')
 

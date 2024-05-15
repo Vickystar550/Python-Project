@@ -34,7 +34,9 @@ class GameLogic:
         self.current_player = next(self.players)
         self.virtual_moves = {}  # hold all unoccupied moves objects
         self.pieces = {}  # holds all the pieces
+
         self.moving_piece: Union[Pieces, Pawn] = None  # for now, this can either be a Pawn or any Piece
+        self.piece_to_be_remove: Union[Pieces, Pawn] = None
 
         self.move_from = None
         self.move_to = None
@@ -61,26 +63,22 @@ class GameLogic:
             if row == 1:
                 self.pieces[coordinates] = Pawn(row=row, col=col, name='BPawn', color='black')
                 self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                # move.current_piece = self.pieces.get(coordinates)
                 move.piece = self.pieces.get(coordinates)
 
             elif row == 6:
                 self.pieces[coordinates] = Pawn(row=row, col=col, name='WPawn', color='white')
                 self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                # move.current_piece = self.pieces[coordinates]
                 move.piece = self.pieces.get(coordinates)
 
             # white and black rook
             elif row == 0 and (col == 0 or col == 7):
                 self.pieces[coordinates] = Pieces(row=row, col=col, name='BRook', class_name='Rook', color='black')
                 self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                # move.current_piece = self.pieces[coordinates]
                 move.piece = self.pieces.get(coordinates)
 
             elif row == 7 and (col == 0 or col == 7):
                 self.pieces[coordinates] = Pieces(row=row, col=col, name='WRook', class_name='Rook', color='white')
                 self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                # move.current_piece = self.pieces[coordinates]
                 move.piece = self.pieces.get(coordinates)
 
             # black knight left
@@ -88,7 +86,6 @@ class GameLogic:
                 self.pieces[coordinates] = Pieces(row=row, col=col, name='BKnightLeft',
                                                   class_name='Knight', color='black')
                 self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                # move.current_piece = self.pieces[coordinates]
                 move.piece = self.pieces.get(coordinates)
 
                 # black knight right
@@ -96,7 +93,6 @@ class GameLogic:
                 self.pieces[coordinates] = Pieces(row=row, col=col, name='BKnightRight',
                                                   class_name='Knight', color='black')
                 self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                # move.current_piece = self.pieces[coordinates]
                 move.piece = self.pieces.get(coordinates)
 
             # white knight left
@@ -104,7 +100,6 @@ class GameLogic:
                 self.pieces[coordinates] = Pieces(row=row, col=col, name='WKnightLeft',
                                                   class_name='Knight', color='white')
                 self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                # move.current_piece = self.pieces[coordinates]
                 move.piece = self.pieces.get(coordinates)
 
                 # white knight right
@@ -112,46 +107,39 @@ class GameLogic:
                 self.pieces[coordinates] = Pieces(row=row, col=col, name='WKnightRight',
                                                   class_name='Knight', color='white')
                 self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                # move.current_piece = self.pieces[coordinates]
                 move.piece = self.pieces.get(coordinates)
 
             # bishop
             elif row == 0 and (col == 2 or col == 5):
                 self.pieces[coordinates] = Pieces(row=row, col=col, name='BBishop', class_name='Bishop', color='black')
                 self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                # move.current_piece = self.pieces[coordinates]
                 move.piece = self.pieces.get(coordinates)
 
             elif row == 7 and (col == 2 or col == 5):
                 self.pieces[coordinates] = Pieces(row=row, col=col, name='WBishop', class_name='Bishop', color='white')
                 self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                # move.current_piece = self.pieces[coordinates]
                 move.piece = self.pieces.get(coordinates)
 
             # queen
             elif row == 0 and col == 3:
                 self.pieces[coordinates] = Pieces(row=row, col=col, name='BQueen', class_name='Queen', color='black')
                 self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                # move.current_piece = self.pieces[coordinates]
                 move.piece = self.pieces.get(coordinates)
 
             elif row == 7 and col == 3:
                 self.pieces[coordinates] = Pieces(row=row, col=col, name='WQueen', class_name='Queen', color='white')
                 self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                # move.current_piece = self.pieces[coordinates]
                 move.piece = self.pieces.get(coordinates)
 
             # king
             elif row == 0 and col == 4:
                 self.pieces[coordinates] = Pieces(row=row, col=col, name='BKing', class_name='King', color='black')
                 self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                # move.current_piece = self.pieces[coordinates]
                 move.piece = self.pieces.get(coordinates)
 
             elif row == 7 and col == 4:
                 self.pieces[coordinates] = Pieces(row=row, col=col, name='WKing', class_name='King', color='white')
                 self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                # move.current_piece = self.pieces[coordinates]
                 move.piece = self.pieces.get(coordinates)
 
     def update_moves(self, row, col, **kwargs):
@@ -164,18 +152,24 @@ class GameLogic:
         self.current_player = next(self.players)
 
     def validate_move(self):
-        row_to, col_to = self.move_to
+
+        _to = self.move_to
+
         if self.moving_piece.class_name == 'Pawn':
             pawn = self.moving_piece
 
-            can_move = pawn.can_move(row_to=row_to, col_to=col_to)
+            pawn.move_from = pawn.row, pawn.col
+            pawn.move_to = self.move_to
+            pawn.piece_to_capture = self.piece_to_be_remove
 
-            print(f'{pawn.color} pawn started at {(pawn.row, pawn.col)}')
+            can_move = pawn.can_move()
 
-            if can_move:
-                print(f'\n{pawn.color} pawn initially at {(pawn.row, pawn.col)} can move to {self.move_to}')
-            else:
-                print(f'\n{pawn.color} pawn initially at {(pawn.row, pawn.col)} is not allowed to move to {self.move_to}')
+            if can_move in ['forward', 'capturing', 'promote', 'capture and promote']:
+                return can_move
+            elif can_move in ['prohibited', 'not capturing', 'unknown', 'blocked']:
+                return can_move
+        else:
+            return 'other pieces'
 
 
 logic = GameLogic()
