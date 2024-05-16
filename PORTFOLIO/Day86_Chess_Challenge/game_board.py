@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from game_logic import Pieces
 import math
+from datetime import datetime
 
 
 class Cell(tk.Button):
@@ -23,9 +24,10 @@ class GameBoard(tk.Tk):
 
     def __init__(self, game_logic):
         super().__init__()
-        self.title('Chess')
+        self.copyright_year = datetime.now().year
+        self.title(f'CHESS © {self.copyright_year} Victor Nice')
         self.game_logic = game_logic
-        self.config(pady=5, padx=50, bg='#2d2d2d')
+        self.config(pady=5, padx=50, bg='black')
         self.minsize(width=2000, height=500)
         self._cells = {}  # holds each cell and their various coordinates
         self._sub_menu = []  # holds each sub menu
@@ -80,9 +82,13 @@ class GameBoard(tk.Tk):
         self.message = messagebox.askquestion(title="Who's First?", message="Should the WHITE player begin?",
                                               icon='question')
 
-        if self.message == 'no':
+        if self.message == 'yes':
+            self.animated_display_label.config(text=f'{self.game_logic.current_player.color.title()}\'s turn',
+                                               fg='white', bg='#2d2d2d')
+        else:
             self.game_logic.toggle_player()
-            self.animated_display_label.config(text=f'{self.game_logic.current_player.color.title()} turns')
+            self.animated_display_label.config(text=f'{self.game_logic.current_player.color.title()}\'s turn',
+                                               fg='white', bg='#2d2d2d')
 
         # start timer
         self.timer()
@@ -135,10 +141,11 @@ class GameBoard(tk.Tk):
         self.black_label.config(fg='white', justify='left', width=35)
         self.black_label.grid(row=0, column=1)
 
-        self.animated_display_label = tk.Label(master=inner_panel_frame, text=f'Welcome',
+        self.animated_display_label = tk.Label(master=inner_panel_frame,
+                                               text=f'Your are welcome. Please enjoy your stay',
                                                font=('San Serif', 15, 'normal'))
 
-        self.animated_display_label.config(bg='#2d2d2d', fg='white', justify='center', width=65)
+        self.animated_display_label.config(bg='#2d2d2d', fg='sea green', justify='center', width=65)
         self.animated_display_label.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
 
     def create_board(self):
@@ -146,7 +153,7 @@ class GameBoard(tk.Tk):
         # make an outer tkinter frame managed by pack geometry manager, parent is self
         outer_frame = tk.Frame(master=self)
         outer_frame.pack()
-        outer_frame.config(padx=20, pady=10, bg='orange', highlightthickness=0)
+        outer_frame.config(padx=20, pady=10, bg='#CC5500', highlightthickness=0)
 
         # make an inner frame whose parent is the outer_frame, but it is managed by the grid system
         inner_frame = tk.Frame(master=outer_frame)
@@ -345,24 +352,31 @@ class GameBoard(tk.Tk):
         elif self.clicked_time == 0:
             self.copy(row=row, col=col)
 
-    def toggle(self, _when: str):
-        if _when == 'pasting':
+    def toggle(self, state: str):
+        if state == 'pasting':
             """toggles the next player 2 seconds after the last player played """
             self.game_logic.toggle_player()
             self.timer()
             self.after_cancel(self.toggle_id)
-            self.animated_display_label.config(text=f'{self.game_logic.current_player.color.title()} turns')
+            self.animated_display_label.config(text=f'{self.game_logic.current_player.color.title()}\'s turn',
+                                               fg='white', bg='#2d2d2d')
             self.clicked_time = 0
-        elif _when == 'delay' or _when == 'penalize':
+        elif state == 'delay':
             self.game_logic.toggle_player()
             self.timer()
-            self.animated_display_label.config(text=f'{self.game_logic.current_player.color.title()} turns')
+            self.animated_display_label.config(text=f'{self.game_logic.current_player.color.title()}\'s turn',
+                                               fg='white', bg='#2d2d2d')
             self.clicked_time = 0
-
-        if self.game_logic.current_player.color == 'white':
-            self.game_logic.white_start = True
-        else:
-            self.game_logic.black_start = True
+        elif state == 'penalize':
+            self.game_logic.toggle_player()
+            self.timer()
+            self.after_cancel(self.penalize_id)
+            self.animated_display_label.config(text=f'{self.game_logic.current_player.color.title()}\'s turn',
+                                               fg='white', bg='#2d2d2d')
+        elif state == 'warnings':
+            self.after_cancel(self.error_id)
+            self.animated_display_label.config(text=f'{self.game_logic.current_player.color.title()}\'s turn',
+                                               fg='white', bg='#2d2d2d')
 
     def select_image(self, name):
         """return an image given the piece name"""
@@ -408,16 +422,6 @@ class GameBoard(tk.Tk):
         elif name == 'BKing':
             return self.king_filled
 
-    def mid_button_state(self):
-        """disable or enable the mid-buttons until the first click is made"""
-        # get mid-buttons
-        for btn, coordinates in self._cells.items():
-            if coordinates[0] in [2, 3, 4, 5]:
-                if self.clicked_time == 0:
-                    btn.config(state='disabled')
-                else:
-                    btn.config(state='normal')
-
     def timer(self, sec=60):
         """ Act like a stopwatch.
         Also display the timing mechanism on the canvas"""
@@ -443,13 +447,16 @@ class GameBoard(tk.Tk):
 
         if sec <= 0:
             self.after_cancel(self.timer_id)
-            self.toggle(_when='delay')
+            self.toggle(state='delay')
 
     def copy(self, row, col):
         self.move_from = row, col
 
         # ------------- change the current clicked piece location to this clicked location-------
-        self.clicked_piece.row, self.clicked_piece.col = row, col
+        try:
+            self.clicked_piece.row, self.clicked_piece.col = row, col
+        except AttributeError:  # if no piece exists
+            pass
 
         # send the current piece back to game logic
         self.game_logic.move_from = self.move_from
@@ -458,15 +465,17 @@ class GameBoard(tk.Tk):
         # -----------------------------------------------
         if self.clicked_piece is None:
             # you cannot copy a cell with no piece
-            messagebox.showerror(title='Invalid Selection!',
-                                 message=f'Cell occupies no piece now!\n\n'
-                                         f'Please click on a valid {self.current_player_color.title()} piece')
+            self.animated_display_label.config(text=f'INVALID SELECTION: Cell occupies no piece now! Please click on '
+                                                    f'a valid {self.current_player_color.title()} piece',
+                                               fg='black', bg='crimson')
+            self.error_id = self.after(3000, self.toggle, 'warnings')
             self.clicked_time = 0
 
         # -----------------------------------------------
         elif self.clicked_cell not in self.permissible_starting_cells.keys():
-            messagebox.showwarning(title='Trespassing!',
-                                   message='Ensured to move your own piece')
+            self.animated_display_label.config(text=f'TRESPASSING: Ensured to move your own piece!',
+                                               fg='black', bg='crimson')
+            self.error_id = self.after(3000, self.toggle, 'warnings')
             self.clicked_time = 0
 
         # ----------------------------------------------
@@ -481,11 +490,8 @@ class GameBoard(tk.Tk):
 
             copied_report = (f'{self.clicked_piece.color.title()} {self.clicked_piece.class_name} '
                              f'moves from {cell_name}')
-            self.animated_display_label.config(text=f'{copied_report}')
 
-            # update the Move object at that position to loss its piece
-            self.game_logic.update_moves(row=row, col=col, piece=None,
-                                         player=self.game_logic.current_player)
+            self.animated_display_label.config(text=f'{copied_report}', fg='white', bg='#2d2d2d')
 
             # get the piece name and its associated image
             self.previous_piece_image = self.select_image(name=self.clicked_piece.name)
@@ -503,24 +509,29 @@ class GameBoard(tk.Tk):
         self.game_logic.move_to = self.move_to
         self.game_logic.piece_to_be_remove = self.clicked_piece
 
-        validating_string = self.game_logic.validate_move()
-        print('validating string is:', validating_string)
-        if validating_string in ['forward', 'capturing', 'blocked', 'promote', 'other pieces', 'capture and promote']:
+        self.validating_string = self.game_logic.validate_move()
+        print('validating string is:', self.validating_string)
+        if self.validating_string in ['forward', 'capturing', 'blocked', 'promote', 'other pieces', 'capture and '
+                                                                                                    'promote',
+                                      'prohibited', 'not capturing', 'unknown', 'castle']:
 
             # ---------------------- double pasting ------------------------
             if self.previous_piece is None:
                 # self.previous_piece can only be None after pasting was successful
                 # that is the player tries to double paste
-                messagebox.showwarning(title='Empty Hand!', message='No piece to play')
+
+                self.animated_display_label.config(text=f'Empty Hand! No piece to play', fg='black', bg='crimson')
+                self.error_id = self.after(3000, self.toggle, 'warnings')
                 self.clicked_time = 0
 
             # ------------------------ self capture -----------------------
             elif self.clicked_cell in self.permissible_starting_cells.keys():
                 self.return_piece_back(reason='Self Capture')
+                self.clicked_time = 0
 
             # ----------------------- when the pawn encounters an obstacle upfront -----------
-            elif validating_string == 'blocked':
-                self.return_piece_back(reason='Blocked')
+            elif self.validating_string in ['blocked', 'prohibited', 'not capturing', 'unknown']:
+                self.return_piece_back(reason='BPU-NC')
                 self.clicked_time = 0
 
             # --------------------------- normal case ------------------------
@@ -530,15 +541,15 @@ class GameBoard(tk.Tk):
                                     f'{self.previous_piece.color.title()} {self.previous_piece.class_name}')
                 else:
                     # -------------------- THAT IS CAPTURING -----------------------
-                    # remove an already occupied piece from its permissible cells
+
+                    #   remove an already occupied piece from its permissible cells
                     if self.clicked_piece.color == 'white':
                         self.occupied_white_pieces.pop(self.clicked_cell)
                         self.black_capture.append(self.clicked_cell.current_piece)  # Store capture by black
+
                     elif self.clicked_piece.color == 'black':
                         self.occupied_black_pieces.pop(self.clicked_cell)
                         self.white_capture.append(self.clicked_cell.current_piece)  # Store capture by white
-
-                    # print(f'This cell holds {clicked_piece.color} {clicked_piece.name} before capturing')
 
                     paste_report = (f'{self.clicked_piece.color.title()} {self.clicked_piece.class_name} at '
                                     f'{cell_name} is captured by {self.previous_piece.color.title()}'
@@ -546,7 +557,7 @@ class GameBoard(tk.Tk):
 
                     # ------------------------------------------
 
-                self.animated_display_label.config(text=paste_report)
+                self.animated_display_label.config(text=paste_report, fg='white', bg='#2d2d2d')
 
                 # change the current cell at this position to inherit from the previous clicked cell
                 new_cell = self.configure_cell(row=row, col=col, image=self.previous_piece_image,
@@ -555,7 +566,11 @@ class GameBoard(tk.Tk):
                 # add new_cell to the permissible_cells
                 self.permissible_starting_cells[new_cell] = self.move_to
 
-                # update the Move object at this position
+                #  ----update the Move object at previous position to loss this piece
+                self.game_logic.update_moves(row=self.move_from[0], col=self.move_from[1], piece=None,
+                                             player=self.game_logic.current_player)
+
+                # -----update the Move object at this position to have this piece
                 self.game_logic.update_moves(row=row, col=col, piece=self.previous_piece,
                                              player=self.game_logic.current_player)
 
@@ -569,21 +584,30 @@ class GameBoard(tk.Tk):
                 # toggle after pasting, but only after 3 seconds
                 self.toggle_id = self.after(3000, self.toggle, 'pasting')
 
-        elif validating_string in ['prohibited', 'not capturing', 'unknown']:
-            messagebox.showwarning(title='Not allowed',
-                                   message=f'{self.previous_piece.color.title()} {self.previous_piece.class_name}'
-                                           f' not permitted to move here!\n'
-                                           f'Move forward or capture')
-
     def return_piece_back(self, reason: str):
-
+        """This function returns the current moving piece to its previous position where it came from"""
         if reason == 'Self Capture':
-            messagebox.showwarning(title='Self Capture!', message="Self capture not permitted!"
-                                                                  "\nMove to a cell not occupy by your piece")
-        elif reason == 'Blocked':
-            messagebox.showerror(title='Cannot Move!',
-                                 message=f'This {self.previous_piece.color.title()} '
-                                         f'{self.previous_piece.class_name} Cannot continue forward again!')
+            self.animated_display_label.config(text='Self capture not permitted! Move to a cell not occupy by your '
+                                                    'piece', fg='black', bg='crimson')
+
+        elif reason == 'BPU-NC':
+            if self.validating_string == 'blocked':
+                self.animated_display_label.config(text=f'This {self.previous_piece.color.title()}'
+                                                        f' {self.previous_piece.class_name} Cannot continue forward '
+                                                        f'again!',
+                                                   fg='black', bg='crimson')
+
+            elif self.validating_string == 'not capturing':
+                self.animated_display_label.config(text=f'This {self.previous_piece.color.title()} '
+                                                        f'{self.previous_piece.class_name} cannot capture an empty '
+                                                        f'cell!',
+                                                   fg='black', bg='crimson')
+
+            elif self.validating_string in ['prohibited', 'unknown']:
+                self.animated_display_label.config(text=f'{self.previous_piece.color.title()} '
+                                                        f'{self.previous_piece.class_name} not permitted to move '
+                                                        f'here! Move forward or capture',
+                                                   fg='black', bg='crimson')
 
         # -------------------------------------------
         # return pasting piece to it previous position
@@ -599,13 +623,12 @@ class GameBoard(tk.Tk):
         self.game_logic.update_moves(row=returned_row, col=returned_column, piece=self.previous_piece,
                                      player=self.game_logic.current_player)
 
-        # ----------------------------------------------
-
         # to avoid double pasting, reset some inherited variables:
         self.previous_piece_image = None
         self.previous_piece = None
 
-        # to penalize this action, toggle to the next player
-        if reason == 'Self Capture':
-            self.toggle(_when='penalize')
-
+        if reason == 'Self Capture':   # penalize this action(self-capturing)
+            self.after_cancel(self.timer_id)
+            self.penalize_id = self.after(3000, self.toggle, 'penalize')
+        elif reason == 'BPU-NC':
+            self.error_id = self.after(3000, self.toggle, 'warnings')

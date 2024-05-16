@@ -1,6 +1,6 @@
 from typing import NamedTuple
 from itertools import cycle
-from pieces import Pieces, Pawn
+from pieces import Pieces, Pawn, Rook, Knight
 from typing import Union
 
 
@@ -35,14 +35,13 @@ class GameLogic:
         self.virtual_moves = {}  # hold all unoccupied moves objects
         self.pieces = {}  # holds all the pieces
 
-        self.moving_piece: Union[Pieces, Pawn] = None  # for now, this can either be a Pawn or any Piece
-        self.piece_to_be_remove: Union[Pieces, Pawn] = None
+        self.moving_piece: Union[Pieces, Pawn, Rook, Knight] = None  # for now, this can either be a Pawn or any Piece
+        self.piece_to_be_remove: Union[Pieces, Pawn, Rook, Knight] = None
 
         self.move_from = None
         self.move_to = None
 
         self.virtual_board()
-        self.occupied_moves = {}  # holds all the moves that are being occupied
         self.initialize_piece_and_moves()  # initialize the virtual board with pieces
 
     def virtual_board(self):
@@ -56,91 +55,83 @@ class GameLogic:
 
     def initialize_piece_and_moves(self):
         """initialize all pieces and moves at start"""
-        for coordinates, move in self.virtual_moves.items():
+        for coordinates in self.virtual_moves.keys():
             row, col = coordinates
 
             # white and black pawn
             if row == 1:
                 self.pieces[coordinates] = Pawn(row=row, col=col, name='BPawn', color='black')
-                self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                move.piece = self.pieces.get(coordinates)
+                self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             elif row == 6:
                 self.pieces[coordinates] = Pawn(row=row, col=col, name='WPawn', color='white')
-                self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                move.piece = self.pieces.get(coordinates)
+                self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             # white and black rook
             elif row == 0 and (col == 0 or col == 7):
-                self.pieces[coordinates] = Pieces(row=row, col=col, name='BRook', class_name='Rook', color='black')
-                self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                move.piece = self.pieces.get(coordinates)
+                self.pieces[coordinates] = Rook(row=row, col=col, name='BRook', class_name='Rook', color='black')
+                self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             elif row == 7 and (col == 0 or col == 7):
-                self.pieces[coordinates] = Pieces(row=row, col=col, name='WRook', class_name='Rook', color='white')
-                self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                move.piece = self.pieces.get(coordinates)
+                self.pieces[coordinates] = Rook(row=row, col=col, name='WRook', class_name='Rook', color='white')
+                self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             # black knight left
             elif row == 0 and col == 1:
-                self.pieces[coordinates] = Pieces(row=row, col=col, name='BKnightLeft',
-                                                  class_name='Knight', color='black')
-                self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                move.piece = self.pieces.get(coordinates)
+                self.pieces[coordinates] = Knight(row=row, col=col, name='BKnightLeft', class_name='Knight',
+                                                  color='black')
+                self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
                 # black knight right
             elif row == 0 and col == 6:
-                self.pieces[coordinates] = Pieces(row=row, col=col, name='BKnightRight',
-                                                  class_name='Knight', color='black')
-                self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                move.piece = self.pieces.get(coordinates)
+                self.pieces[coordinates] = Knight(row=row, col=col, name='BKnightRight', class_name='Knight',
+                                                  color='black')
+                self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             # white knight left
             elif row == 7 and col == 1:
-                self.pieces[coordinates] = Pieces(row=row, col=col, name='WKnightLeft',
-                                                  class_name='Knight', color='white')
-                self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                move.piece = self.pieces.get(coordinates)
+                self.pieces[coordinates] = Knight(row=row, col=col, name='WKnightLeft', class_name='Knight',
+                                                  color='white')
+                self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
                 # white knight right
             elif row == 7 and col == 6:
-                self.pieces[coordinates] = Pieces(row=row, col=col, name='WKnightRight',
-                                                  class_name='Knight', color='white')
-                self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                move.piece = self.pieces.get(coordinates)
+                self.pieces[coordinates] = Knight(row=row, col=col, name='WKnightRight', class_name='Knight',
+                                                  color='white')
+                self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             # bishop
             elif row == 0 and (col == 2 or col == 5):
                 self.pieces[coordinates] = Pieces(row=row, col=col, name='BBishop', class_name='Bishop', color='black')
-                self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                move.piece = self.pieces.get(coordinates)
+                self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             elif row == 7 and (col == 2 or col == 5):
                 self.pieces[coordinates] = Pieces(row=row, col=col, name='WBishop', class_name='Bishop', color='white')
-                self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                move.piece = self.pieces.get(coordinates)
+                self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             # queen
             elif row == 0 and col == 3:
                 self.pieces[coordinates] = Pieces(row=row, col=col, name='BQueen', class_name='Queen', color='black')
-                self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                move.piece = self.pieces.get(coordinates)
+                self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             elif row == 7 and col == 3:
                 self.pieces[coordinates] = Pieces(row=row, col=col, name='WQueen', class_name='Queen', color='white')
-                self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                move.piece = self.pieces.get(coordinates)
+                self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             # king
             elif row == 0 and col == 4:
                 self.pieces[coordinates] = Pieces(row=row, col=col, name='BKing', class_name='King', color='black')
-                self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                move.piece = self.pieces.get(coordinates)
+                self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             elif row == 7 and col == 4:
                 self.pieces[coordinates] = Pieces(row=row, col=col, name='WKing', class_name='King', color='white')
-                self.occupied_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates])
-                move.piece = self.pieces.get(coordinates)
+                self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
+
+        # for coordinates, value in self.virtual_moves.items():
+        #     try:
+        #         print(f'{coordinates} holds  {value.piece.name}')
+        #     except AttributeError:
+        #         continue
 
     def update_moves(self, row, col, **kwargs):
         """change the attribute of a move object when a move has been made from it or to it"""
@@ -153,23 +144,41 @@ class GameLogic:
 
     def validate_move(self):
 
-        _to = self.move_to
+        move_object_from = self.virtual_moves.get(self.move_from)
+        move_object_to = self.virtual_moves.get(self.move_to)
+        print('-------------------------------------------')
+        try:
+            print(f'move object from {self.move_from} is {move_object_from.piece.name} and is moved to {self.move_to}')
+            print(f'but {self.move_to} was currently occupied by {move_object_to.piece.name}')
+            print('--------------------------------------------')
+        except AttributeError:
+            pass
 
+        # --------------------------- 1. Pawn ---------------------
         if self.moving_piece.class_name == 'Pawn':
-            pawn = self.moving_piece
+            result = self.select_piece(root=self.moving_piece, move_to=self.move_to)
+            return result
 
-            pawn.move_from = pawn.row, pawn.col
-            pawn.move_to = self.move_to
-            pawn.piece_to_capture = self.piece_to_be_remove
+        # ---------------------- 2. Rook ------------------------------
+        elif self.moving_piece.class_name == 'Rook':
+            result = self.select_piece(root=self.moving_piece, move_to=self.move_to,
+                                       virtual_board=self.virtual_moves)
+            return result
 
-            can_move = pawn.can_move()
-
-            if can_move in ['forward', 'capturing', 'promote', 'capture and promote']:
-                return can_move
-            elif can_move in ['prohibited', 'not capturing', 'unknown', 'blocked']:
-                return can_move
+        # ---------------------- 3. Knight ------------------------------
+        elif self.moving_piece.class_name == 'Knight':
+            result = self.select_piece(root=self.moving_piece, move_to=self.move_to)
+            return result
         else:
             return 'other pieces'
 
+    def select_piece(self, root, **kwargs):
+        """a universal function to select a particular piece"""
+        piece: Union[Pieces, Pawn, Rook, Knight] = root
 
-logic = GameLogic()
+        piece.move_from = piece.row, piece.col
+        piece.move_to = kwargs.get('move_to')
+        piece.piece_to_capture = self.piece_to_be_remove
+        piece.virtual_board = kwargs.get('virtual_board')
+
+        return piece.can_move()
