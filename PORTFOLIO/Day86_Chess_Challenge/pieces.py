@@ -156,118 +156,52 @@ class Rook(Pieces):
 
     def get_permitted_moves(self):
         """Get the potential permissible cells that a rook can move to. Determine based on its current location"""
-        horizontal_moves = {(self.row, c) for c in range(8)}
-        vertical_moves = {(r, self.col) for r in range(8)}
+        self.horizontal_moves = [(self.row, c) for c in range(8)]
+        self.vertical_moves = [(r, self.col) for r in range(8)]
 
-        self.permitted_moves = horizontal_moves.union(vertical_moves)
+        self.permitted_moves = set(self.horizontal_moves).union(set(self.vertical_moves))
 
-    def can_move(self):
-        """check if the given coordinate is right to move this piece to"""
-        self.get_permitted_moves()
-        self.skipping()
-        self.castling()
-
-        if self.move_to in self.castling_range and self.can_castle:
-            self.can_castle = False  # off castling for this piece
-            self.has_move_before = True   # change has_move_before
-            return 'castle'
-
-        elif self.move_to in self.permitted_moves:
-            # check for skipping
-            if self.allow_skip:
-                self.has_move_before = True  # change has_move_before
-                if self.piece_to_capture:   # check for capturing:
-                    return 'capturing'
-                else:
-                    return 'forward'
-            else:
-                return 'prohibited'
-
-        else:
-            return 'prohibited'
-
-    def skipping(self):
+    def skipping(self, **kwargs):
         """checks if the rook skips any piece on its way while moving horizontally or vertically"""
-        horizontal_moves = [(self.row, c) for c in range(8)]
-        vertical_moves = [(r, self.col) for r in range(8)]
+        # print(kwargs)
 
-        # horizontal skipping ------------------------------------------
-        if self.move_from in horizontal_moves and self.move_to in horizontal_moves:
-            from_index = horizontal_moves.index(self.move_from)
-            to_index = horizontal_moves.index(self.move_to)
+        # combo1 skipping check
+        for combo in kwargs.values():
+            if self.move_from in combo and self.move_to in combo:
+                from_index = combo.index(self.move_from)
+                to_index = combo.index(self.move_to)
 
-            if from_index < to_index:
-                h1_ranges = horizontal_moves[from_index + 1: to_index]
+                if from_index < to_index:
+                    e1_ranges = combo[from_index + 1: to_index]
 
-                if not h1_ranges:
-                    self.allow_skip = True
+                    if not e1_ranges:
+                        self.allow_skip = True
+                    else:
+                        for e in e1_ranges:
+                            result = self.virtual_board.get(e)
+                            if result.piece is None:
+                                self.allow_skip = True
+                                continue
+                            else:
+                                self.allow_skip = False
+                                break
                 else:
-                    for e in h1_ranges:
-                        result = self.virtual_board.get(e)
-                        if result.piece is None:
-                            self.allow_skip = True
-                            continue
-                        else:
-                            self.allow_skip = False
-                            break
+                    e2_ranges = combo[from_index - 1: to_index: -1]
 
+                    if not e2_ranges:
+                        self.allow_skip = True
+                    else:
+                        for e in e2_ranges:
+                            result = self.virtual_board.get(e)
+                            if result.piece is None:
+                                self.allow_skip = True
+                                continue
+                            else:
+                                self.allow_skip = False
+                                break
+                break  # stop checking for skip
             else:
-                h2_ranges = horizontal_moves[from_index - 1: to_index: -1]
-
-                if not h2_ranges:
-                    self.allow_skip = True
-                else:
-                    for e in h2_ranges:
-                        result = self.virtual_board.get(e)
-                        if result.piece is None:
-                            self.allow_skip = True
-                            continue
-                        else:
-                            self.allow_skip = False
-                            break
-
-        # vertical skipping ----------------------------------
-        elif self.move_from in vertical_moves and self.move_to in vertical_moves:
-            from_index = vertical_moves.index(self.move_from)
-            to_index = vertical_moves.index(self.move_to)
-
-            if from_index < to_index:
-                v1_ranges = vertical_moves[from_index + 1: to_index]
-
-                print('vertical cells between from & to', v1_ranges)
-
-                if not v1_ranges:
-                    print('empty range')
-                    self.allow_skip = True
-                    return self.allow_skip
-                else:
-                    for e in v1_ranges:
-                        result = self.virtual_board.get(e)
-                        if result.piece is None:
-                            self.allow_skip = True
-                            continue
-                        else:
-                            self.allow_skip = False
-                            break
-
-            else:
-                v2_ranges = vertical_moves[from_index - 1: to_index: -1]
-
-                print('vertical cells between from & to', v2_ranges)
-
-                if not v2_ranges:
-                    print('empty range')
-                    self.allow_skip = True
-                    return self.allow_skip
-                else:
-                    for e in v2_ranges:
-                        result = self.virtual_board.get(e)
-                        if result.piece is None:
-                            self.allow_skip = True
-                            continue
-                        else:
-                            self.allow_skip = False
-                            break
+                continue
 
     def castling(self):
         """checks if castling is possible for each player"""
@@ -305,10 +239,33 @@ class Rook(Pieces):
                             self.can_castle = False
                             break
 
+    def can_move(self):
+        """check if the given coordinate is right to move this piece to"""
+        self.get_permitted_moves()
+        self.skipping(combo1=self.horizontal_moves, combo2=self.vertical_moves)
+        self.castling()
+
+        if self.move_to in self.castling_range and self.can_castle:
+            self.can_castle = False  # off castling for this piece
+            self.has_move_before = True  # change has_move_before
+            return 'castle'
+
+        elif self.move_to in self.permitted_moves and self.allow_skip:
+            self.has_move_before = True  # change has_move_before for castling’s sake
+            if self.piece_to_capture:  # check for capturing:
+                return 'capturing'
+            else:
+                return 'forward'
+        else:
+            return 'prohibited'
+
 
 # ----------------------------------------- 3. KNIGHT -------------------------------------------------------
 
 class Knight(Pieces):
+    """Defines the knight class, their properties and moves.
+            Inherit from the Pieces class"""
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.class_name = 'Knight'
@@ -319,11 +276,261 @@ class Knight(Pieces):
         self.piece_to_capture = None
         self.virtual_board = {}
 
-        self.permitted_moves = {}
-        self.get_permitted_moves()
+        self.potential_moves: set = None
+        self.get_potential_moves()
 
-    def get_permitted_moves(self):
+    def get_potential_moves(self):
+        """get the possible combinations of coordinates a knight can move to from its current coordinate"""
+        r, c = self.row, self.col
+
+        # for each location, there are eight possible combinations which the piece can move to
+        first_combinations = {(r - 1, c - 2), (r - 1, c + 2), (r + 1, c - 2), (r + 1, c + 2)}
+        second_combinations = {(r - 2, c - 1), (r - 2, c + 1), (r + 2, c - 1), (r + 2, c + 1)}
+
+        combinations_union = first_combinations.union(second_combinations)
+
+        # get all coordinates that make up the chess board
+        all_coordinates = set(self.virtual_board.keys())
+
+        # The intersection of all coordinates in chess board & the union of all the possible moves the knight is
+        # allowed.
+        # This intersection removes coordinates not in the chess board, like (1, 8), (2, 9) etc.
+        self.potential_moves = combinations_union.intersection(all_coordinates)
+
+    def can_move(self):
+        """check if the given coordinate is right to move this piece to"""
+        self.get_potential_moves()
+
+        if self.move_to in self.potential_moves:
+            if self.piece_to_capture:
+                return 'capturing'
+            else:
+                return 'forward'
+        else:
+            return 'prohibited'
+
+
+# ----------------------------------------- 4. BISHOP -------------------------------------------------------
+
+class Bishop(Pieces):
+    """Defines the bishop class, their properties and moves.
+            Inherit from the Pieces class"""
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.class_name = 'Bishop'
+
+        self.move_from: tuple = None
+        self.move_to: tuple = None
+        self.allow_skip = None
+
+        self.piece_to_capture = None
+        self.virtual_board = {}
+
+        self.potential_moves: set = None
+        self.get_potential_moves()
+
+    def get_potential_moves(self):
+        """get the possible combinations of coordinates (diagonals) a bishop can move to from its current coordinate"""
+
+        self.elevating_diagonal = []  # that is, going towards the top right corner of the chess board
+        for key in self.virtual_board.keys():
+            if key[0] + key[1] == self.row + self.col:
+                self.elevating_diagonal.append(key)
+
+        self.decelerating_diagonal = []  # that is, going towards the bottom right corner of the chess board
+        for key in self.virtual_board.keys():
+            if key[0] - key[1] == self.row - self.col:
+                self.decelerating_diagonal.append(key)
+
+        # make a union of the two lists of all the possible combinations of diagonal coordinates
+        self.potential_moves = set(self.elevating_diagonal).union(set(self.decelerating_diagonal))
+
+    def skipping(self, **kwargs):
+        """checks if the bishop skips any piece on its way while moving horizontally or vertically"""
+        # print(kwargs)
+
+        # skipping check
+        for combo in kwargs.values():
+            if self.move_from in combo and self.move_to in combo:
+                from_index = combo.index(self.move_from)
+                to_index = combo.index(self.move_to)
+
+                if from_index < to_index:
+                    e1_ranges = combo[from_index + 1: to_index]
+
+                    if not e1_ranges:
+                        self.allow_skip = True
+                    else:
+                        for e in e1_ranges:
+                            result = self.virtual_board.get(e)
+                            if result.piece is None:
+                                self.allow_skip = True
+                                continue
+                            else:
+                                self.allow_skip = False
+                                break
+                else:
+                    e2_ranges = combo[from_index - 1: to_index: -1]
+
+                    if not e2_ranges:
+                        self.allow_skip = True
+                    else:
+                        for e in e2_ranges:
+                            result = self.virtual_board.get(e)
+                            if result.piece is None:
+                                self.allow_skip = True
+                                continue
+                            else:
+                                self.allow_skip = False
+                                break
+                break  # stop checking for skip
+            else:
+                continue
+
+    def can_move(self):
+        """check if the given coordinate is right to move this piece to"""
+        self.get_potential_moves()
+        self.skipping(combo1=self.elevating_diagonal, combo2=self.decelerating_diagonal)
+
+        if self.move_to in self.potential_moves and self.allow_skip:
+            if self.piece_to_capture:
+                return 'capturing'
+            else:
+                return 'forward'
+        else:
+            return 'prohibited'
+
+
+# ----------------------------------------- 5. THE QUEEN -------------------------------------------------------
+
+class Queen(Pieces):
+    """Defines the Queen class, their properties and moves.
+            Inherit from the Pieces class"""
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.class_name = 'Queen'
+
+        self.move_from: tuple = None
+        self.move_to: tuple = None
+        self.allow_skip = None
+
+        self.piece_to_capture = None
+        self.virtual_board = {}
+
+        self.potential_moves: set = None
+        self.get_potential_moves()
+
+    def get_potential_moves(self):
+        """Get the potential permissible cells that a queen can move to. Determine based on its current location"""
+
+        # The queen combines the moves functionalities of both the rook and the bishop together
+
+        # 1. Like a Rook: --------------------------------------------------
+        self.horizontal_moves = [(self.row, c) for c in range(8)]
+        self.vertical_moves = [(r, self.col) for r in range(8)]
+
+        rook_like_union = set(self.horizontal_moves).union(set(self.vertical_moves))
+
+        # 2. Like a Bishop: -------------------------------------------------
+        self.elevating_diagonal = []  # that is, going towards the top right corner of the chess board
+        for key in self.virtual_board.keys():
+            if key[0] + key[1] == self.row + self.col:
+                self.elevating_diagonal.append(key)
+
+        self.decelerating_diagonal = []  # that is, going towards the bottom right corner of the chess board
+        for key in self.virtual_board.keys():
+            if key[0] - key[1] == self.row - self.col:
+                self.decelerating_diagonal.append(key)
+
+        bishop_like_union = set(self.elevating_diagonal).union(set(self.decelerating_diagonal))
+
+        # make a union of all the possible combinations for a queen
+        self.potential_moves = rook_like_union.union(bishop_like_union)
+
+    def skipping(self, **kwargs):
+        """checks if the queen skips any piece on its way while moving horizontally or
+        vertically or diagonally"""
+        # print(kwargs)
+
+        # combo1 skipping check
+        for combo in kwargs.values():
+            if self.move_from in combo and self.move_to in combo:
+                from_index = combo.index(self.move_from)
+                to_index = combo.index(self.move_to)
+
+                if from_index < to_index:
+                    e1_ranges = combo[from_index + 1: to_index]
+
+                    if not e1_ranges:
+                        self.allow_skip = True
+                    else:
+                        for e in e1_ranges:
+                            result = self.virtual_board.get(e)
+                            if result.piece is None:
+                                self.allow_skip = True
+                                continue
+                            else:
+                                self.allow_skip = False
+                                break
+                else:
+                    e2_ranges = combo[from_index - 1: to_index: -1]
+
+                    if not e2_ranges:
+                        self.allow_skip = True
+                    else:
+                        for e in e2_ranges:
+                            result = self.virtual_board.get(e)
+                            if result.piece is None:
+                                self.allow_skip = True
+                                continue
+                            else:
+                                self.allow_skip = False
+                                break
+                break  # stop checking for skip
+            else:
+                continue
+
+    def can_move(self):
+        """check if the given coordinate is right to move this piece to"""
+        self.get_potential_moves()
+        self.skipping(combo1=self.horizontal_moves, combo2=self.vertical_moves,
+                      combo3=self.elevating_diagonal, combo4=self.decelerating_diagonal)
+
+        if self.move_to in self.potential_moves and self.allow_skip:
+            if self.piece_to_capture:
+                return 'capturing'
+            else:
+                return 'forward'
+        else:
+            return 'prohibited'
+
+
+# ----------------------------------------- 5. THE KING -------------------------------------------------------
+
+class King(Pieces):
+    """Defines the Queen class, their properties and moves.
+            Inherit from the Pieces class"""
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.class_name = 'King'
+
+        self.move_from: tuple = None
+        self.move_to: tuple = None
+        self.allow_skip = None
+
+        self.piece_to_capture = None
+        self.virtual_board = {}
+
+        self.potential_moves: set = None
+        self.get_potential_moves()
+
+
+    def get_potential_moves(self):
         pass
 
     def can_move(self):
         return 'other pieces'
+        pass

@@ -473,7 +473,7 @@ class GameBoard(tk.Tk):
 
         # -----------------------------------------------
         elif self.clicked_cell not in self.permissible_starting_cells.keys():
-            self.animated_display_label.config(text=f'TRESPASSING: Ensured to move your own piece!',
+            self.animated_display_label.config(text=f'TRESPASSING: Ensure to move your own piece!',
                                                fg='black', bg='crimson')
             self.error_id = self.after(3000, self.toggle, 'warnings')
             self.clicked_time = 0
