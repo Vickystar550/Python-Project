@@ -97,12 +97,12 @@ class Pawn(Pieces):
         # ------------------------------------------------
         if self.move_to in set(promoting_cells) and self.move_to in set(capture_cells):
             if self.piece_to_capture is None:
-                return 'not capturing'  # cannot capture an empty cell
+                return 'promote'  # cannot capture an empty cell
             else:
                 return 'capture and promote'
 
         # ------------------------------------------------
-        elif self.move_to in set(promoting_cells):
+        elif self.move_to in set(promoting_cells):  # overhead promoting cells
             if self.piece_to_capture is None:  # promote this piece
                 return 'promote'
             else:
@@ -128,7 +128,7 @@ class Pawn(Pieces):
 
         # ------------------------------------------
         else:  # for unknown prohibited cells
-            return 'unknown'
+            return 'prohibited'
 
 
 # ----------------------------------------- 2. ROOK -------------------------------------------------------
@@ -147,7 +147,7 @@ class Rook(Pieces):
         self.allow_skip = None
 
         # for castling purpose:
-        self.has_move_before = False
+        self.has_move_before = 0  # 0 is for no moves
         self.castling_range = None
         self.can_castle = False
 
@@ -206,38 +206,68 @@ class Rook(Pieces):
     def castling(self):
         """checks if castling is possible for each player"""
         if self.color == 'white':
-            self.castling_range = [(7, 4), (7, 5), (7, 6), (7, 7)]
+            self.castling_range = [(7, 5), (7, 6)]
+            self.rook_initial_position = (7, 7)
+            self.king_initial_position = (7, 4)
+            self.king_castled_coordinate = (7, 6)
         else:
-            self.castling_range = [(0, 4), (0, 5), (0, 6), (0, 7)]
+            self.castling_range = [(0, 5), (0, 6)]
+            self.rook_initial_position = (0, 7)
+            self.king_initial_position = (0, 4)
+            self.king_castled_coordinate = (0, 6)
 
-        if not self.has_move_before:
+        try:
+            self.virtual_board.get(self.king_initial_position).piece.class_name == 'King'
+        except AttributeError:
+            # check if the king is at its castled position
             try:
-                is_king0 = self.virtual_board.get(self.castling_range[0]).piece.class_name
-                is_king2 = self.virtual_board.get(self.castling_range[2]).piece.class_name
+                self.virtual_board.get(self.king_castled_coordinate).piece.class_name == 'King'
             except AttributeError:
-                is_king0 = self.virtual_board.get(self.castling_range[0]).piece
-                is_king2 = self.virtual_board.get(self.castling_range[2]).piece
-
-                king_in_range = is_king0 or is_king2
+                king_has_move_before = 2  # more than one
             else:
-                king_in_range = is_king0 == 'King' or is_king2 == 'King'
+                king_has_move_before: int = self.virtual_board.get(self.king_castled_coordinate).piece.has_move_before
+        else:
+            king_has_move_before: int = self.virtual_board.get(self.king_initial_position).piece.has_move_before
 
-            is_rook = self.virtual_board.get(self.castling_range[-1]).piece.class_name
+        cond = ''
+        if self.has_move_before == 1:
+            if king_has_move_before == 1:
+                cond = 'good'
+            elif king_has_move_before >= 1:
+                cond = 'bad'
+            elif king_has_move_before <= 1:
+                cond = 'good'
 
-            if king_in_range and is_rook == 'Rook':
-                for coordinate in self.castling_range[1:-1]:
-                    occupying_piece = self.virtual_board.get(coordinate).piece
+        elif self.has_move_before >= 1:
+            cond = 'bad'
 
-                    if occupying_piece is None:
+        elif self.has_move_before <= 0:
+            if king_has_move_before == 1:
+                cond = 'good'
+            elif king_has_move_before >= 1:
+                cond = 'bad'
+            elif king_has_move_before <= 1:
+                cond = 'good'
+
+        # print('cond is:', cond)
+        # print('------------------------------------------------')
+
+        if cond == 'good':
+            for coordinate in self.castling_range:
+                occupying_piece = self.virtual_board.get(coordinate).piece
+
+                if occupying_piece is None:
+                    self.can_castle = True
+                    continue
+                else:
+                    if occupying_piece.class_name == 'King' and coordinate == self.castling_range[1]:
                         self.can_castle = True
                         continue
                     else:
-                        if occupying_piece.class_name == 'King':
-                            self.can_castle = True
-                            continue
-                        else:
-                            self.can_castle = False
-                            break
+                        self.can_castle = False
+                        break
+        else:
+            self.can_castle = False
 
     def can_move(self):
         """check if the given coordinate is right to move this piece to"""
@@ -245,17 +275,18 @@ class Rook(Pieces):
         self.skipping(combo1=self.horizontal_moves, combo2=self.vertical_moves)
         self.castling()
 
-        if self.move_to in self.castling_range and self.can_castle:
+        if self.move_to in self.castling_range and self.can_castle is True:
             self.can_castle = False  # off castling for this piece
-            self.has_move_before = True  # change has_move_before
+            self.has_move_before = 1  # 1 is for castling move only
             return 'castle'
 
         elif self.move_to in self.permitted_moves and self.allow_skip:
-            self.has_move_before = True  # change has_move_before for castling’s sake
+            self.has_move_before = 2  # 2 is for any other moves aside from castling
             if self.piece_to_capture:  # check for capturing:
                 return 'capturing'
             else:
                 return 'forward'
+
         else:
             return 'prohibited'
 
@@ -521,16 +552,122 @@ class King(Pieces):
         self.move_to: tuple = None
         self.allow_skip = None
 
+        # for castling purpose:
+        self.has_move_before = 0  # 0 is for no moves
+        self.castling_range = None
+        self.can_castle = False
+
         self.piece_to_capture = None
         self.virtual_board = {}
 
         self.potential_moves: set = None
         self.get_potential_moves()
 
-
     def get_potential_moves(self):
-        pass
+        """Get the potential permissible cells that a queen can move to. Determine based on its current location"""
+        r, c = self.row, self.col
+        diagonal1 = [(r - 1, c - 1), (r + 1, c + 1)]
+        diagonal2 = [(r + 1, c - 1), (r - 1, c + 1)]
+        row_value = [(r, c - 1), (r, c + 1)]
+        col_value = [(r - 1, c), (r + 1, c)]
+
+        all_moves = set(diagonal1 + diagonal2 + row_value + col_value)
+        all_coordinates = set(self.virtual_board.keys())
+
+        self.potential_moves = all_moves.intersection(all_coordinates)
+
+    def castling(self):
+        """checks if castling is possible for each player"""
+        if self.color == 'white':
+            self.castling_range = [(7, 5), (7, 6)]
+            self.king_initial_position = (7, 4)
+            self.rook_initial_position = (7, 7)
+            self.rook_castled_coordinate = (7, 5)
+        else:
+            self.castling_range = [(0, 5), (0, 6)]
+            self.king_initial_position = (0, 4)
+            self.rook_initial_position = (0, 7)
+            self.rook_castled_coordinate = (0, 5)
+
+        try:
+            self.virtual_board.get(self.rook_initial_position).piece.class_name == 'Rook'
+        except AttributeError:
+            # check if rook is at its castled position
+            try:
+                self.virtual_board.get(self.rook_castled_coordinate).piece.class_name == 'Rook'
+            except AttributeError:
+                rook_has_move_before = 2  # more than one
+            else:
+                rook_has_move_before: int = self.virtual_board.get(self.rook_castled_coordinate).piece.has_move_before
+        else:
+            rook_has_move_before: int = self.virtual_board.get(self.rook_initial_position).piece.has_move_before
+
+        cond = ''
+        if self.has_move_before == 1:
+            if rook_has_move_before == 1:
+                cond = 'good'
+            elif rook_has_move_before >= 1:
+                cond = 'bad'
+            elif rook_has_move_before <= 0:
+                cond = 'good'
+
+        elif self.has_move_before >= 1:
+            cond = 'bad'
+
+        elif self.has_move_before <= 0:
+            if rook_has_move_before == 1:
+                cond = 'good'
+            elif rook_has_move_before >= 1:
+                cond = 'bad'
+            elif rook_has_move_before <= 0:
+                cond = 'good'
+
+        # print('cond is:', cond)
+        # print('------------------------------------------------')
+
+        if cond == 'good':
+            for coordinate in self.castling_range:
+                occupying_piece = self.virtual_board.get(coordinate).piece
+
+                if occupying_piece is None:
+                    self.can_castle = True
+                    continue
+                else:
+                    if occupying_piece.class_name == 'Rook' and coordinate == self.castling_range[0]:
+                        self.can_castle = True
+                        continue
+                    else:
+                        self.can_castle = False
+                        break
+        else:
+            self.can_castle = False
 
     def can_move(self):
-        return 'other pieces'
-        pass
+        self.get_potential_moves()
+        self.castling()
+
+        if self.move_to in self.castling_range:
+            if self.can_castle:
+                self.can_castle = False  # off castling for this piece
+                self.has_move_before = 1  # 1 is for castling move only
+                return 'castle'
+            else:
+                if self.move_to in self.castling_range and self.move_to in self.potential_moves:
+                    self.has_move_before = 2
+                    return 'forward'
+                # checking reverse castling for either white or black
+                elif (self.move_to in self.castling_range and (self.move_to not in self.potential_moves)
+                      and self.move_from in [(7, 7), (0, 7)]):
+                    return 'prohibited'
+                else:
+                    return 'not castling'
+
+        elif self.move_to in self.potential_moves:
+            self.has_move_before = 2  # 2 is for any other moves aside from castling
+            if self.piece_to_capture:
+                return 'capturing'
+            else:
+                return 'forward'
+
+        else:
+            return 'prohibited'

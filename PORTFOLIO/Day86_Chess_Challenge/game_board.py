@@ -36,6 +36,9 @@ class GameBoard(tk.Tk):
         self.clicked_piece = None
         self.previous_piece = None
 
+        self.white_successful_castles = 0
+        self.black_successful_castles = 0
+
         self.white_capture = []
         self.black_capture = []
 
@@ -377,6 +380,11 @@ class GameBoard(tk.Tk):
             self.after_cancel(self.error_id)
             self.animated_display_label.config(text=f'{self.game_logic.current_player.color.title()}\'s turn',
                                                fg='white', bg='#2d2d2d')
+        elif state == 'validation':
+            self.after_cancel(self.message_id)
+            self.animated_display_label.config(text=self.validation_report, fg='white', bg='#2d2d2d')
+        elif state == 'exit':
+            quit()
 
     def select_image(self, name):
         """return an image given the piece name"""
@@ -504,17 +512,15 @@ class GameBoard(tk.Tk):
 
     def paste(self, row, col):
         self.move_to = row, col
-        cell_name = self.name_cell(row=row, col=col)
+        self.cell_name = self.name_cell(row=row, col=col)
 
         self.game_logic.move_to = self.move_to
         self.game_logic.piece_to_be_remove = self.clicked_piece
 
         self.validating_string = self.game_logic.validate_move()
-        print('validating string is:', self.validating_string)
-        if self.validating_string in ['forward', 'capturing', 'blocked', 'promote', 'other pieces', 'capture and '
-                                                                                                    'promote',
-                                      'prohibited', 'not capturing', 'unknown', 'castle']:
+        # print('validating string is:', self.validating_string)
 
+        if self.validating_string in ['forward', 'capturing', 'promote', 'capture and promote', 'castle']:
             # ---------------------- double pasting ------------------------
             if self.previous_piece is None:
                 # self.previous_piece can only be None after pasting was successful
@@ -529,35 +535,82 @@ class GameBoard(tk.Tk):
                 self.return_piece_back(reason='Self Capture')
                 self.clicked_time = 0
 
-            # ----------------------- when the pawn encounters an obstacle upfront -----------
-            elif self.validating_string in ['blocked', 'prohibited', 'not capturing', 'unknown']:
-                self.return_piece_back(reason='BPU-NC')
-                self.clicked_time = 0
-
             # --------------------------- normal case ------------------------
             else:
+                # case 1: ---------- when validating string is either forward, promote, or castle ------------------
                 if self.clicked_piece is None:
-                    paste_report = (f'{cell_name} now occupied by '
-                                    f'{self.previous_piece.color.title()} {self.previous_piece.class_name}')
+
+                    if self.validating_string == 'promote':
+                        paste_report = (f'Congratulations {self.previous_piece.color.title()} '
+                                        f'{self.previous_piece.class_name.upper()}. Please get yourself a PROMOTION!')
+                        self.animated_display_label.config(text=paste_report, fg='black', bg='sea green')
+
+                        self.validation_report = (f'{self.cell_name} now occupied by '
+                                                  f'{self.previous_piece.color.title()} '
+                                                  f'{self.previous_piece.class_name.upper()}')
+                        self.message_id = self.after(2000, self.toggle, 'validation')
+
+                    # --------------------------------------------------------------------------------
+                    elif self.validating_string == 'castle':
+                        if self.previous_piece.color == 'white':
+                            self.white_successful_castles += 1
+                        else:
+                            self.black_successful_castles += 1
+
+                        if self.previous_piece.color == 'white' and self.white_successful_castles >= 2 \
+                                or (self.previous_piece.color == 'black' and self.black_successful_castles >= 2):
+
+                            full_castled_report = (f'{self.previous_piece.color.title()} player '
+                                                   f'has fully castled his KING and ROOK')
+                            self.animated_display_label.config(text=full_castled_report, fg='black', bg='sea green')
+                        else:
+                            half_castled_report = (f'{self.previous_piece.color.title()} '
+                                                   f'{self.previous_piece.class_name.upper()} '
+                                                   f'probably castled to {self.cell_name}')
+                            self.animated_display_label.config(text=half_castled_report, fg='black', bg='#CC5500')
+                        # -------------------------------------------------------------------------------
+                    else:
+                        paste_report = (f'{self.cell_name} now occupied by '
+                                        f'{self.previous_piece.color.title()} {self.previous_piece.class_name.upper()}')
+                        self.animated_display_label.config(text=paste_report, fg='white', bg='#2d2d2d')
+
+                # case 2: ------ when validating string is either capturing, or 'promote and capture' -----------
                 else:
-                    # -------------------- THAT IS CAPTURING -----------------------
+                    # check for checkmate!
+                    if self.clicked_piece.class_name == 'King':
+                        checkmate_report = (
+                            f'{self.clicked_piece.color.title()} {self.clicked_piece.class_name.upper()}'
+                            f' is CHECKMATE! The {self.previous_piece.color.upper()} player wins')
 
-                    #   remove an already occupied piece from its permissible cells
-                    if self.clicked_piece.color == 'white':
-                        self.occupied_white_pieces.pop(self.clicked_cell)
-                        self.black_capture.append(self.clicked_cell.current_piece)  # Store capture by black
+                        self.animated_display_label.config(text=checkmate_report, fg='black', bg='blue')
+                        self.after_cancel(self.timer_id)
+                        self.exit_id = self.after(5000, self.toggle, 'exit')
+                    else:
+                        #   remove an already occupied piece from its permissible cells
+                        if self.clicked_piece.color == 'white':  # ---- white piece is being capture
+                            self.occupied_white_pieces.pop(self.clicked_cell)
+                            self.black_capture.append(self.clicked_cell.current_piece)  # Store captive by black player
 
-                    elif self.clicked_piece.color == 'black':
-                        self.occupied_black_pieces.pop(self.clicked_cell)
-                        self.white_capture.append(self.clicked_cell.current_piece)  # Store capture by white
+                        elif self.clicked_piece.color == 'black':  # ---- black piece is being capture
+                            self.occupied_black_pieces.pop(self.clicked_cell)
+                            self.white_capture.append(self.clicked_cell.current_piece)  # Store captive by white player
 
-                    paste_report = (f'{self.clicked_piece.color.title()} {self.clicked_piece.class_name} at '
-                                    f'{cell_name} is captured by {self.previous_piece.color.title()}'
-                                    f' {self.previous_piece.class_name}')
+                        # check is the captor is a pawn & the validating string is 'capture and promote'
+                        if self.validating_string == 'capture and promote':
+                            paste_report = (
+                                f'{self.clicked_piece.color.title()} {self.clicked_piece.class_name.upper()} '
+                                f'at {self.cell_name} is captured by {self.previous_piece.color.title()}'
+                                f' {self.previous_piece.class_name.upper()}. You deserves a PROMOTION!')
+
+                            self.animated_display_label.config(text=paste_report, fg='black', bg='sea green')
+                        else:
+                            paste_report = (f'{self.clicked_piece.color.title()} {self.clicked_piece.class_name.upper()} '
+                                            f'at {self.cell_name} is captured by {self.previous_piece.color.title()}'
+                                            f' {self.previous_piece.class_name.upper()}')
+
+                            self.animated_display_label.config(text=paste_report, fg='white', bg='#2d2d2d')
 
                     # ------------------------------------------
-
-                self.animated_display_label.config(text=paste_report, fg='white', bg='#2d2d2d')
 
                 # change the current cell at this position to inherit from the previous clicked cell
                 new_cell = self.configure_cell(row=row, col=col, image=self.previous_piece_image,
@@ -584,30 +637,38 @@ class GameBoard(tk.Tk):
                 # toggle after pasting, but only after 3 seconds
                 self.toggle_id = self.after(3000, self.toggle, 'pasting')
 
+        # ----------------------- when validating string fall here -----------
+        elif self.validating_string in ['blocked', 'prohibited', 'not capturing', 'not castling']:
+            self.return_piece_back(reason='BP-NC')
+            self.clicked_time = 0
+
     def return_piece_back(self, reason: str):
         """This function returns the current moving piece to its previous position where it came from"""
         if reason == 'Self Capture':
             self.animated_display_label.config(text='Self capture not permitted! Move to a cell not occupy by your '
                                                     'piece', fg='black', bg='crimson')
 
-        elif reason == 'BPU-NC':
+        elif reason == 'BP-NC':
             if self.validating_string == 'blocked':
                 self.animated_display_label.config(text=f'This {self.previous_piece.color.title()}'
-                                                        f' {self.previous_piece.class_name} Cannot continue forward '
-                                                        f'again!',
-                                                   fg='black', bg='crimson')
+                                                        f' {self.previous_piece.class_name.upper()} cannot continue'
+                                                        f'  forward again!', fg='black', bg='crimson')
 
             elif self.validating_string == 'not capturing':
                 self.animated_display_label.config(text=f'This {self.previous_piece.color.title()} '
-                                                        f'{self.previous_piece.class_name} cannot capture an empty '
-                                                        f'cell!',
+                                                        f'{self.previous_piece.class_name.upper()} cannot capture any '
+                                                        f' empty cell!', fg='black', bg='crimson')
+
+            elif self.validating_string == 'not castling':
+                self.animated_display_label.config(text=f'{self.previous_piece.color.title()} '
+                                                        f'{self.previous_piece.class_name.upper()} can\'t castled '
+                                                        f'anymore! Nor is allowed to skip over a piece.',
                                                    fg='black', bg='crimson')
 
-            elif self.validating_string in ['prohibited', 'unknown']:
+            elif self.validating_string in ['prohibited']:
                 self.animated_display_label.config(text=f'{self.previous_piece.color.title()} '
-                                                        f'{self.previous_piece.class_name} not permitted to move '
-                                                        f'here! Move forward or capture',
-                                                   fg='black', bg='crimson')
+                                                        f'{self.previous_piece.class_name.upper()} not permitted'
+                                                        f' to move here!', fg='black', bg='crimson')
 
         # -------------------------------------------
         # return pasting piece to it previous position
@@ -627,7 +688,7 @@ class GameBoard(tk.Tk):
         self.previous_piece_image = None
         self.previous_piece = None
 
-        if reason == 'Self Capture':   # penalize this action(self-capturing)
+        if reason == 'Self Capture':  # penalize this action(self-capturing)
             self.after_cancel(self.timer_id)
             self.penalize_id = self.after(3000, self.toggle, 'penalize')
         elif reason == 'BPU-NC':

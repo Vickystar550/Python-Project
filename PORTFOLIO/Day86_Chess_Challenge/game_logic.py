@@ -134,26 +134,17 @@ class GameLogic:
         move_to_update.player = kwargs.get('player')
 
     def toggle_player(self):
+        """toggle the next player"""
         self.current_player = next(self.players)
 
     def validate_move(self):
-
-        move_object_from = self.virtual_moves.get(self.move_from)
-        move_object_to = self.virtual_moves.get(self.move_to)
-        print('-------------------------------------------')
-        try:
-            print(f'move object from {self.move_from} is {move_object_from.piece.name} and is moved to {self.move_to}')
-            print(f'but {self.move_to} was currently occupied by {move_object_to.piece.name}')
-            print('--------------------------------------------')
-        except AttributeError:
-            pass
-
-        # --------------------------- Pawn ---------------------
+        """check is a piece move is valid by returning validating string"""
+        # 1. Pawn ---------------------
         if self.moving_piece.class_name == 'Pawn':
             result = self.select_piece(root=self.moving_piece, move_to=self.move_to)
             return result
 
-        # ---------------------- Other Pieces ------------------------------
+        # 2. Other Pieces --------------
         elif self.moving_piece.class_name in ['Rook', 'Knight', 'Bishop', 'Queen', 'King']:
             result = self.select_piece(root=self.moving_piece, move_to=self.move_to,
                                        virtual_board=self.virtual_moves)
@@ -161,7 +152,7 @@ class GameLogic:
 
     def select_piece(self, root, **kwargs):
         """a universal function to select a particular piece"""
-        piece: Union[Pieces, Pawn, Rook, Knight, Bishop] = root
+        piece: Union[Pieces, Pawn, Rook, Knight, Bishop, King] = root
 
         piece.move_from = piece.row, piece.col
         piece.move_to = kwargs.get('move_to')
