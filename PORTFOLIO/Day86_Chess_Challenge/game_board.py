@@ -3,6 +3,7 @@ from tkinter import messagebox
 from game_logic import Pieces
 import math
 from datetime import datetime
+import random
 
 
 class Cell(tk.Button):
@@ -50,33 +51,56 @@ class GameBoard(tk.Tk):
         self.move_to = None
         self.timer_id = ''
 
+        # -------------- loading upright chess icons ------------------
         # loading pawns images
-        self.pawn_filled = tk.PhotoImage(file='./CHESS ICONS/pawn_filled.png')
-        self.pawn_unfilled = tk.PhotoImage(file='./CHESS ICONS/pawn_unfilled.png')
+        self.pawn_filled = tk.PhotoImage(file='assets/icons/pawn_filled.png')
+        self.pawn_unfilled = tk.PhotoImage(file='assets/icons/pawn_unfilled.png')
 
         # loading rook images
-        self.rook_filled = tk.PhotoImage(file='./CHESS ICONS/rook_filled.png')
-        self.rook_unfilled = tk.PhotoImage(file='./CHESS ICONS/rook_unfilled.png')
+        self.rook_filled = tk.PhotoImage(file='assets/icons/rook_filled.png')
+        self.rook_unfilled = tk.PhotoImage(file='assets/icons/rook_unfilled.png')
 
         # loading knight left images
-        self.knight_filled_left = tk.PhotoImage(file='./CHESS ICONS/knight_filled_left.png')
-        self.knight_unfilled_left = tk.PhotoImage(file='./CHESS ICONS/knight_unfilled_left.png')
+        self.knight_filled_left = tk.PhotoImage(file='assets/icons/knight_filled_left.png')
+        self.knight_unfilled_left = tk.PhotoImage(file='assets/icons/knight_unfilled_left.png')
 
         # loading knight right images
-        self.knight_filled_right = tk.PhotoImage(file='./CHESS ICONS/knight_filled_right.png')
-        self.knight_unfilled_right = tk.PhotoImage(file='./CHESS ICONS/knight_unfilled_right.png')
+        self.knight_filled_right = tk.PhotoImage(file='assets/icons/knight_filled_right.png')
+        self.knight_unfilled_right = tk.PhotoImage(file='assets/icons/knight_unfilled_right.png')
 
         # loading bishop images
-        self.bishop_filled = tk.PhotoImage(file='./CHESS ICONS/bishop_filled.png')
-        self.bishop_unfilled = tk.PhotoImage(file='./CHESS ICONS/bishop_unfilled.png')
+        self.bishop_filled = tk.PhotoImage(file='assets/icons/bishop_filled.png')
+        self.bishop_unfilled = tk.PhotoImage(file='assets/icons/bishop_unfilled.png')
 
         # loading queen images
-        self.queen_filled = tk.PhotoImage(file='./CHESS ICONS/queen_filled.png')
-        self.queen_unfilled = tk.PhotoImage(file='./CHESS ICONS/queen_unfilled.png')
+        self.queen_filled = tk.PhotoImage(file='assets/icons/queen_filled.png')
+        self.queen_unfilled = tk.PhotoImage(file='assets/icons/queen_unfilled.png')
 
         # loading king images
-        self.king_filled = tk.PhotoImage(file='./CHESS ICONS/king_filled.png')
-        self.king_unfilled = tk.PhotoImage(file='./CHESS ICONS/king_unfilled.png')
+        self.king_filled = tk.PhotoImage(file='assets/icons/king_filled.png')
+        self.king_unfilled = tk.PhotoImage(file='assets/icons/king_unfilled.png')
+
+        # -------------- loading inverted chess icons (required for pawn promotion) ------------------
+        # loading inverted rook images
+        self.inverted_rook_filled = tk.PhotoImage(file='assets/inverted_icons/rook_filled.png')
+        self.inverted_rook_unfilled = tk.PhotoImage(file='assets/inverted_icons/rook_unfilled.png')
+
+        # loading inverted knight left images
+        self.inverted_knight_filled_left = tk.PhotoImage(file='assets/inverted_icons/knight_filled_left.png')
+        self.inverted_knight_unfilled_left = tk.PhotoImage(file='assets/inverted_icons/knight_unfilled_left.png')
+
+        # loading knight right images
+        self.inverted_knight_filled_right = tk.PhotoImage(file='assets/inverted_icons/knight_filled_right.png')
+        self.inverted_knight_unfilled_right = tk.PhotoImage(file='assets/inverted_icons/knight_unfilled_right.png')
+
+        # loading bishop images
+        self.inverted_bishop_filled = tk.PhotoImage(file='assets/inverted_icons/bishop_filled.png')
+        self.inverted_bishop_unfilled = tk.PhotoImage(file='assets/inverted_icons/bishop_unfilled.png')
+
+        # loading queen images
+        self.inverted_queen_filled = tk.PhotoImage(file='assets/inverted_icons/queen_filled.png')
+        self.inverted_queen_unfilled = tk.PhotoImage(file='assets/inverted_icons/queen_unfilled.png')
+        # ----------------------------------------------------------------------------------
 
         self.create_menu()
         self.create_panel()
@@ -386,49 +410,84 @@ class GameBoard(tk.Tk):
         elif state == 'exit':
             quit()
 
-    def select_image(self, name):
+    def select_image(self, name, **kwargs):
         """return an image given the piece name"""
-        # pawn
-        if name == 'WPawn':
-            return self.pawn_unfilled
-        elif name == 'BPawn':
-            return self.pawn_filled
+        type_: str = kwargs.get('type')
 
-        # rook
-        if name == 'WRook':
-            return self.rook_unfilled
-        elif name == 'BRook':
-            return self.rook_filled
+        print(type_)
+        if type_ == 'inverted':  # get inverted icons required for pawn promotions
+            # inverted rook
+            if name == 'WRook':
+                return self.inverted_rook_unfilled
+            elif name == 'BRook':
+                return self.inverted_rook_filled
 
-        # white knight
-        if name == 'WKnightLeft':
-            return self.knight_unfilled_left
-        elif name == 'WKnightRight':
-            return self.knight_unfilled_right
+            # inverted white knight
+            if name == 'WKnightLeft':
+                return self.inverted_knight_unfilled_left
+            elif name == 'WKnightRight':
+                return self.inverted_knight_unfilled_right
 
-        # black knight
-        if name == 'BKnightLeft':
-            return self.knight_filled_left
-        elif name == 'BKnightRight':
-            return self.knight_filled_right
+            # inverted black knight
+            if name == 'BKnightLeft':
+                return self.inverted_knight_filled_left
+            elif name == 'BKnightRight':
+                return self.inverted_knight_filled_right
 
-        # bishop
-        if name == 'WBishop':
-            return self.bishop_unfilled
-        elif name == 'BBishop':
-            return self.bishop_filled
+            # inverted bishop
+            if name == 'WBishop':
+                return self.inverted_bishop_unfilled
+            elif name == 'BBishop':
+                return self.inverted_bishop_filled
 
-        # queen
-        if name == 'WQueen':
-            return self.queen_unfilled
-        elif name == 'BQueen':
-            return self.queen_filled
+            # inverted queen
+            if name == 'WQueen':
+                return self.inverted_queen_unfilled
+            elif name == 'BQueen':
+                return self.inverted_queen_filled
 
-        # king
-        if name == 'WKing':
-            return self.king_unfilled
-        elif name == 'BKing':
-            return self.king_filled
+        elif type_ == 'normal':  # when a type_ is 'normal', or not given
+            # pawn
+            if name == 'WPawn':
+                return self.pawn_unfilled
+            elif name == 'BPawn':
+                return self.pawn_filled
+
+            # rook
+            if name == 'WRook':
+                return self.rook_unfilled
+            elif name == 'BRook':
+                return self.rook_filled
+
+            # white knight
+            if name == 'WKnightLeft':
+                return self.knight_unfilled_left
+            elif name == 'WKnightRight':
+                return self.knight_unfilled_right
+
+            # black knight
+            if name == 'BKnightLeft':
+                return self.knight_filled_left
+            elif name == 'BKnightRight':
+                return self.knight_filled_right
+
+            # bishop
+            if name == 'WBishop':
+                return self.bishop_unfilled
+            elif name == 'BBishop':
+                return self.bishop_filled
+
+            # queen
+            if name == 'WQueen':
+                return self.queen_unfilled
+            elif name == 'BQueen':
+                return self.queen_filled
+
+            # king
+            if name == 'WKing':
+                return self.king_unfilled
+            elif name == 'BKing':
+                return self.king_filled
 
     def timer(self, sec=60):
         """ Act like a stopwatch.
@@ -473,10 +532,6 @@ class GameBoard(tk.Tk):
         # -----------------------------------------------
         if self.clicked_piece is None:
             # you cannot copy a cell with no piece
-            self.animated_display_label.config(text=f'INVALID SELECTION: Cell occupies no piece now! Please click on '
-                                                    f'a valid {self.current_player_color.title()} piece',
-                                               fg='black', bg='crimson')
-            self.error_id = self.after(3000, self.toggle, 'warnings')
             self.clicked_time = 0
 
         # -----------------------------------------------
@@ -502,7 +557,7 @@ class GameBoard(tk.Tk):
             self.animated_display_label.config(text=f'{copied_report}', fg='white', bg='#2d2d2d')
 
             # get the piece name and its associated image
-            self.previous_piece_image = self.select_image(name=self.clicked_piece.name)
+            self.previous_piece_image = self.select_image(name=self.clicked_piece.name, type=self.clicked_piece.type_)
 
             # reset this cell to the default properties
             self.configure_cell(row=row, col=col, piece=None)
@@ -518,16 +573,12 @@ class GameBoard(tk.Tk):
         self.game_logic.piece_to_be_remove = self.clicked_piece
 
         self.validating_string = self.game_logic.validate_move()
-        # print('validating string is:', self.validating_string)
 
         if self.validating_string in ['forward', 'capturing', 'promote', 'capture and promote', 'castle']:
             # ---------------------- double pasting ------------------------
             if self.previous_piece is None:
                 # self.previous_piece can only be None after pasting was successful
                 # that is the player tries to double paste
-
-                self.animated_display_label.config(text=f'Empty Hand! No piece to play', fg='black', bg='crimson')
-                self.error_id = self.after(3000, self.toggle, 'warnings')
                 self.clicked_time = 0
 
             # ------------------------ self capture -----------------------
@@ -604,17 +655,24 @@ class GameBoard(tk.Tk):
 
                             self.animated_display_label.config(text=paste_report, fg='black', bg='sea green')
                         else:
-                            paste_report = (f'{self.clicked_piece.color.title()} {self.clicked_piece.class_name.upper()} '
-                                            f'at {self.cell_name} is captured by {self.previous_piece.color.title()}'
-                                            f' {self.previous_piece.class_name.upper()}')
+                            paste_report = (
+                                f'{self.clicked_piece.color.title()} {self.clicked_piece.class_name.upper()} '
+                                f'at {self.cell_name} is captured by {self.previous_piece.color.title()}'
+                                f' {self.previous_piece.class_name.upper()}')
 
                             self.animated_display_label.config(text=paste_report, fg='white', bg='#2d2d2d')
 
                     # ------------------------------------------
 
                 # change the current cell at this position to inherit from the previous clicked cell
-                new_cell = self.configure_cell(row=row, col=col, image=self.previous_piece_image,
-                                               piece=self.previous_piece)
+                if self.validating_string in ['promote', 'capture and promote']:
+                    self.pawn_promotion()
+                    new_cell = self.configure_cell(row=row, col=col, image=self.pawn_promoted_image,
+                                                   piece=self.pawn_promoted_piece)
+                    # print('successfully promoted')
+                else:
+                    new_cell = self.configure_cell(row=row, col=col, image=self.previous_piece_image,
+                                                   piece=self.previous_piece)
 
                 # add new_cell to the permissible_cells
                 self.permissible_starting_cells[new_cell] = self.move_to
@@ -649,26 +707,29 @@ class GameBoard(tk.Tk):
                                                     'piece', fg='black', bg='crimson')
 
         elif reason == 'BP-NC':
-            if self.validating_string == 'blocked':
-                self.animated_display_label.config(text=f'This {self.previous_piece.color.title()}'
-                                                        f' {self.previous_piece.class_name.upper()} cannot continue'
-                                                        f'  forward again!', fg='black', bg='crimson')
+            if self.previous_piece is None:
+                pass
+            else:
+                if self.validating_string == 'blocked':
+                    self.animated_display_label.config(text=f'This {self.previous_piece.color.title()}'
+                                                            f' {self.previous_piece.class_name.upper()} cannot continue'
+                                                            f'  forward again!', fg='black', bg='crimson')
 
-            elif self.validating_string == 'not capturing':
-                self.animated_display_label.config(text=f'This {self.previous_piece.color.title()} '
-                                                        f'{self.previous_piece.class_name.upper()} cannot capture any '
-                                                        f' empty cell!', fg='black', bg='crimson')
+                elif self.validating_string == 'not capturing':
+                    self.animated_display_label.config(text=f'This {self.previous_piece.color.title()} '
+                                                            f'{self.previous_piece.class_name.upper()} cannot capture'
+                                                            f' any empty cell!', fg='black', bg='crimson')
 
-            elif self.validating_string == 'not castling':
-                self.animated_display_label.config(text=f'{self.previous_piece.color.title()} '
-                                                        f'{self.previous_piece.class_name.upper()} can\'t castled '
-                                                        f'anymore! Nor is allowed to skip over a piece.',
-                                                   fg='black', bg='crimson')
+                elif self.validating_string == 'not castling':
+                    self.animated_display_label.config(text=f'{self.previous_piece.color.title()} '
+                                                            f'{self.previous_piece.class_name.upper()} can\'t castled '
+                                                            f'anymore! Nor is allowed to skip over a piece.',
+                                                       fg='black', bg='crimson')
 
-            elif self.validating_string in ['prohibited']:
-                self.animated_display_label.config(text=f'{self.previous_piece.color.title()} '
-                                                        f'{self.previous_piece.class_name.upper()} not permitted'
-                                                        f' to move here!', fg='black', bg='crimson')
+                elif self.validating_string in ['prohibited']:
+                    self.animated_display_label.config(text=f'{self.previous_piece.color.title()} '
+                                                            f'{self.previous_piece.class_name.upper()} not permitted'
+                                                            f' to move here!', fg='black', bg='crimson')
 
         # -------------------------------------------
         # return pasting piece to it previous position
@@ -693,3 +754,45 @@ class GameBoard(tk.Tk):
             self.penalize_id = self.after(3000, self.toggle, 'penalize')
         elif reason == 'BPU-NC':
             self.error_id = self.after(3000, self.toggle, 'warnings')
+
+    def get_promotion_image(self, option: str):
+        """get a promotion image for the promoted pawn piece"""
+        image = None
+
+        if self.previous_piece.color == 'white':
+            if option == 'rook':
+                image = self.select_image(name='WRook', type='inverted')
+
+            elif option == 'bishop':
+                image = self.select_image(name='WBishop', type='inverted')
+
+            elif option == 'queen':
+                image = self.select_image(name='WQueen', type='inverted')
+
+            elif option == 'knight':
+                return random.choice([self.select_image(name='WKnightLeft', type='inverted'),
+                                      self.select_image(name='WKnightRight', type='inverted')])
+        else:
+            if option == 'rook':
+                image = self.select_image(name='BRook', type='inverted')
+
+            elif option == 'bishop':
+                image = self.select_image(name='BBishop', type='inverted')
+
+            elif option == 'queen':
+                image = self.select_image(name='BQueen', type='inverted')
+
+            elif option == 'knight':
+                image = random.choice([self.select_image(name='BKnightLeft', type='inverted'),
+                                       self.select_image(name='BKnightRight', type='inverted')])
+
+        # return pawn promotion image
+        return image
+
+    def pawn_promotion(self):
+        r, c = self.move_to
+        options = input('Choose between being a Rook, a Knight, a Bishop or a Queen?\n').lower()
+
+        self.pawn_promoted_image = self.get_promotion_image(option=options)
+        self.pawn_promoted_piece = self.game_logic.create_piece(rol=r, col=r, which=options,
+                                                                color=self.previous_piece.color)

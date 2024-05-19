@@ -9,6 +9,7 @@ class Pieces:
         self.name: str = kwargs.get('name')  # the piece actual name
         self.class_name = kwargs.get('class_name')  # the piece class or family name
         self.color: str = kwargs.get('color')  # the piece associated color
+        self.type_: str = kwargs.get('type_')
 
 
 # SUBCLASSES FOR EACH PIECE.

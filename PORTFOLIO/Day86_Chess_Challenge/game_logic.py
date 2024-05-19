@@ -38,6 +38,8 @@ class GameLogic:
         self.moving_piece: Union[Pieces, Pawn, Rook, Knight, Bishop, Queen, King] = None
         self.piece_to_be_remove: Union[Pieces, Pawn, Rook, Knight, Bishop, Queen, King] = None
 
+        self.new_piece = {}
+
         self.move_from = None
         self.move_to = None
 
@@ -53,6 +55,27 @@ class GameLogic:
         """return a piece object given the coordinates"""
         return self.pieces.get((row, col))
 
+    def create_piece(self, rol: int, col: int, which: str, color: str):
+        """given a coordinate, create a new chess piece of choice at the location for pawn promotion"""
+        new_piece: Union[Rook, Knight, Bishop, Queen] = None
+
+        new_piece_name = f'{color.upper()[:1]}{which.title()}'
+
+        if which.lower() == 'rook':
+            new_piece = Rook(row=rol, col=col, name=new_piece_name, color=color.lower(), type_='inverted')
+        elif which.lower() == 'bishop':
+            new_piece = Bishop(row=rol, col=col, name=new_piece_name, color=color.lower(), type_='inverted')
+        elif which.lower() == 'knight':
+            new_piece = Knight(row=rol, col=col, name=new_piece_name, color=color.lower(), type_='inverted')
+        elif which.lower() == 'queen':
+            new_piece = Queen(row=rol, col=col, name=new_piece_name, color=color.lower(), type_='inverted')
+
+        # adding the new piece to store:
+        self.new_piece[(rol, col)] = new_piece
+
+        # return new_piece object
+        return new_piece
+
     def initialize_piece_and_moves(self):
         """initialize all pieces and moves at start"""
         for coordinates in self.virtual_moves.keys():
@@ -60,71 +83,79 @@ class GameLogic:
 
             # white and black pawn
             if row == 1:
-                self.pieces[coordinates] = Pawn(row=row, col=col, name='BPawn', color='black')
+                self.pieces[coordinates] = Pawn(row=row, col=col, name='BPawn', color='black', type_='normal')
                 self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             elif row == 6:
-                self.pieces[coordinates] = Pawn(row=row, col=col, name='WPawn', color='white')
+                self.pieces[coordinates] = Pawn(row=row, col=col, name='WPawn', color='white', type_='normal')
                 self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             # white and black rook
             elif row == 0 and (col == 0 or col == 7):
-                self.pieces[coordinates] = Rook(row=row, col=col, name='BRook', class_name='Rook', color='black')
+                self.pieces[coordinates] = Rook(row=row, col=col, name='BRook',
+                                                class_name='Rook', color='black', type_='normal')
                 self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             elif row == 7 and (col == 0 or col == 7):
-                self.pieces[coordinates] = Rook(row=row, col=col, name='WRook', class_name='Rook', color='white')
+                self.pieces[coordinates] = Rook(row=row, col=col, name='WRook',
+                                                class_name='Rook', color='white', type_='normal')
                 self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             # black knight left
             elif row == 0 and col == 1:
                 self.pieces[coordinates] = Knight(row=row, col=col, name='BKnightLeft', class_name='Knight',
-                                                  color='black')
+                                                  color='black', type_='normal')
                 self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
                 # black knight right
             elif row == 0 and col == 6:
                 self.pieces[coordinates] = Knight(row=row, col=col, name='BKnightRight', class_name='Knight',
-                                                  color='black')
+                                                  color='black', type_='normal')
                 self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             # white knight left
             elif row == 7 and col == 1:
                 self.pieces[coordinates] = Knight(row=row, col=col, name='WKnightLeft', class_name='Knight',
-                                                  color='white')
+                                                  color='white', type_='normal')
                 self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
                 # white knight right
             elif row == 7 and col == 6:
                 self.pieces[coordinates] = Knight(row=row, col=col, name='WKnightRight', class_name='Knight',
-                                                  color='white')
+                                                  color='white', type_='normal')
                 self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             # bishop
             elif row == 0 and (col == 2 or col == 5):
-                self.pieces[coordinates] = Bishop(row=row, col=col, name='BBishop', class_name='Bishop', color='black')
+                self.pieces[coordinates] = Bishop(row=row, col=col, name='BBishop',
+                                                  class_name='Bishop', color='black', type_='normal')
                 self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             elif row == 7 and (col == 2 or col == 5):
-                self.pieces[coordinates] = Bishop(row=row, col=col, name='WBishop', class_name='Bishop', color='white')
+                self.pieces[coordinates] = Bishop(row=row, col=col, name='WBishop',
+                                                  class_name='Bishop', color='white', type_='normal')
                 self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             # queen
             elif row == 0 and col == 3:
-                self.pieces[coordinates] = Queen(row=row, col=col, name='BQueen', class_name='Queen', color='black')
+                self.pieces[coordinates] = Queen(row=row, col=col, name='BQueen',
+                                                 class_name='Queen', color='black', type_='normal')
                 self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             elif row == 7 and col == 3:
-                self.pieces[coordinates] = Queen(row=row, col=col, name='WQueen', class_name='Queen', color='white')
+                self.pieces[coordinates] = Queen(row=row, col=col, name='WQueen',
+                                                 class_name='Queen', color='white', type_='normal')
                 self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             # king
             elif row == 0 and col == 4:
-                self.pieces[coordinates] = King(row=row, col=col, name='BKing', class_name='King', color='black')
+                self.pieces[coordinates] = King(row=row, col=col, name='BKing',
+                                                class_name='King', color='black', type_='normal')
                 self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
             elif row == 7 and col == 4:
-                self.pieces[coordinates] = King(row=row, col=col, name='WKing', class_name='King', color='white')
+                self.pieces[coordinates] = King(row=row, col=col, name='WKing',
+                                                class_name='King', color='white', type_='normal')
                 self.virtual_moves[coordinates] = Moves(row=row, col=col, piece=self.pieces[coordinates], player=None)
 
     def update_moves(self, row, col, **kwargs):
