@@ -33,6 +33,7 @@ class GameBoard(tk.Tk):
         self.game_logic = game_logic
         self.config(pady=5, padx=50, bg='black')
         self.minsize(width=2000, height=500)
+        self.protocol("WM_DELETE_WINDOW", self.closing)
         self._cells = {}  # holds each cell and their various coordinates
         self._sub_menu = []  # holds each sub menu
         self.clicked_time = 0  # determine how much time to click before moving a piece from current place to required
@@ -421,16 +422,17 @@ class GameBoard(tk.Tk):
         elif state == 'validation':
             self.after_cancel(self.message_id)
             self.animated_display_label.config(text=self.validation_report, fg='white', bg='#2d2d2d')
-        elif state == 'exit':
+
+        elif state == 'checkmate':
             try:
-                dlg = DisplayDialog(parent=self, title='Exit', purpose='exit').result.lower()
+                dlg = DisplayDialog(parent=self, title='Exit', purpose='checkmate').result.lower()
             except AttributeError:
-                self.quit()
+                self.destroy()
             else:
                 if dlg == 'yes':
                     self.restart()
                 else:
-                    quit()
+                    self.destroy()
 
     def select_image(self, name, **kwargs):
         """return an image given the piece name"""
@@ -513,29 +515,34 @@ class GameBoard(tk.Tk):
     def timer(self, sec=60):
         """ Act like a stopwatch.
         Also display the timing mechanism on the canvas"""
-        minutes = math.floor(sec / 60)
-        actual_sec = math.floor(sec % 60)
+        try:
+            minutes = math.floor(sec / 60)
+            actual_sec = math.floor(sec % 60)
 
-        if actual_sec < 10:
-            actual_sec = f'0{actual_sec}'
+            if actual_sec < 10:
+                actual_sec = f'0{actual_sec}'
 
-        if minutes < 10:
-            minutes = f'0{minutes}'
+            if minutes < 10:
+                minutes = f'0{minutes}'
 
-        if self.game_logic.current_player.color == 'white':
-            self.black_label.config(text='Black:', fg='white')
-            self.white_label.config(text=f'White: {minutes}:{actual_sec}', fg='green')
-        else:
-            self.white_label.config(text='White:', fg='white')
-            self.black_label.config(text=f'Black: {minutes}:{actual_sec}', fg='green')
+            if self.game_logic.current_player.color == 'white':
+                self.black_label.config(text='Black:', fg='white')
+                self.white_label.config(text=f'White: {minutes}:{actual_sec}', fg='green')
+            else:
+                self.white_label.config(text='White:', fg='white')
+                self.black_label.config(text=f'Black: {minutes}:{actual_sec}', fg='green')
 
-        if sec >= 0:
-            # keep the timing
-            self.timer_id = self.after(1000, self.timer, sec - 1)
+            if sec >= 0:
+                # keep the timing
+                self.timer_id = self.after(1000, self.timer, sec - 1)
 
-        if sec <= 0:
-            self.after_cancel(self.timer_id)
-            self.toggle(state='delay')
+            if sec <= 0:
+                self.after_cancel(self.timer_id)
+                self.toggle(state='delay')
+
+        except tk.TclError:
+            # Handle the error if the window is closed
+            pass
 
     def copy(self, row, col):
         self.move_from = row, col
@@ -660,7 +667,7 @@ class GameBoard(tk.Tk):
 
                         self.animated_display_label.config(text=checkmate_report, fg='black', bg='blue')
                         self.after_cancel(self.timer_id)
-                        self.exit_id = self.after(3000, self.toggle, 'exit')
+                        self.exit_id = self.after(3000, self.toggle, 'checkmate')
                     else:
                         #   remove an already occupied piece from its permissible cells
                         if self.clicked_piece.color == 'white':  # ---- white piece is being capture
@@ -874,3 +881,15 @@ class GameBoard(tk.Tk):
 
         # Optional: exit the current script
         sys.exit()
+
+    def closing(self):
+        """closing function for force closed"""
+        try:
+            dlg = DisplayDialog(parent=self, title='Exit', purpose='exit').result.lower()
+        except tk.TclError:
+            pass
+        else:
+            if dlg == 'yes':
+                self.destroy()
+            else:
+                self.restart()

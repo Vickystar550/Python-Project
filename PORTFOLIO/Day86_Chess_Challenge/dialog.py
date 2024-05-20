@@ -22,8 +22,12 @@ class DisplayDialog(Toplevel):
             self.label_text = 'Who Should Begin First?'
             self.options = ['white', 'black']
 
-        elif self.purpose == 'exit':
+        elif self.purpose == 'checkmate':
             self.label_text = 'Replay Game?'
+            self.options = ['no', 'yes']
+
+        elif self.purpose == 'exit':
+            self.label_text = 'Are you sure you want to exit?'
             self.options = ['no', 'yes']
 
         self.result: str = ''
