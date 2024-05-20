@@ -1,9 +1,8 @@
 import tkinter as tk
-from tkinter import messagebox
 from game_logic import Pieces
+from dialog import DisplayDialog
 import math
 from datetime import datetime
-import random
 
 
 class Cell(tk.Button):
@@ -100,16 +99,18 @@ class GameBoard(tk.Tk):
         # loading queen images
         self.inverted_queen_filled = tk.PhotoImage(file='assets/inverted_icons/queen_filled.png')
         self.inverted_queen_unfilled = tk.PhotoImage(file='assets/inverted_icons/queen_unfilled.png')
+
+        self.pawn_promoted_image = None
+        self.pawn_promoted_piece = None
         # ----------------------------------------------------------------------------------
 
         self.create_menu()
         self.create_panel()
         self.create_board()
 
-        self.message = messagebox.askquestion(title="Who's First?", message="Should the WHITE player begin?",
-                                              icon='question')
+        self.message = DisplayDialog(parent=self, title='Starter', purpose='starter').result.lower()
 
-        if self.message == 'yes':
+        if self.message == 'white':
             self.animated_display_label.config(text=f'{self.game_logic.current_player.color.title()}\'s turn',
                                                fg='white', bg='#2d2d2d')
         else:
@@ -172,7 +173,7 @@ class GameBoard(tk.Tk):
                                                text=f'Your are welcome. Please enjoy your stay',
                                                font=('San Serif', 15, 'normal'))
 
-        self.animated_display_label.config(bg='#2d2d2d', fg='sea green', justify='center', width=65)
+        self.animated_display_label.config(bg='#2d2d2d', fg='sea green', justify='center', width=90)
         self.animated_display_label.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
 
     def create_board(self):
@@ -414,7 +415,6 @@ class GameBoard(tk.Tk):
         """return an image given the piece name"""
         type_: str = kwargs.get('type')
 
-        print(type_)
         if type_ == 'inverted':  # get inverted icons required for pawn promotions
             # inverted rook
             if name == 'WRook':
@@ -592,9 +592,12 @@ class GameBoard(tk.Tk):
                 if self.clicked_piece is None:
 
                     if self.validating_string == 'promote':
-                        paste_report = (f'Congratulations {self.previous_piece.color.title()} '
-                                        f'{self.previous_piece.class_name.upper()}. Please get yourself a PROMOTION!')
+                        paste_report = (f'Congratulations Mr. {self.previous_piece.color.title()} '
+                                        f'{self.previous_piece.class_name.upper()}. Please get yourself PROMOTED!')
                         self.animated_display_label.config(text=paste_report, fg='black', bg='sea green')
+
+                        # call pawn promotion
+                        self.pawn_promotion()
 
                         self.validation_report = (f'{self.cell_name} now occupied by '
                                                   f'{self.previous_piece.color.title()} '
@@ -650,14 +653,23 @@ class GameBoard(tk.Tk):
                         if self.validating_string == 'capture and promote':
                             paste_report = (
                                 f'{self.clicked_piece.color.title()} {self.clicked_piece.class_name.upper()} '
-                                f'at {self.cell_name} is captured by {self.previous_piece.color.title()}'
+                                f'at {self.cell_name} was captured by {self.previous_piece.color.title()}'
                                 f' {self.previous_piece.class_name.upper()}. You deserves a PROMOTION!')
 
                             self.animated_display_label.config(text=paste_report, fg='black', bg='sea green')
+
+                            # call pawn promotion
+                            self.pawn_promotion()
+
+                            self.validation_report = (f'{self.cell_name} now occupied by '
+                                                      f'{self.previous_piece.color.title()} '
+                                                      f'{self.previous_piece.class_name.upper()}')
+                            self.message_id = self.after(2000, self.toggle, 'validation')
+
                         else:
                             paste_report = (
                                 f'{self.clicked_piece.color.title()} {self.clicked_piece.class_name.upper()} '
-                                f'at {self.cell_name} is captured by {self.previous_piece.color.title()}'
+                                f'at {self.cell_name} was captured by {self.previous_piece.color.title()}'
                                 f' {self.previous_piece.class_name.upper()}')
 
                             self.animated_display_label.config(text=paste_report, fg='white', bg='#2d2d2d')
@@ -666,10 +678,8 @@ class GameBoard(tk.Tk):
 
                 # change the current cell at this position to inherit from the previous clicked cell
                 if self.validating_string in ['promote', 'capture and promote']:
-                    self.pawn_promotion()
                     new_cell = self.configure_cell(row=row, col=col, image=self.pawn_promoted_image,
                                                    piece=self.pawn_promoted_piece)
-                    # print('successfully promoted')
                 else:
                     new_cell = self.configure_cell(row=row, col=col, image=self.previous_piece_image,
                                                    piece=self.previous_piece)
@@ -682,8 +692,12 @@ class GameBoard(tk.Tk):
                                              player=self.game_logic.current_player)
 
                 # -----update the Move object at this position to have this piece
-                self.game_logic.update_moves(row=row, col=col, piece=self.previous_piece,
-                                             player=self.game_logic.current_player)
+                if self.validating_string in ['promote', 'capture and promote']:
+                    self.game_logic.update_moves(row=row, col=col, piece=self.pawn_promoted_piece,
+                                                 player=self.game_logic.current_player)
+                else:
+                    self.game_logic.update_moves(row=row, col=col, piece=self.previous_piece,
+                                                 player=self.game_logic.current_player)
 
                 # to avoid double pasting, reset some inherited variables:
                 self.previous_piece_image = None
@@ -757,42 +771,47 @@ class GameBoard(tk.Tk):
 
     def get_promotion_image(self, option: str):
         """get a promotion image for the promoted pawn piece"""
-        image = None
 
         if self.previous_piece.color == 'white':
             if option == 'rook':
-                image = self.select_image(name='WRook', type='inverted')
+                self.pawn_promoted_image = self.select_image(name='WRook', type='inverted')
 
             elif option == 'bishop':
-                image = self.select_image(name='WBishop', type='inverted')
+                self.pawn_promoted_image = self.select_image(name='WBishop', type='inverted')
 
             elif option == 'queen':
-                image = self.select_image(name='WQueen', type='inverted')
+                self.pawn_promoted_image = self.select_image(name='WQueen', type='inverted')
 
             elif option == 'knight':
-                return random.choice([self.select_image(name='WKnightLeft', type='inverted'),
-                                      self.select_image(name='WKnightRight', type='inverted')])
-        else:
+                # when white pawn is promoted, that means it must be in black first row
+                if self.move_to in [(0, 0), (0, 1), (0, 2), (0, 3)]:
+                    self.pawn_promoted_image = self.select_image(name='WKnightLeft', type='inverted')
+                elif self.move_to in [(0, 4), (0, 5), (0, 6), (0, 7)]:
+                    self.pawn_promoted_image = self.select_image(name='WKnightRight', type='inverted')
+        else:  # for black
             if option == 'rook':
-                image = self.select_image(name='BRook', type='inverted')
+                self.pawn_promoted_image = self.select_image(name='BRook', type='inverted')
 
             elif option == 'bishop':
-                image = self.select_image(name='BBishop', type='inverted')
+                self.pawn_promoted_image = self.select_image(name='BBishop', type='inverted')
 
             elif option == 'queen':
-                image = self.select_image(name='BQueen', type='inverted')
+                self.pawn_promoted_image = self.select_image(name='BQueen', type='inverted')
 
             elif option == 'knight':
-                image = random.choice([self.select_image(name='BKnightLeft', type='inverted'),
-                                       self.select_image(name='BKnightRight', type='inverted')])
-
-        # return pawn promotion image
-        return image
+                # when black pawn is promoted, that means it must be in white first row
+                if self.move_to in [(7, 0), (7, 1), (7, 2), (7, 3)]:
+                    self.pawn_promoted_image = self.select_image(name='BKnightLeft', type='inverted')
+                elif self.move_to in [(7, 4), (7, 5), (7, 6), (7, 7)]:
+                    self.pawn_promoted_image = self.select_image(name='BKnightRight', type='inverted')
 
     def pawn_promotion(self):
         r, c = self.move_to
-        options = input('Choose between being a Rook, a Knight, a Bishop or a Queen?\n').lower()
 
-        self.pawn_promoted_image = self.get_promotion_image(option=options)
-        self.pawn_promoted_piece = self.game_logic.create_piece(rol=r, col=r, which=options,
+        dlg = DisplayDialog(parent=self, title='Pawn Promotion', purpose='promotion')
+        # self.wait_window(dlg)   # Wait for the dialog to close
+        option = dlg.result.lower()
+
+        self.get_promotion_image(option=option)
+        self.pawn_promoted_piece = self.game_logic.create_piece(row=r, col=c, which=option,
                                                                 color=self.previous_piece.color)

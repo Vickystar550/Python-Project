@@ -98,7 +98,7 @@ class Pawn(Pieces):
         # ------------------------------------------------
         if self.move_to in set(promoting_cells) and self.move_to in set(capture_cells):
             if self.piece_to_capture is None:
-                return 'promote'  # cannot capture an empty cell
+                return 'not capturing'  # cannot capture an empty cell
             else:
                 return 'capture and promote'
 

@@ -55,23 +55,33 @@ class GameLogic:
         """return a piece object given the coordinates"""
         return self.pieces.get((row, col))
 
-    def create_piece(self, rol: int, col: int, which: str, color: str):
+    def create_piece(self, row: int, col: int, which: str, color: str):
         """given a coordinate, create a new chess piece of choice at the location for pawn promotion"""
         new_piece: Union[Rook, Knight, Bishop, Queen] = None
 
         new_piece_name = f'{color.upper()[:1]}{which.title()}'
 
         if which.lower() == 'rook':
-            new_piece = Rook(row=rol, col=col, name=new_piece_name, color=color.lower(), type_='inverted')
+            new_piece = Rook(row=row, col=col, name=new_piece_name, color=color.lower(), type_='inverted')
+
         elif which.lower() == 'bishop':
-            new_piece = Bishop(row=rol, col=col, name=new_piece_name, color=color.lower(), type_='inverted')
+            new_piece = Bishop(row=row, col=col, name=new_piece_name, color=color.lower(), type_='inverted')
+
         elif which.lower() == 'knight':
-            new_piece = Knight(row=rol, col=col, name=new_piece_name, color=color.lower(), type_='inverted')
+            if (row, col) in [(0, 0), (0, 1), (0, 2), (0, 3)] or (row, col) in [(7, 0), (7, 1), (7, 2), (7, 3)]:
+                new_piece_name = new_piece_name + 'Left'
+
+            elif (row, col) in [(0, 4), (0, 5), (0, 6), (0, 7)] or (row, col) in [(7, 4), (7, 5), (7, 6), (7, 7)]:
+                new_piece_name = new_piece_name + 'Right'
+
+            new_piece = Knight(row=row, col=col, name=new_piece_name, color=color.lower(), type_='inverted')
+
         elif which.lower() == 'queen':
-            new_piece = Queen(row=rol, col=col, name=new_piece_name, color=color.lower(), type_='inverted')
+            new_piece = Queen(row=row, col=col, name=new_piece_name, color=color.lower(), type_='inverted')
 
         # adding the new piece to store:
-        self.new_piece[(rol, col)] = new_piece
+        self.new_piece[(row, col)] = new_piece
+        self.pieces[(row, col)] = new_piece
 
         # return new_piece object
         return new_piece
