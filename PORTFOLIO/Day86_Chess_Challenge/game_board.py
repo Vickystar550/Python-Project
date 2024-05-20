@@ -120,15 +120,18 @@ class GameBoard(tk.Tk):
         self.create_panel()
         self.create_board()
 
-        self.message = DisplayDialog(parent=self, title='Starter', purpose='starter').result.lower()
-
-        if self.message == 'white':
-            self.animated_display_label.config(text=f'{self.game_logic.current_player.color.title()}\'s turn',
-                                               fg='white', bg='#2d2d2d')
+        try:
+            self.message = DisplayDialog(parent=self, title='Starter', purpose='starter').result.lower()
+        except AttributeError:
+            quit()
         else:
-            self.game_logic.toggle_player()
-            self.animated_display_label.config(text=f'{self.game_logic.current_player.color.title()}\'s turn',
-                                               fg='white', bg='#2d2d2d')
+            if self.message == 'white':
+                self.animated_display_label.config(text=f'{self.game_logic.current_player.color.title()}\'s turn',
+                                                   fg='white', bg='#2d2d2d')
+            elif self.message == 'black':
+                self.game_logic.toggle_player()
+                self.animated_display_label.config(text=f'{self.game_logic.current_player.color.title()}\'s turn',
+                                                   fg='white', bg='#2d2d2d')
 
         # start timer
         self.timer()
@@ -182,8 +185,9 @@ class GameBoard(tk.Tk):
                                                text=f'Your are welcome. Please enjoy your stay',
                                                font=('San Serif', 15, 'normal'))
 
-        self.animated_display_label.config(bg='#2d2d2d', fg='sea green', justify='center', width=90)
-        self.animated_display_label.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
+        self.animated_display_label.config(bg='#2d2d2d', fg='sea green', justify='center')
+        self.animated_display_label.grid(row=1, column=0, columnspan=2, padx=5, pady=5, sticky='ew')
+        self.animated_display_label.columnconfigure(0, weight=1, minsize=65)
 
     def create_board(self):
         """create the chess board"""
