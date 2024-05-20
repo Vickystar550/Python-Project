@@ -3,6 +3,9 @@ from game_logic import Pieces
 from dialog import DisplayDialog
 import math
 from datetime import datetime
+import subprocess
+import sys
+import os
 
 
 class Cell(tk.Button):
@@ -26,6 +29,7 @@ class GameBoard(tk.Tk):
         super().__init__()
         self.copyright_year = datetime.now().year
         self.title(f'CHESS © {self.copyright_year} Victor Nice')
+        self.checkmate: bool = False
         self.game_logic = game_logic
         self.config(pady=5, padx=50, bg='black')
         self.minsize(width=2000, height=500)
@@ -49,6 +53,7 @@ class GameBoard(tk.Tk):
         self.move_from = None
         self.move_to = None
         self.timer_id = ''
+        self.toggle_id = None
 
         # -------------- loading upright chess icons ------------------
         # loading pawns images
@@ -102,7 +107,14 @@ class GameBoard(tk.Tk):
 
         self.pawn_promoted_image = None
         self.pawn_promoted_piece = None
-        # ----------------------------------------------------------------------------------
+
+        # -------------------------loading defeated king images ---------------------------------------------
+        self.defeated_king_filled_left = tk.PhotoImage(file='assets/defeat_king_icons/defeat_king_filled_left.png')
+        self.defeated_king_filled_right = tk.PhotoImage(file='assets/defeat_king_icons/defeat_king_filled_right.png')
+
+        self.defeated_king_unfilled_left = tk.PhotoImage(file='assets/defeat_king_icons/defeat_king_unfilled_left.png')
+        self.defeated_king_unfilled_right = tk.PhotoImage(file='assets/defeat_king_icons/defeat_king_unfilled_right.png')
+        # ---------------------------------------------------------------------------------
 
         self.create_menu()
         self.create_panel()
@@ -132,10 +144,7 @@ class GameBoard(tk.Tk):
         # file menu:
         file_menu = tk.Menu(master=menu_bar)
         self._sub_menu.append(file_menu)
-        file_menu.add_command(
-            label='Play Again',
-            # command=self._game.reset_board
-        )
+        file_menu.add_command(label='Restart', command=self.restart)
         file_menu.add_separator()
         file_menu.add_command(label='Exit', command=quit)
         menu_bar.add_cascade(label='File', menu=file_menu)
@@ -409,7 +418,15 @@ class GameBoard(tk.Tk):
             self.after_cancel(self.message_id)
             self.animated_display_label.config(text=self.validation_report, fg='white', bg='#2d2d2d')
         elif state == 'exit':
-            quit()
+            try:
+                dlg = DisplayDialog(parent=self, title='Exit', purpose='exit').result.lower()
+            except AttributeError:
+                self.quit()
+            else:
+                if dlg == 'yes':
+                    self.restart()
+                else:
+                    quit()
 
     def select_image(self, name, **kwargs):
         """return an image given the piece name"""
@@ -632,13 +649,14 @@ class GameBoard(tk.Tk):
                 else:
                     # check for checkmate!
                     if self.clicked_piece.class_name == 'King':
+                        self.checkmate = True
                         checkmate_report = (
                             f'{self.clicked_piece.color.title()} {self.clicked_piece.class_name.upper()}'
                             f' is CHECKMATE! The {self.previous_piece.color.upper()} player wins')
 
                         self.animated_display_label.config(text=checkmate_report, fg='black', bg='blue')
                         self.after_cancel(self.timer_id)
-                        self.exit_id = self.after(5000, self.toggle, 'exit')
+                        self.exit_id = self.after(3000, self.toggle, 'exit')
                     else:
                         #   remove an already occupied piece from its permissible cells
                         if self.clicked_piece.color == 'white':  # ---- white piece is being capture
@@ -677,12 +695,17 @@ class GameBoard(tk.Tk):
                     # ------------------------------------------
 
                 # change the current cell at this position to inherit from the previous clicked cell
-                if self.validating_string in ['promote', 'capture and promote']:
-                    new_cell = self.configure_cell(row=row, col=col, image=self.pawn_promoted_image,
-                                                   piece=self.pawn_promoted_piece)
-                else:
-                    new_cell = self.configure_cell(row=row, col=col, image=self.previous_piece_image,
+                if self.checkmate:
+                    image = self.get_defeated_king_image()
+                    new_cell = self.configure_cell(row=row, col=col, image=image,
                                                    piece=self.previous_piece)
+                else:
+                    if self.validating_string in ['promote', 'capture and promote']:
+                        new_cell = self.configure_cell(row=row, col=col, image=self.pawn_promoted_image,
+                                                       piece=self.pawn_promoted_piece)
+                    else:
+                        new_cell = self.configure_cell(row=row, col=col, image=self.previous_piece_image,
+                                                       piece=self.previous_piece)
 
                 # add new_cell to the permissible_cells
                 self.permissible_starting_cells[new_cell] = self.move_to
@@ -706,8 +729,11 @@ class GameBoard(tk.Tk):
                 # cancel timer after pasting
                 self.after_cancel(self.timer_id)
 
-                # toggle after pasting, but only after 3 seconds
-                self.toggle_id = self.after(3000, self.toggle, 'pasting')
+                # toggle player after pasting, but only after 3 seconds
+                if self.checkmate:
+                    self.after_cancel(self.timer_id)
+                else:
+                    self.toggle_id = self.after(3000, self.toggle, 'pasting')
 
         # ----------------------- when validating string fall here -----------
         elif self.validating_string in ['blocked', 'prohibited', 'not capturing', 'not castling']:
@@ -805,6 +831,20 @@ class GameBoard(tk.Tk):
                 elif self.move_to in [(7, 4), (7, 5), (7, 6), (7, 7)]:
                     self.pawn_promoted_image = self.select_image(name='BKnightRight', type='inverted')
 
+    def get_defeated_king_image(self):
+        """get the defeated king image"""
+        r, c = self.move_to
+        if self.clicked_piece.color == 'white':
+            if 0 <= c <= 3:
+                return self.defeated_king_unfilled_left
+            elif 4 <= c <= 7:
+                return self.defeated_king_unfilled_right
+        else:
+            if 0 <= c <= 3:
+                return self.defeated_king_filled_left
+            elif 4 <= c <= 7:
+                return self.defeated_king_filled_right
+
     def pawn_promotion(self):
         r, c = self.move_to
 
@@ -815,3 +855,18 @@ class GameBoard(tk.Tk):
         self.get_promotion_image(option=option)
         self.pawn_promoted_piece = self.game_logic.create_piece(row=r, col=c, which=option,
                                                                 color=self.previous_piece.color)
+
+    def restart(self):
+        self.destroy()
+
+        # Determine the current Python interpreter
+        python = sys.executable
+
+        # Determine the path to the main script
+        script_path = os.path.join(os.path.dirname(__file__), 'main.py')
+
+        # Use subprocess to restart the script
+        subprocess.run([python, script_path])
+
+        # Optional: exit the current script
+        sys.exit()

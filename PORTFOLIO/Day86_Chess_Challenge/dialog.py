@@ -22,6 +22,10 @@ class DisplayDialog(Toplevel):
             self.label_text = 'Who Should Begin First?'
             self.options = ['white', 'black']
 
+        elif self.purpose == 'exit':
+            self.label_text = 'Replay Game?'
+            self.options = ['no', 'yes']
+
         self.result: str = ''
 
         self.create_display()
@@ -41,14 +45,14 @@ class DisplayDialog(Toplevel):
         inner_frame.config(pady=20, padx=20, bg='#1C0E25')
 
         label = Label(inner_frame, text=self.label_text)
-        label.grid(row=0, column=0, columnspan=len(self.options))
+        label.grid(row=0, column=0, columnspan=len(self.options), sticky='nsew')
         label.config(pady=50, padx=20, font=('Serif', 20, 'normal'), justify='center', bg='#1C0E25')
 
         column = 0
         for choice in self.options:
             btn = Button(master=inner_frame, text=choice.upper(), command=lambda x=choice: self.set_option(x))
-            btn.grid(row=1, column=column)
-            btn.config(padx=20, pady=20, font=('Arial', 20, 'bold'), fg='sea green', activebackground='#CC5500',
+            btn.grid(row=1, column=column, padx=(0, 10), pady=20, sticky='ew')
+            btn.config(font=('Arial', 20, 'bold'), fg='sea green', activebackground='#CC5500',
                        bg='#2d2d2d', highlightthickness=0, border=5, width=5, highlightbackground='#2d2d2d')
             column += 1
 
