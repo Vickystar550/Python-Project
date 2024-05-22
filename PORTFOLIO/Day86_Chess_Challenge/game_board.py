@@ -121,19 +121,6 @@ class GameBoard(tk.Tk):
         self.create_panel()
         self.create_board()
 
-        try:
-            self.message = DisplayDialog(parent=self, title='Starter', purpose='starter').result.lower()
-        except AttributeError:
-            quit()
-        else:
-            if self.message == 'white':
-                self.animated_display_label.config(text=f'{self.game_logic.current_player.color.title()}\'s turn',
-                                                   fg='white', bg='#2d2d2d')
-            elif self.message == 'black':
-                self.game_logic.toggle_player()
-                self.animated_display_label.config(text=f'{self.game_logic.current_player.color.title()}\'s turn',
-                                                   fg='white', bg='#2d2d2d')
-
         # start timer
         self.timer()
 
@@ -185,6 +172,7 @@ class GameBoard(tk.Tk):
         self.animated_display_label = tk.Label(master=inner_panel_frame,
                                                text=f'Your are welcome. Please enjoy your stay',
                                                font=('San Serif', 15, 'normal'))
+        self.start_id = self.after(2000, self.toggle, 'start')
 
         self.animated_display_label.config(bg='#2d2d2d', fg='sea green', justify='center')
         self.animated_display_label.grid(row=1, column=0, columnspan=2, padx=5, pady=5, sticky='ew')
@@ -395,6 +383,10 @@ class GameBoard(tk.Tk):
             self.copy(row=row, col=col)
 
     def toggle(self, state: str):
+        if state == 'start':
+            self.after_cancel(self.start_id)
+            self.animated_display_label.config(text=f'{self.game_logic.current_player.color.title()}\'s turn',
+                                               fg='white', bg='#2d2d2d')
         if state == 'pasting':
             """toggles the next player 2 seconds after the last player played """
             self.game_logic.toggle_player()
@@ -886,8 +878,10 @@ class GameBoard(tk.Tk):
         """closing function for force closed"""
         try:
             dlg = DisplayDialog(parent=self, title='Exit', purpose='exit').result.lower()
-        except tk.TclError:
+        except tk.TclError or AttributeError:
             pass
+        except AttributeError:
+            self.destroy()
         else:
             if dlg == 'yes':
                 self.destroy()

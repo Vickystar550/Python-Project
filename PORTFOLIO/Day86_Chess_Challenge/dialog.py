@@ -18,10 +18,6 @@ class DisplayDialog(Toplevel):
             self.label_text = 'Congratulation!\nPlease Select Your Promoting Piece'
             self.options = ['rook', 'knight', 'bishop', 'queen']
 
-        elif self.purpose == 'starter':
-            self.label_text = 'Who Should Begin First?'
-            self.options = ['white', 'black']
-
         elif self.purpose == 'checkmate':
             self.label_text = 'Replay Game?'
             self.options = ['no', 'yes']
