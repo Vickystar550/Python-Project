@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5bd4bf9e-d4f8-4eaa-bf17-0ec420a8dfa7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../Advanced/Day62/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../Advanced/Day62/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Advanced/Day63/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Advanced/Day63/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Advanced/Day68/instance/users.db" beforeDir="false" afterPath="$PROJECT_DIR$/../../Advanced/Day68/instance/users.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Advanced/Day68/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../Advanced/Day68/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Advanced/Day68/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../Advanced/Day68/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Advanced/Day68/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../Advanced/Day68/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Advanced/Day68/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../Advanced/Day68/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Advanced/Day68/templates/secrets.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../Advanced/Day68/templates/secrets.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Advanced/Day71/templates/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../Advanced/Day71/templates/header.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Advanced/Day73/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Advanced/Day73/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Advanced/Day73/Programming_Languages.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../Advanced/Day73/Programming_Languages.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Advanced/Day75/Google Trends and Data Visualisation.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../Advanced/Day75/Google Trends and Data Visualisation.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Advanced/Day77/Computation_with_NumPy_and_N_Dimensional_Arrays.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../Advanced/Day77/Computation_with_NumPy_and_N_Dimensional_Arrays.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Intermediate_Stage/Day25/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../Intermediate_Stage/Day25/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Intermediate_Stage/Day28/POMODORO.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../Intermediate_Stage/Day28/POMODORO.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Intermediate_Stage/Day31/.idea/csv-editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Intermediate_Stage/Day31/.idea/csv-editor.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Intermediate_Stage/Day31/data/words_to_learn.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../../Intermediate_Stage/Day31/data/words_to_learn.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Intermediate_Stage/Day45/Must Watch/100_greatest_movies/greatest_movies.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../Intermediate_Stage/Day45/Must Watch/100_greatest_movies/greatest_movies.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Intermediate_Stage/Day52/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../Intermediate_Stage/Day52/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Intermediate_Stage/Day56/Day56_My_Portfolio/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Intermediate_Stage/Day56/Day56_My_Portfolio/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Intermediate_Stage/MY_CALCULATOR/button_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../Intermediate_Stage/MY_CALCULATOR/button_class.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Intermediate_Stage/MY_CALCULATOR/canvas_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../Intermediate_Stage/MY_CALCULATOR/canvas_class.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Intermediate_Stage/MY_CALCULATOR/entry_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../Intermediate_Stage/MY_CALCULATOR/entry_class.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Intermediate_Stage/MY_CALCULATOR/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../Intermediate_Stage/MY_CALCULATOR/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ludo/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../ludo/main.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2fyMiAQ8ZzmE14DA2kQn95rUWE4" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/victornice/PycharmProjects/100_Days_Python/Python-Project/PORTFOLIO"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="chess" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5bd4bf9e-d4f8-4eaa-bf17-0ec420a8dfa7" name="Changes" comment="" />
+      <created>1714768988916</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1714768988916</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
