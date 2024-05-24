@@ -35,9 +35,9 @@ class GameBoard(tk.Tk):
         self.blue_home = tk.PhotoImage(file='assets/home/blue_home.png')
 
         # ---------------- players -----------------
-        self.red_player = ImageTk.PhotoImage(Image.open(fp='assets/players/ronaldo.jpg').resize((360, 350)))
-        self.blue_player = ImageTk.PhotoImage(Image.open(fp='assets/players/lampard.jpeg').resize((360, 350)))
-        self.yellow_player = ImageTk.PhotoImage(Image.open(fp='assets/players/neymar.jpg').resize((390, 350)))
+        self.red_player = ImageTk.PhotoImage(Image.open(fp='assets/players/ronaldo.jpg').resize((380, 350)))
+        self.blue_player = ImageTk.PhotoImage(Image.open(fp='assets/players/lampard.jpeg').resize((380, 350)))
+        self.yellow_player = ImageTk.PhotoImage(Image.open(fp='assets/players/neymar.jpg').resize((380, 350)))
         self.green_player = ImageTk.PhotoImage(Image.open(fp='assets/players/green_player.jpg').resize((380, 350)))
 
         # --------------- color -----
@@ -60,30 +60,31 @@ class GameBoard(tk.Tk):
 
         self.board_frame = tk.Frame(master=master_frame, highlightthickness=10, highlightbackground=self.theme)
         self.board_frame.grid(row=0, column=1, padx=10, pady=10)
-        self.board_frame.config(height=950, width=1200, bg=self.theme)
+        # self.board_frame.config(height=950, width=1200, bg=self.theme)
+        self.board_frame.config(height=1000, width=2000, bg=self.theme, padx=5, pady=5)
 
         # ------------------OVER-LAY LABEL -----------
         overlay_label_green = tk.Label(self.board_frame,
                                        bg=self.theme, width=380, height=350, anchor='center',
                                        image=self.green_player)
-        overlay_label_green.place(relx=0.16, rely=0.16, anchor="center")
+        overlay_label_green.place(x=0, y=0)
 
         overlay_label_yellow = tk.Label(self.board_frame,
-                                        bg=self.theme, width=612, height=408, anchor='sw',
+                                        bg=self.theme, width=380, height=350, anchor='sw',
                                         image=self.yellow_player)
-        overlay_label_yellow.place(relx=0.96, rely=0.135, anchor='center')
+        overlay_label_yellow.place(x=610, y=0)
 
         overlay_label_red = tk.Label(self.board_frame,
-                                     bg=self.red, width=612, height=408, anchor='ne',
+                                     bg=self.red, width=380, height=350, anchor='ne',
                                      image=self.red_player)
-        overlay_label_red.place(relx=0.04, rely=0.87, anchor='center')
+        overlay_label_red.place(x=0, y=595)
 
         overlay_label_blue = tk.Label(self.board_frame,
-                                      bg=self.blue, width=612, height=408, anchor='nw',
+                                      bg=self.blue, width=380, height=350, anchor='nw',
                                       image=self.blue_player)
-        overlay_label_blue.place(relx=0.96, rely=0.87, anchor='center')
-        # ------------------------------
+        overlay_label_blue.place(x=610, y=595)
 
+        # ------------------------------
         self.panel_frame2 = tk.Frame(master=master_frame)
         self.panel_frame2.grid(row=0, column=2, padx=10, pady=10)
         self.panel_frame2.config(height=980, width=250, bg='black')
