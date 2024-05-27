@@ -40,17 +40,22 @@ class Snake:
         """ This method add continuity to the snake.
             It continues the snake movement in the opposite direction when the head crosses
             the borderlines"""
+        # reset snake head's direction when it approaches positive x border (left border)
         if (self.head.heading() == 90) and (self.head.ycor() >= 300):
             self.head.goto(self.head.xcor(), -300)
+        # reset snake head's direction when it approaches negative x border (right border)
         elif (self.head.heading() == 270) and (self.head.ycor() <= -300):
             self.head.goto(self.head.xcor(), 300)
+        # reset head's direction when it approaches negative y border (down border)
         elif (self.head.heading() == 180) and (self.head.xcor() <= -600):
             self.head.goto(600, self.head.ycor())
+        # reset head's direction when it approaches postive y border (up border)
         elif (self.head.heading() == 0) and (self.head.xcor() >= 600):
             self.head.goto(-600, self.head.ycor())
 
         for i in range(len(self.snakes) - 1, 0, -1):  # starting from the last turtle in snake
             self.snakes[i].goto(self.snakes[i - 1].pos())
+        # move the head by a fixed distance
         self.head.fd(MOVE_DISTANCE)
 
     def up(self):
