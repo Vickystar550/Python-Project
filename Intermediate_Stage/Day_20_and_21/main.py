@@ -8,7 +8,7 @@ import tkinter as tk
 # CREATE AND SET CANVAS SCREEN PROPERTIES
 screen = Screen()
 screen.title("My Snake Game")
-screen.setup(width=600, height=600)
+screen.setup(width=2000, height=1200)
 screen.bgcolor('black')
 screen.tracer(0)
 
