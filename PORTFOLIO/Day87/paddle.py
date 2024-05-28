@@ -18,11 +18,9 @@ class Paddle(Turtle):
         self.move_step = MOVE_STEP
 
     def go_right(self):
-        self.speed('fast')
         if self.xcor() <= 300:
             self.goto(self.xcor() + self.move_step, self.ycor())
 
     def go_left(self):
-        self.speed('fast')
         if self.xcor() >= -300:
             self.goto(self.xcor() - self.move_step, self.ycor())

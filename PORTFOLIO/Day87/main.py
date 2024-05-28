@@ -60,11 +60,14 @@ while game_on:
 
             if ball.distance(brick) <= 20:
                 brick.reset()
+                # reward player
+                scoreboard.update_score(player='one')
                 ball.bounce_y()
 
     # detect when paddle misses the ball
     if ball.ycor() <= -380:
         ball.bounce_y()
+        # penalize player
         # print('miss paddle')
 
     # detect collision with paddle:
