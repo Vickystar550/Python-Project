@@ -14,7 +14,7 @@ class Paddle(Turtle):
         self.penup()
         self.goto(0, -350)
         self.showturtle()
-        self.shapesize(1, 5)
+        self.shapesize(1, 7)
         self.move_step = MOVE_STEP
 
     def go_right(self):

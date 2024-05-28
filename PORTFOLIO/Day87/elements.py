@@ -68,4 +68,6 @@ class Element:
                 brick.showturtle()
 
                 # storing each brick instance
-                self.bricks[(rol, col)] = brick
+                self.bricks.update(
+                    {(rol, col): brick}
+                )

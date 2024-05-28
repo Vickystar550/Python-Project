@@ -19,12 +19,9 @@ class Ball(Turtle):
         new_y = self.ycor() + self.y_move
         self.goto(new_x, new_y)
 
-        print('x cor', new_x)
-        print('y cor', new_y)
-
     def bounce_y(self):
         """negate the vertical move parameter"""
-        self.move_speed *= 0.9
+        self.move_speed *= 0.7
         self.y_move *= -1
 
     def bounce_x(self):
