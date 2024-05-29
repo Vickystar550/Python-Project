@@ -5,7 +5,6 @@ from paddle import Paddle
 from turtle import Screen
 import time
 
-SECONDS = 60
 MOVE_Y = 370
 
 screen = Screen()
@@ -28,18 +27,26 @@ screen.onkey(fun=paddle.go_left, key='Left')
 
 def timer():
     """set timing mechanism"""
-    global SECONDS
-    scoreboard.countdown(sec=SECONDS)
-    SECONDS -= 1
+    global ball, element, paddle
+
+    if scoreboard.reset_screen:
+        element.reset_bricks()
+        ball = ball.reset_ball()
+
+        scoreboard.reset_screen = False
+        scoreboard.toggle()
+    else:
+        scoreboard.countdown()
+
     screen.ontimer(timer, 1000)
 
 
 timer()
 
+
 game_on = True
 while game_on:
     time.sleep(ball.move_speed)
-    # update screen
     screen.update()
 
     # move ball
@@ -61,7 +68,7 @@ while game_on:
             if ball.distance(brick) <= 20:
                 brick.reset()
                 # reward player
-                scoreboard.update_score(player='one')
+                scoreboard.update_score()
                 ball.bounce_y()
 
     # detect when paddle misses the ball

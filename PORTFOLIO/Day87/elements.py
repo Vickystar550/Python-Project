@@ -31,7 +31,7 @@ class Borderline(Turtle):
         self.goto(0, 470)
         self.pendown()
         self.color('sea green')
-        self.write('BREAKOUT', align='center', font=('Serif', 25, 'bold'))
+        self.write('BREAKOUT', align='center', font=('San Serif', 25, 'bold'))
 
 
 class Element:
@@ -71,3 +71,9 @@ class Element:
                 self.bricks.update(
                     {(rol, col): brick}
                 )
+
+    def reset_bricks(self):
+        """clear all bricks off the screen and create it again"""
+        for bricks in self.bricks.values():
+            bricks.reset()
+        self.create_bricks()

@@ -27,3 +27,8 @@ class Ball(Turtle):
     def bounce_x(self):
         """negate the horizontal move parameter"""
         self.x_move *= -1
+
+    def reset_ball(self):
+        """reset and create back itself"""
+        self.reset()
+        return Ball()

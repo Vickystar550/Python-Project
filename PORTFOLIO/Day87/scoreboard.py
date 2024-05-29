@@ -1,18 +1,41 @@
 import math
 from turtle import Turtle
+from itertools import cycle
+from typing import NamedTuple
 
 GREEN = '#008000'
 RED = '#880808'
 YELLOW = '#8B8000'
 BLUE = '#00008B'
 THEME = '#4D4D4D'
+GREY = '#808080'
 TIMER_FONT = ('Arial', 25, 'bold')
-SCORE_FONT = ('Courier', 25, 'bold')
+SCORE_FONT = ('San Serif', 20, 'bold')
+
+SECONDS = 60
+
+
+class Player(NamedTuple):
+    """define players by order"""
+    order: str
+
+
+DEFAULT_PLAYERS = (
+    (Player(order='first'), Player(order='second'))
+)
 
 
 class Scoreboard:
     def __init__(self):
-        self.score = 0
+        self.players = cycle(DEFAULT_PLAYERS)
+        self.current_player = next(self.players)
+
+        self.score_one = 0
+        self.score_two = 0
+        self.fixed_seconds = SECONDS
+
+        self.reset_screen = False
+
         self.timer_object: Turtle = None
         self.player_one_score_object: Turtle = None
         self.player_two_score_object: Turtle = None
@@ -37,7 +60,7 @@ class Scoreboard:
 
         score_turtle = Turtle()
         score_turtle.hideturtle()
-        score_turtle.color(BLUE)
+        score_turtle.color(GREY)
         score_turtle.penup()
 
         if player.lower() == 'one':
@@ -50,7 +73,7 @@ class Scoreboard:
             align = 'right'
 
         score_turtle.pendown()
-        score_turtle.write(f'Player {player.title()}: {self.score}', align=align, font=SCORE_FONT)
+        score_turtle.write(f'Player {player.title()}: 0', align=align, font=SCORE_FONT)
 
     def update_timer(self, t_str: str):
         """update written time on the screen"""
@@ -58,11 +81,11 @@ class Scoreboard:
         self.timer_object.goto(0, 410)
         self.timer_object.write(t_str, align='center', font=TIMER_FONT)
 
-    def countdown(self, sec):
+    def countdown(self):
         """act like a stopwatch"""
-        if sec >= 0:
-            minutes = math.floor(sec / 60)
-            actual_sec = math.floor(sec % 60)
+        if self.fixed_seconds >= 0:
+            minutes = math.floor(self.fixed_seconds / 60)
+            actual_sec = math.floor(self.fixed_seconds % 60)
 
             if actual_sec < 10:
                 actual_sec = f'0{actual_sec}'
@@ -71,16 +94,27 @@ class Scoreboard:
                 minutes = f'0{minutes}'
 
             self.update_timer(t_str=f'{minutes}:{actual_sec}')
+            self.fixed_seconds -= 1
         else:
-            self.update_timer(t_str='00:00')
+            self.reset_screen = True
 
-    def update_score(self, player: str):
-        self.score += 1
-        if player.lower() == 'one':
+    def toggle(self):
+        """toggle player's turn"""
+        # toggle player
+        self.current_player = next(self.players)
+        self.fixed_seconds = SECONDS + 0.9
+        self.countdown()
+
+    def update_score(self):
+        """update each player's score"""
+        if self.current_player.order == 'first':
+            self.score_one += 1
             self.player_one_score_object.clear()
             self.player_one_score_object.goto(-410, 410)
-            self.player_one_score_object.write(f'Player One: {self.score}', align='left', font=SCORE_FONT)
-        else:
+            self.player_one_score_object.write(f'Player One: {self.score_one}', align='left', font=SCORE_FONT)
+
+        if self.current_player.order == 'second':
+            self.score_two += 1
             self.player_two_score_object.clear()
             self.player_two_score_object.goto(410, 410)
-            self.player_two_score_object.write(f'Player Two: {self.score}', align='right', font=SCORE_FONT)
+            self.player_two_score_object.write(f'Player Two: {self.score_two}', align='right', font=SCORE_FONT)
