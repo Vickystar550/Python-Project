@@ -8,8 +8,10 @@ class Ball(Turtle):
         self.color('purple')
         self.penup()
         self.shapesize(1, 1)
-        self.x_move = 1
-        self.y_move = 36
+        # self.x_move = 1
+        # self.y_move = 36
+        self.x_move = 10
+        self.y_move = 10
         self.goto(0, -250)
         self.move_speed = 0.1
 
@@ -21,7 +23,7 @@ class Ball(Turtle):
 
     def bounce_y(self):
         """negate the vertical move parameter"""
-        self.move_speed *= 0.7
+        self.move_speed *= 0.9
         self.y_move *= -1
 
     def bounce_x(self):

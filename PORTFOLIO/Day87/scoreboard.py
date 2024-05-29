@@ -105,16 +105,17 @@ class Scoreboard:
         self.fixed_seconds = SECONDS + 0.9
         self.countdown()
 
-    def update_score(self):
+    def update_score(self, score):
         """update each player's score"""
+
         if self.current_player.order == 'first':
-            self.score_one += 1
+            self.score_one += score
             self.player_one_score_object.clear()
             self.player_one_score_object.goto(-410, 410)
             self.player_one_score_object.write(f'Player One: {self.score_one}', align='left', font=SCORE_FONT)
 
         if self.current_player.order == 'second':
-            self.score_two += 1
+            self.score_two += score
             self.player_two_score_object.clear()
             self.player_two_score_object.goto(410, 410)
             self.player_two_score_object.write(f'Player Two: {self.score_two}', align='right', font=SCORE_FONT)

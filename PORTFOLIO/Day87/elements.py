@@ -34,8 +34,33 @@ class Borderline(Turtle):
         self.write('BREAKOUT', align='center', font=('San Serif', 25, 'bold'))
 
 
+class Bricks(Turtle):
+    def __init__(self, rol, col, color: str):
+        super().__init__()
+        self.hideturtle()
+        self.shape('square')
+        self.speed(0)
+        self.color(color)
+        self.shapesize(0.5, 2)
+        self.penup()
+        self.goto(rol, col)
+        self.showturtle()
+
+        if color == 'yellow':
+            self.damage_score = 10
+        elif color == 'green':
+            self.damage_score = 50
+        elif color == 'orange':
+            self.damage_score = 100
+        elif color == 'red':
+            self.damage_score = 500
+        else:
+            self.damage_score = 0
+
+
 class Element:
     """the game elements (bricks)"""
+
     def __init__(self):
         Borderline()
 
@@ -57,15 +82,9 @@ class Element:
 
         for col in columns_dict.keys():
             color = columns_dict[col]
+
             for rol in range(-350, 400, 50):
-                brick = Turtle('square')
-                brick.hideturtle()
-                brick.speed(0)
-                brick.color(color)
-                brick.shapesize(0.5, 2)
-                brick.penup()
-                brick.goto(rol, col)
-                brick.showturtle()
+                brick = Bricks(rol=rol, col=col, color=color)
 
                 # storing each brick instance
                 self.bricks.update(
@@ -77,3 +96,4 @@ class Element:
         for bricks in self.bricks.values():
             bricks.reset()
         self.create_bricks()
+

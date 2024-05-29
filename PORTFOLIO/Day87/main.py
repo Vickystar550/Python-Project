@@ -1,3 +1,4 @@
+import elements
 from elements import Element
 from scoreboard import Scoreboard
 from ball import Ball
@@ -32,24 +33,21 @@ def timer():
     if scoreboard.reset_screen:
         element.reset_bricks()
         ball = ball.reset_ball()
-
         scoreboard.reset_screen = False
         scoreboard.toggle()
     else:
         scoreboard.countdown()
-
     screen.ontimer(timer, 1000)
 
 
 timer()
 
+bricks = element.bricks
 
 game_on = True
 while game_on:
-    time.sleep(ball.move_speed)
+    time.sleep(0.005)
     screen.update()
-
-    # move ball
     ball.move()
 
     # detect ball collisions with vertical wall:
@@ -61,15 +59,17 @@ while game_on:
         ball.bounce_y()
     else:
         # detect collision with bricks:
-        bricks = element.bricks
+        for coordinate in list(bricks.keys()):
+            brick = bricks[coordinate]
 
-        for coordinate, brick in bricks.items():
-
-            if ball.distance(brick) <= 20:
+            if ball.distance(brick) <= 20 and brick is not None:  # the problem is here
+                scoreboard.update_score(score=brick.damage_score)
                 brick.reset()
-                # reward player
-                scoreboard.update_score()
+                brick = None
+                del bricks[coordinate]
                 ball.bounce_y()
+            else:
+                continue
 
     # detect when paddle misses the ball
     if ball.ycor() <= -380:
@@ -78,7 +78,7 @@ while game_on:
         # print('miss paddle')
 
     # detect collision with paddle:
-    if ball.distance(paddle) <= 20:
+    if ball.distance(paddle) <= 40 and ball.ycor() >= -350:
         ball.bounce_y()
 
 
