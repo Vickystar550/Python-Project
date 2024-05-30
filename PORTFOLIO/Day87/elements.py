@@ -18,8 +18,8 @@ class Borderline(Turtle):
         self.penup()
         self.goto(400, -500)
         self.pendown()
-        self.goto(400, 400)
-        self.goto(-400, 400)
+        self.goto(400, 350)
+        self.goto(-400, 350)
         self.goto(-400, -500)
         self.goto(400, -500)
 
@@ -47,13 +47,13 @@ class Bricks(Turtle):
         self.showturtle()
 
         if color == 'yellow':
-            self.damage_score = 10
+            self.damage_score = 1
         elif color == 'green':
-            self.damage_score = 50
+            self.damage_score = 3
         elif color == 'orange':
-            self.damage_score = 100
+            self.damage_score = 5
         elif color == 'red':
-            self.damage_score = 500
+            self.damage_score = 7
         else:
             self.damage_score = 0
 
@@ -69,15 +69,26 @@ class Element:
 
     def create_bricks(self):
         """create bricks"""
+        # columns_dict = {
+        #     180: 'yellow',
+        #     200: 'yellow',
+        #     230: 'green',
+        #     250: 'green',
+        #     280: 'orange',
+        #     300: 'orange',
+        #     330: 'red',
+        #     350: 'red'
+        # }
+
         columns_dict = {
-            180: 'yellow',
-            200: 'yellow',
-            230: 'green',
-            250: 'green',
-            280: 'orange',
-            300: 'orange',
-            330: 'red',
-            350: 'red'
+            130: 'yellow',
+            150: 'yellow',
+            180: 'green',
+            200: 'green',
+            230: 'orange',
+            250: 'orange',
+            280: 'red',
+            300: 'red'
         }
 
         for col in columns_dict.keys():

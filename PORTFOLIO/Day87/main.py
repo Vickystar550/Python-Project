@@ -6,7 +6,7 @@ from paddle import Paddle
 from turtle import Screen
 import time
 
-MOVE_Y = 370
+MOVE_Y = 320
 
 screen = Screen()
 screen.title('Breakout Game')
@@ -31,10 +31,12 @@ def timer():
     global ball, element, paddle
 
     if scoreboard.reset_screen:
+        scoreboard.toggle()
         element.reset_bricks()
         ball = ball.reset_ball()
+        paddle.extend()
         scoreboard.reset_screen = False
-        scoreboard.toggle()
+        # scoreboard.toggle()
     else:
         scoreboard.countdown()
     screen.ontimer(timer, 1000)
@@ -46,7 +48,7 @@ bricks = element.bricks
 
 game_on = True
 while game_on:
-    time.sleep(0.005)
+    time.sleep(0.001)
     screen.update()
     ball.move()
 
@@ -62,23 +64,29 @@ while game_on:
         for coordinate in list(bricks.keys()):
             brick = bricks[coordinate]
 
-            if ball.distance(brick) <= 20 and brick is not None:  # the problem is here
-                scoreboard.update_score(score=brick.damage_score)
-                brick.reset()
-                brick = None
-                del bricks[coordinate]
-                ball.bounce_y()
-            else:
+            if brick is None:
+                scoreboard.update_score(score=0)
                 continue
+            else:
+                if ball.distance(brick) <= 20:
+                    if brick.color()[0] == 'red':
+                        # shrink the paddle
+                        paddle.shrink()
+
+                    scoreboard.update_score(score=brick.damage_score)
+                    brick.reset()
+                    brick = None
+                    del bricks[coordinate]
+                    ball.bounce_y()
 
     # detect when paddle misses the ball
-    if ball.ycor() <= -380:
+    if ball.ycor() <= -450:
         ball.bounce_y()
         # penalize player
         # print('miss paddle')
 
     # detect collision with paddle:
-    if ball.distance(paddle) <= 40 and ball.ycor() >= -350:
+    if ball.distance(paddle) <= 40 and ball.ycor() >= -450:
         ball.bounce_y()
 
 
