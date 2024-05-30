@@ -3,11 +3,7 @@ from turtle import Turtle
 from itertools import cycle
 from typing import NamedTuple
 
-# GREEN = '#008000'
-# RED = '#880808'
-# YELLOW = '#8B8000'
-# BLUE = '#00008B'
-# THEME = '#4D4D4D'
+
 ACTIVE_THEME = '#808080'
 INACTIVE_THEME = '#2d2d2d'
 
@@ -15,7 +11,7 @@ TIMER_FONT = ('Arial', 30, 'bold')
 SCORE_FONT = ('San Serif', 20, 'bold')
 LABEL_FONT = ('San Serif', 18, 'bold')
 
-SECONDS = 5
+SECONDS = 60
 
 
 class Theme(NamedTuple):
@@ -78,19 +74,18 @@ class Scoreboard:
 
         label_turtle = Turtle()
         label_turtle.hideturtle()
+        label_turtle.color(ACTIVE_THEME)
         label_turtle.penup()
 
         if label.lower() == 'one':
             self.player_one_label = label_turtle
             self.player_one_label.goto(-410, 410)
             align = 'left'
-            self.player_one_label.color(ACTIVE_THEME)  # at the start, player one is active
 
         else:
             self.player_two_label = label_turtle
             self.player_two_label.goto(410, 410)
             align = 'right'
-            self.player_two_label.color(INACTIVE_THEME)
 
         label_turtle.pendown()
         label_turtle.write(f'PLAYER {label.upper()}', align=align, font=LABEL_FONT)
@@ -101,18 +96,17 @@ class Scoreboard:
 
         score_turtle = Turtle()
         score_turtle.hideturtle()
+        score_turtle.color(ACTIVE_THEME)
         score_turtle.penup()
 
         if player.lower() == 'one':
             self.player_one_score_object = score_turtle
             self.player_one_score_object.goto(-410, 360)
             align = 'left'
-            self.player_one_score_object.color(ACTIVE_THEME)  # at the start, player one is active
         else:
             self.player_two_score_object = score_turtle
             self.player_two_score_object.goto(410, 360)
             align = 'right'
-            self.player_two_score_object.color(INACTIVE_THEME)
 
         score_turtle.pendown()
         score_turtle.write(f'score: 0', align=align, font=SCORE_FONT)
@@ -143,28 +137,6 @@ class Scoreboard:
     def toggle(self):
         """toggle player's turn"""
         self.current_player = next(self.players)
-
-        # toggle active color for player scoreboard
-
-        if self.current_player.order == 'first':
-            print('first')
-            # make player one color active
-            self.player_one_label.color(ACTIVE_THEME)
-            self.player_one_score_object.color(ACTIVE_THEME)
-
-            # make player two color inactive
-            self.player_two_label.color(INACTIVE_THEME)
-            self.player_two_score_object.color(INACTIVE_THEME)
-
-        if self.current_player.order == 'second':
-            # make player one color inactive
-            self.player_one_label.color(INACTIVE_THEME)
-            self.player_one_score_object.color(INACTIVE_THEME)
-
-            # make player two color inactive
-            self.player_two_label.color(ACTIVE_THEME)
-            self.player_two_score_object.color(ACTIVE_THEME)
-
         self.fixed_seconds = SECONDS + 0.9
         self.countdown()
 

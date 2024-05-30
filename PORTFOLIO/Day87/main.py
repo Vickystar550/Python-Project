@@ -31,12 +31,11 @@ def timer():
     global ball, element, paddle
 
     if scoreboard.reset_screen:
-        scoreboard.toggle()
         element.reset_bricks()
         ball = ball.reset_ball()
         paddle.extend()
         scoreboard.reset_screen = False
-        # scoreboard.toggle()
+        scoreboard.toggle()
     else:
         scoreboard.countdown()
     screen.ontimer(timer, 1000)
