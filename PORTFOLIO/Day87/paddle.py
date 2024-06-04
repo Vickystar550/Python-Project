@@ -13,7 +13,7 @@ class Paddle(Turtle):
         self.speed(0)
         self.color('white')
         self.penup()
-        self.goto(0, -420)
+        self.goto(0, -400)
         self.showturtle()
         self.shapesize(stretch_wid=1, stretch_len=STRETCH_LEN)
         self.move_step = MOVE_STEP

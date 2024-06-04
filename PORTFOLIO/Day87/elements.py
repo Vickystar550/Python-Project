@@ -1,3 +1,4 @@
+import turtle
 from turtle import Turtle
 
 GREEN = '#008000'
@@ -69,17 +70,6 @@ class Element:
 
     def create_bricks(self):
         """create bricks"""
-        # columns_dict = {
-        #     180: 'yellow',
-        #     200: 'yellow',
-        #     230: 'green',
-        #     250: 'green',
-        #     280: 'orange',
-        #     300: 'orange',
-        #     330: 'red',
-        #     350: 'red'
-        # }
-
         columns_dict = {
             130: 'yellow',
             150: 'yellow',
@@ -91,16 +81,19 @@ class Element:
             300: 'red'
         }
 
-        for col in columns_dict.keys():
-            color = columns_dict[col]
+        try:
+            for col in columns_dict.keys():
+                color = columns_dict[col]
 
-            for rol in range(-350, 400, 50):
-                brick = Bricks(rol=rol, col=col, color=color)
+                for rol in range(-350, 400, 50):
+                    brick = Bricks(rol=rol, col=col, color=color)
 
-                # storing each brick instance
-                self.bricks.update(
-                    {(rol, col): brick}
-                )
+                    # storing each brick instance
+                    self.bricks.update(
+                        {(rol, col): brick}
+                    )
+        except turtle.Terminator:
+            pass
 
     def reset_bricks(self):
         """clear all bricks off the screen and create it again"""

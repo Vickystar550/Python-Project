@@ -2,3 +2,4 @@ __pycache__
 venv
 .idea
 test_file.py
+main_clone.py
