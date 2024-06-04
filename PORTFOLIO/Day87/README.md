@@ -1,7 +1,7 @@
 # Day 87 of 100 days
 
 A Part of Portfolio Building Projects. **A challenge on programming
-the 1980's BREAKOUT game** using python turtle graphics library.
+the 1980's BREAKOUT game** using Python's turtle graphics.
 
 Contained in this directory are the following file with their brief descriptions:
 
