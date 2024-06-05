@@ -2,11 +2,14 @@ import tkinter as tk
 from datetime import datetime
 import random
 from PIL import Image, ImageTk
+from dialog import Dialog
 
 
 class GameBoard(tk.Tk):
     def __init__(self, **kwargs):
         super().__init__()
+        self.dlg = Dialog(parent=self)
+        self.dlg.choose_players_num(purpose='start')
         copyright_year = datetime.now().year
         self.title(f'Ludo © {copyright_year} Victor Nice')
         self.config(pady=10, padx=0, bg='black')
@@ -47,7 +50,9 @@ class GameBoard(tk.Tk):
         self.blue = '#00008B'
         self.theme = '#4D4D4D'
 
+        self.combos: tuple = ()
         self.create_frame()
+        self.call_pick_combo()
 
     def create_frame(self):
         master_frame = tk.Frame(self)
@@ -263,6 +268,7 @@ class GameBoard(tk.Tk):
             return '#1E1F22'
 
     def roll_dices(self, event):
+        print(self.dlg2.result)
         clicked_btn = event.widget
         color = clicked_btn.cget('bg')
         self.dices = random.randint(1, 6), random.randint(1, 6)
@@ -279,3 +285,21 @@ class GameBoard(tk.Tk):
         elif color == self.blue:
             self.right_box_label.config(width=10, height=15, text=f'{self.dices}', font=('Arial', 20, 'bold'),
                                         fg=color, anchor='s')
+
+    def call_pick_combo(self):
+        """Call the pick_combo function"""
+        self.pick_combo_id = self.after(1000, self.pick_combo)
+
+    def pick_combo(self):
+        """Trigger the pick combo method of the Dialog class"""
+        if self.dlg.result in {'two': 2, 'three': 3, 'four': 4}.keys():
+            self.num_of_players = {'two': 2, 'three': 3, 'four': 4}.get(self.dlg.result)
+        else:
+            self.num_of_players = 1
+
+        if self.dlg.player_num_selected:
+            self.after_cancel(self.pick_combo_id)
+            self.dlg2 = Dialog(parent=self)
+            self.dlg2.choose_player_combos(players=self.num_of_players)
+        else:
+            self.call_pick_combo()
