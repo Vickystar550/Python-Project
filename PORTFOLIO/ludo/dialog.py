@@ -1,39 +1,48 @@
 from tkinter import *
 import math
+import json
 
 
 class Dialog(Toplevel):
     """A custom Tk button dialog. Get and store user selected choice"""
 
-    def __init__(self, parent):
+    def __init__(self, parent: Tk):
         super().__init__(parent)
+        self.parent = parent
         self.title('Game Dialog')
         self.config(pady=10, padx=10, bg='black')
         self.minsize(width=800, height=400)
         self.transient(parent)
         self.protocol('WM_DELETE_WINDOW', self.closed)
         self.result = ''
+        self.purpose = ''
         self.player_num_selected = False
 
-    def choose_players_num(self, purpose: str):
-        """choose the number of players"""
-        purpose = purpose.lower()
+    def question1(self, purpose: str):
+        """choose the number of players or exit the game"""
+        self.purpose = purpose.lower()
 
-        if purpose in ('start', 'restart'):
-            if purpose == 'start':
+        if self.purpose in ('start', 'restart'):
+            if self.purpose == 'start':
                 self.label1_text = 'WELCOME\nplease make a selection'
-            elif purpose == 'restart':
+            elif self.purpose == 'restart':
                 self.label1_text = 'WELCOME\nglad to have you back'
 
             self.label1_fg = 'white'
             self.label2_text = f'how many players are you {purpose}ing with?'
             self.options = ('two', 'three', 'four')
 
-        elif purpose == 'exit':
+        elif self.purpose == 'exit':
             self.label1_fg = 'red'
             self.label1_text = 'EXIT!'
             self.label2_text = 'Are you sure you want to exit?'
-            self.options = ['no', 'yes']
+            self.options = ('exit', 'stay', 'restart')
+
+        elif self.purpose == 'no selection':
+            self.label1_fg = 'red'
+            self.label1_text = 'OOPS! SELECTION REQUIRED!\nplease select one option'
+            self.label2_text = 'how many players are you starting with?'
+            self.options = ('two', 'three', 'four')
 
         outer_frame = Frame(master=self)
         outer_frame.pack()
@@ -57,10 +66,10 @@ class Dialog(Toplevel):
                          command=lambda x=choice: self.set_option(option_selected=x))
             btn.grid(row=2, column=column, padx=(0, 10), pady=20, sticky='ew')
             btn.config(font=('Arial', 20, 'bold'), fg='sea green', activebackground='#CC5500',
-                       bg='#2d2d2d', highlightthickness=0, border=5, width=5, highlightbackground='#2d2d2d')
+                       bg='#2d2d2d', highlightthickness=0, border=5, width=8, highlightbackground='#2d2d2d')
             column += 1
 
-    def choose_player_combos(self, players: int):
+    def question2(self, players: int):
         """choose the possible players/colors combo given the number of players"""
         # for 2 or 3 players
         if players == 2 or players == 3:
@@ -100,15 +109,32 @@ class Dialog(Toplevel):
                 btn.config(font=('Arial', 20, 'bold'), fg='sea green', activebackground='#CC5500',
                            bg='#2d2d2d', highlightthickness=0, border=5, width=5, highlightbackground='#2d2d2d')
 
+            label3 = Label(self.inner_frame, text='Remember to click on the center button to start')
+            label3.grid(row=players_combo+2, column=0, columnspan=len(self.options), sticky='nsew')
+            label3.config(pady=50, padx=20, font=('Arial', 15, 'normal'), justify='center', bg='#1C0E25',
+                          fg='sea green')
+
         else:
             # for number of players other than 2, 3 i.e., 1, or 4
             self.set_option(option_selected=('Green', 'Red', 'Yellow', 'Blue'))
 
     def set_option(self, option_selected):
-        self.result = option_selected
-        # print(self.result)
-        self.player_num_selected = True
-        self.destroy()
+        """set the result or perform an action"""
+        if self.purpose == 'exit':
+            if option_selected == 'exit':
+                self.bell()
+                with open('data.json', 'w') as file:
+                    json.dump(obj={'status': 'start'}, fp=file, indent=4)
+                self.parent.destroy()
+            elif option_selected == 'restart':
+                self.parent.restart()
+            else:  # i.e 'stay'
+                self.destroy()
+
+        else:
+            self.result = option_selected
+            self.player_num_selected = True
+            self.destroy()
 
     def closed(self):
         """perform actions when window close button is clicked"""
