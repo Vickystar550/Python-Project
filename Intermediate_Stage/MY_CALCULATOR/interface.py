@@ -23,7 +23,7 @@ class Interface(tk.Tk):
 
         self.btn_frame = tk.Frame(master=self.master_frame)
         self.btn_frame.grid(row=1, column=0)
-        self.btn_frame.config(height=600, width=600, pady=20, padx=10, bg='#1C0E25')
+        self.btn_frame.config(height=600, width=600, pady=20, padx=10, bg='#1C0E25',)
         # -----------------------------------------------
 
         MyButton(master=self.btn_frame, func=Functions(screen=MyCanvas(master=self.screen_frame)))
