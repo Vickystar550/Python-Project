@@ -13,7 +13,7 @@ soup = BeautifulSoup(movie_webpage, 'html.parser')
 
 movies = [movie.getText() for movie in soup.find_all(name='h3', class_='title')]
 
-with open("100_greatest_movies.txt", 'a') as file:
+with open("100_greatest_movies.txt", 'w') as file:
     for m in movies[::-1]:
         print(m)
         file.write(f'{m}\n')
