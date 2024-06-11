@@ -4,7 +4,6 @@ data = pandas.read_csv("2018_Central_Park_Squirrel_Census_-_Squirrel_Data_202402
 
 
 fur_color = data["Primary Fur Color"]
-ls
 
 grey_count = fur_color[fur_color == 'Gray'].count()
 red_count = fur_color[fur_color == 'Cinnamon'].count()
