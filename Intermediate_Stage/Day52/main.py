@@ -6,8 +6,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 
 SIMILAR_ACCOUNT = "udemy" # Change this to an account of your choice
-USERNAME = "USERNAME"
-PASSWORD = "PASSWORD"
+USERNAME = "YOUR_USERNAME"
+PASSWORD = "YOUR_PASSWORD"
 
 
 class InstaFollower:
