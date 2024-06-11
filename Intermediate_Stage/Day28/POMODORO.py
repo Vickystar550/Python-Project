@@ -54,7 +54,6 @@ def start_timer():
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
 
 
-
 def count_down(count):
     """This function serves as the time counter.
         Given an argument, it breaks it into the equivalent min and sec, and then counts it down"""
