@@ -28,7 +28,7 @@ class GameBoard(tk.Tk):
         self.title(f'Ludo © {copyright_year} Victor Nice')
         self.config(pady=10, padx=0, bg='black')
         self.minsize(width=2000, height=1000)
-        self.protocol('WM_DELETE_WINDOW', self.closed)
+        self.protocol('WM_DELETE_WINDOW', self.exit_query)
 
         self.dices = None
         self.btn_cell = {}
@@ -345,7 +345,8 @@ class GameBoard(tk.Tk):
                     player_color_map.get(combo.lower()).config(state='normal', text='ROLL\nDICE')
                     player_color_map.get(combo.lower()).bind("<ButtonPress-1>", self.roll_dices)
 
-    def closed(self):
+    def exit_query(self):
+        """query exit action"""
         self.dlg.destroy()
         dlg = Dialog(parent=self)
         dlg.question1(purpose='exit')
@@ -368,3 +369,10 @@ class GameBoard(tk.Tk):
 
         # Optional: exit the current script
         sys.exit()
+
+    def exit(self):
+        """exit the game"""
+        self.bell()
+        with open('data.json', 'w') as file:
+            json.dump(obj={'status': 'start'}, fp=file, indent=4)
+        self.destroy()

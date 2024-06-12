@@ -9,6 +9,6 @@ class Player(NamedTuple):
 DEFAULT_PLAYERS = (Player(color='green'), Player(color='red'), Player(color='yellow'), Player(color='blue'))
 
 
-class Logic():
+class Logic:
     def __init__(self):
         pass

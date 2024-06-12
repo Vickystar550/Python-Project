@@ -1,12 +1,11 @@
 from tkinter import *
 import math
-import json
 
 
 class Dialog(Toplevel):
     """A custom Tk button dialog. Get and store user selected choice"""
 
-    def __init__(self, parent: Tk):
+    def __init__(self, parent):
         super().__init__(parent)
         self.parent = parent
         self.title('Game Dialog')
@@ -122,13 +121,10 @@ class Dialog(Toplevel):
         """set the result or perform an action"""
         if self.purpose == 'exit':
             if option_selected == 'exit':
-                self.bell()
-                with open('data.json', 'w') as file:
-                    json.dump(obj={'status': 'start'}, fp=file, indent=4)
-                self.parent.destroy()
+                self.parent.exit()
             elif option_selected == 'restart':
                 self.parent.restart()
-            else:  # i.e 'stay'
+            else:
                 self.destroy()
 
         else:
