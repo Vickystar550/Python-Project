@@ -84,11 +84,12 @@ class Functions:
             first_num = int(self.first_cache)
             second_num = int(self.cached_string)
             if self.permutate:
-                result = math.perm(first_num, second_num)
+                self.result = math.perm(first_num, second_num)
             else:
-                result = math.comb(first_num, second_num)
-            self.my_canvas.display(input_=result, purpose='result')
-            self.cached_string = ''
+                self.result = math.comb(first_num, second_num)
+            self.my_canvas.display(input_=f'{self.result}', purpose='result')
+            self.cached_string = f'{self.result}'
+
         elif self.enable_pemdas:
             self.arithmetic_processor(eval_string=self.pemdas())
         else:
@@ -103,10 +104,13 @@ class Functions:
         except ZeroDivisionError:
             self.my_canvas.display(input_='Undefined', purpose='result')
         else:
-            print(self.result)
+            if type(self.result) == float:
+                self.result = f'{self.result:.2f}'
+            else:
+                self.result = f'{self.result}'
             self.my_canvas.display(input_=self.result, purpose='result')
         finally:
-            self.cached_string = ""
+            self.cached_string = self.result
 
     def mod(self):
         self.cached_string += "%"
@@ -126,31 +130,36 @@ class Functions:
 
     def percent(self):
         result = float(self.cached_string) / 100
-        self.cached_string = ""
-        self.my_canvas.display(input_=result, purpose='result')
+        self.cached_string = f'{result:.2f}'
+        self.my_canvas.display(input_=f'{result:.2f}', purpose='result')
 
     def square_root(self):
-        # how do you check if a string is a float?
-
         try:
             num = float(self.cached_string)
+            self.result = math.sqrt(num)
         except ValueError:
             self.my_canvas.display(input_=f'ValueError', purpose='error')
         else:
-            self.my_canvas.display(input_=f'{math.sqrt(num):.2f}', purpose='result')
+            b = f'{self.result}'
+            if len(b[b.find('.'):]) <= 2:
+                self.result = f'{round(self.result)}'
+            else:
+                self.result = f'{self.result:.4f}'
+
+            self.my_canvas.display(input_=self.result, purpose='result')
         finally:
-            self.cached_string = ""
+            self.cached_string = self.result
 
     def factorial(self):
         try:
             positive_integer = int(self.cached_string)
-            result = math.factorial(positive_integer)
+            self.result = math.factorial(positive_integer)
         except ValueError:
             self.my_canvas.display(input_='ValueError: enter only positive integer', purpose='error')
         else:
-            self.my_canvas.display(input_=result, purpose='result')
+            self.my_canvas.display(input_=f'{self.result}', purpose='result')
         finally:
-            self.cached_string = ""
+            self.cached_string = f'{self.result}'
 
     def leap(self):
         try:
@@ -184,5 +193,4 @@ class Functions:
         index2 = self.cached_string.find(')')
 
         result = eval(self.cached_string[index1 + 1:index2])
-        print(f'{self.cached_string[:index1]}*{result}')
         return f'{self.cached_string[:index1]}*{result}'
