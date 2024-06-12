@@ -29,4 +29,6 @@ class MyCanvas(tk.Canvas):
 
     def reset(self):
         self.itemconfig(self.canvas_text, text='')
+        self.canvas_text = self.create_text(320, 100, text="Welcome", fill="white", justify='center',
+                                            font=(FONT_NAME, 35, "normal"))
 

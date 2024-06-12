@@ -151,7 +151,7 @@ class MyButton:
         open_parenthesis_button.grid(row=row, column=1, pady=10, padx=5)
 
         exponent_button = Button(master=self.master, text="^",
-                                 command='')
+                                 command=lambda: self.func.cache_inputs('**'))
         exponent_button.config(font=(FONT_NAME, 20, "bold"), width=5, height=2, activebackground='#4d4d4d',
                                activeforeground='black', highlightthickness=0, fg='white', bg='#2d2d2d')
         exponent_button.grid(row=row, column=0, pady=10, padx=5)
@@ -195,7 +195,7 @@ class MyButton:
                                activeforeground='black', highlightthickness=0, fg='white', bg='#2d2d2d')
         square_root_btn.grid(row=row, column=3, pady=10, padx=5)
 
-        enter_btn = Button(master=self.master, text="enter", command=self.func.equal_to)
+        enter_btn = Button(master=self.master, text="enter\n↵", command=self.func.equal_to)
         enter_btn.config(font=(FONT_NAME, 20, "bold"), width=5, height=2, activebackground='#CC5500',
                          activeforeground='black', fg='white', bg='#2d2d2d')
         enter_btn.grid(row=row, column=4, pady=10, padx=5)
@@ -207,7 +207,7 @@ class MyButton:
                               activeforeground='black', fg='white', bg='#2d2d2d')
         weather_button.grid(row=row, column=0, columnspan=2, pady=10, padx=5)
 
-        backspace_button = Button(master=self.master, text="back",
+        backspace_button = Button(master=self.master, text="back\n⭠",
                                   command=self.func.backspace)
         backspace_button.config(font=(FONT_NAME, 20, "bold"), width=5, height=2, activebackground='green',
                                 activeforeground='black', fg='white', bg='#2d2d2d')

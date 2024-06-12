@@ -23,14 +23,28 @@ class Interface(tk.Tk):
         self.screen_frame.config(height=300, width=600, padx=0, bg='#2d2d2d')
 
         self.btn_frame = tk.Frame(master=self.master_frame)
-        self.btn_frame.grid(row=1, column=0,  pady=20, padx=10)
-        self.btn_frame.config(height=600, width=600, bg='#1C0E25',)
+        self.btn_frame.grid(row=1, column=0, pady=20, padx=10)
+        self.btn_frame.config(height=600, width=600, bg='#1C0E25', )
         # -----------------------------------------------
 
         self.my_functions = Functions(master=self, screen=MyCanvas(master=self.screen_frame))
         self.my_btn = MyButton(master=self.btn_frame, func=self.my_functions)
 
         self.activate_clock()
+
+        # # ----------------- event bindings ----------------
+        keys = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 'parenright', 'parenleft',
+                'plus', 'minus', 'slash', 'period', 'equal', 'asterisk',
+                'percent', 'exclam', 'asciicircum', 'Delete']
+        for key in keys:
+            self.bind(f'<KeyPress-{key}>', self.my_functions.on_key_press)
+
+        self.bind('<BackSpace>', self.my_functions.on_key_press)
+        self.bind('<Return>', self.my_functions.on_key_press)
+        self.bind('<Return>', self.my_functions.on_key_press)
+        self.bind('<Control-q>', self.my_functions.on_key_press)
+
+        # self.bind('<KeyPress>', self.work)
 
     def activate_clock(self):
         """activate clock every 1 millisecond"""

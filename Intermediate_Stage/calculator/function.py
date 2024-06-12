@@ -39,6 +39,39 @@ class Functions:
 
         return f'{date_str};  {time_str}'
 
+    def on_key_press(self, event):
+        """KeyPress event binding function"""
+        if event.keysym in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']:
+            self.cache_inputs(input_string=event.char)
+        elif event.keysym == 'BackSpace':
+            self.backspace()
+        elif event.keysym == 'Return' or event.keysym == 'equal':
+            self.equal_to()
+        elif event.keysym == 'q':
+            self.exit()
+        elif event.keysym == 'Delete':
+            self.reset()
+        elif event.keysym == 'parenright':
+            self.cache_inputs(input_string=')')
+        elif event.keysym == 'parenleft':
+            self.cache_inputs(input_string='(')
+        elif event.keysym == 'minus':
+            self.cache_inputs(input_string='-')
+        elif event.keysym == 'plus':
+            self.cache_inputs(input_string='+')
+        elif event.keysym == 'slash':
+            self.cache_inputs(input_string='/')
+        elif event.keysym == 'period':
+            self.cache_inputs(input_string='.')
+        elif event.keysym == 'asterisk':
+            self.cache_inputs(input_string='*')
+        elif event.keysym == 'percent':
+            self.percent()
+        elif event.keysym == 'exclam':
+            self.factorial()
+        elif event.keysym == 'asciicircum':
+            self.cache_inputs(input_string='**')
+
     def cache_inputs(self, input_string: str):
         """"cache the user arithmetic digits, symbols or operators"""
         if input_string == '(':
@@ -153,4 +186,3 @@ class Functions:
         result = eval(self.cached_string[index1 + 1:index2])
         print(f'{self.cached_string[:index1]}*{result}')
         return f'{self.cached_string[:index1]}*{result}'
-
