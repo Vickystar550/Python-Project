@@ -81,14 +81,19 @@ class Functions:
 
     def equal_to(self):
         if self.permutate or self.combinatorial:
-            first_num = int(self.first_cache)
-            second_num = int(self.cached_string)
-            if self.permutate:
-                self.result = math.perm(first_num, second_num)
+            try:
+                first_num = int(self.first_cache)
+                second_num = int(self.cached_string)
+            except ValueError:
+                self.my_canvas.display(input_=f'ValueError: enter only positive integer', purpose='error')
+                self.cached_string = ''
             else:
-                self.result = math.comb(first_num, second_num)
-            self.my_canvas.display(input_=f'{self.result}', purpose='result')
-            self.cached_string = f'{self.result}'
+                if self.permutate:
+                    self.result = math.perm(first_num, second_num)
+                else:
+                    self.result = math.comb(first_num, second_num)
+                self.my_canvas.display(input_=f'{self.result}', purpose='result')
+                self.cached_string = f'{self.result}'
 
         elif self.enable_pemdas:
             self.arithmetic_processor(eval_string=self.pemdas())
@@ -98,12 +103,17 @@ class Functions:
     def arithmetic_processor(self, eval_string):
         """process an arithmetic calculation"""
         try:
-            self.result = eval(eval_string)
+            result = eval(eval_string)
         except SyntaxError:
             pass
         except ZeroDivisionError:
             self.my_canvas.display(input_='Undefined', purpose='result')
+            # self.cached_string = ''
+        except Exception as e:
+            self.my_canvas.display(input_=f'Error!! Enter a proper expression', purpose='error')
+            # self.cached_string = ''
         else:
+            self.result = result
             if type(self.result) == float:
                 self.result = f'{self.result:.2f}'
             else:
@@ -192,5 +202,11 @@ class Functions:
         index1 = self.cached_string.find('(')
         index2 = self.cached_string.find(')')
 
-        result = eval(self.cached_string[index1 + 1:index2])
-        return f'{self.cached_string[:index1]}*{result}'
+        try:
+            result = eval(self.cached_string[index1 + 1:index2])
+        except SyntaxError:
+            self.my_canvas.display(input_='SyntaxError', purpose='error')
+        except ValueError:
+            self.my_canvas.display(input_='ValueError', purpose='error')
+        else:
+            return f'{self.cached_string[:index1]}*{result}'
