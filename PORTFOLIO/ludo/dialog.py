@@ -75,13 +75,21 @@ class Dialog(Toplevel):
             players_combo = math.comb(4, players)
 
             if players_combo == 6:
-                self.options = [('Green', 'Red'), ('Green', 'Blue'), ('Green', 'Yellow'),
-                                ('Red', 'Blue'), ('Red', 'Yellow'), ('Blue', 'Yellow')]
-                self.btn_column_span = 2
+                self.options = {
+                    '(GREEN with Red) vs. (BLUE with Yellow)': ('Green', 'Blue'),
+                    '(RED with Green) vs. (YELLOW with Blue)': ('Red', 'Yellow'),
+                    '(GREEN with Yellow) vs. (BLUE with Red)': ('Green', 'Blue'),
+                    '(YELLOW with Green) vs. (RED with Blue)': ('Red', 'Yellow'),
+                }
+                self.btn_width = 35
             elif players_combo == 4:
-                self.options = [('Green', 'Red', 'Blue'), ('Green', 'Red', 'Yellow'), ('Green', 'Blue', 'Yellow'),
-                                ('Red', 'Blue', 'Yellow')]
-                self.btn_column_span = 1
+                self.options = {
+                       ('Green', 'Red', 'Blue'): ('Green', 'Red', 'Blue'),
+                       ('Green', 'Red', 'Yellow'): ('Green', 'Red', 'Yellow'),
+                       ('Green', 'Blue', 'Yellow'): ('Green', 'Blue', 'Yellow'),
+                       ('Red', 'Blue', 'Yellow'): ('Red', 'Blue', 'Yellow')
+                }
+                self.btn_width = 20
 
             outer_frame = Frame(master=self)
             outer_frame.pack()
@@ -92,24 +100,25 @@ class Dialog(Toplevel):
             self.inner_frame.config(padx=20, pady=20, bg='#1C0E25')
 
             label1 = Label(self.inner_frame, text='SELECT\nplease select your preferred player combo')
-            label1.grid(row=0, column=0, columnspan=len(self.options), sticky='nsew')
+            label1.grid(row=0, column=0, sticky='nsew')
             label1.config(pady=50, padx=20, font=('Serif', 25, 'normal'), justify='center', bg='#1C0E25', fg='white')
 
             label2 = Label(self.inner_frame, text='Available colors/players are: Green, Red, Yellow and Blue')
-            label2.grid(row=1, column=0, columnspan=len(self.options), sticky='nsew')
+            label2.grid(row=1, column=0, sticky='nsew')
             label2.config(pady=50, padx=20, font=('Arial', 15, 'normal'), justify='center', bg='#1C0E25',
                           fg='sea green')
 
-            for combo in range(players_combo):
-                btn = Button(master=self.inner_frame, text=f'{self.options[combo]}',
-                             command=lambda x=self.options[combo]: self.set_option(option_selected=x))
+            for combo in range(4):
+                btn = Button(master=self.inner_frame, text=f'{list(self.options.keys())[combo]}',
+                             command=lambda x=list(self.options.values())[combo]: self.set_option(option_selected=x))
 
-                btn.grid(row=combo + 2, column=self.btn_column_span, padx=(0, 10), pady=20, sticky='ew', columnspan=2)
+                btn.grid(row=combo + 2, column=0, padx=(0, 10), pady=20, sticky='')
                 btn.config(font=('Arial', 20, 'bold'), fg='sea green', activebackground='#CC5500',
-                           bg='#2d2d2d', highlightthickness=0, border=5, width=5, highlightbackground='#2d2d2d')
+                           bg='#2d2d2d', highlightthickness=0, border=5, width=self.btn_width,
+                           highlightbackground='#2d2d2d')
 
             label3 = Label(self.inner_frame, text='Remember to click on the center button to start')
-            label3.grid(row=players_combo+2, column=0, columnspan=len(self.options), sticky='nsew')
+            label3.grid(row=players_combo+2, column=0, sticky='nsew')
             label3.config(pady=50, padx=20, font=('Arial', 15, 'normal'), justify='center', bg='#1C0E25',
                           fg='sea green')
 

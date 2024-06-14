@@ -1,5 +1,5 @@
 import tkinter as tk
-from datetime import datetime
+import time
 import random
 from PIL import Image, ImageTk
 from dialog import Dialog
@@ -7,6 +7,8 @@ import subprocess
 import sys
 import os
 import json
+from logic import Logic, Player
+from function import Function
 
 
 def read_file():
@@ -22,10 +24,10 @@ def read_file():
 class GameBoard(tk.Tk):
     def __init__(self, **kwargs):
         super().__init__()
+        self.func = Function(master=self)
         self.dlg = Dialog(parent=self)
         self.dlg.question1(purpose=read_file())
-        copyright_year = datetime.now().year
-        self.title(f'Ludo © {copyright_year} Victor Nice')
+        self.title(f'Ludo © {time.strftime("%Y")} Victor Nice')
         self.config(pady=10, padx=0, bg='black')
         self.minsize(width=2000, height=1000)
         self.protocol('WM_DELETE_WINDOW', self.exit_query)
@@ -197,6 +199,7 @@ class GameBoard(tk.Tk):
                 self.btn_cell[(i, c)] = cell
 
         # -------------- HOME or CENTRE BUTTONS --------------------------
+        # ---------- activate player function --------------
         middle_centre_btn = tk.Button(master=self.board_frame, width=55, height=55, command=self.activate_player)
         middle_centre_btn.config(bg=self.theme, highlightthickness=0, image=self.centre_circle)
         middle_centre_btn.grid(row=7, column=7)
@@ -372,7 +375,7 @@ class GameBoard(tk.Tk):
 
     def exit(self):
         """exit the game"""
-        self.bell()
+        # self.bell()
         with open('data.json', 'w') as file:
             json.dump(obj={'status': 'start'}, fp=file, indent=4)
         self.destroy()
